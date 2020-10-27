@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useGet } from 'restful-react';
 import humps from 'humps';
@@ -16,7 +16,9 @@ import {
 
 import AppContainer from '../../containers/AppContainer';
 
-const Dags = () => {
+interface Props {}
+
+const Dags: FunctionComponent<Props> = () => {
   const { data, loading } = useGet({
     path: '/dags',
     resolve: (d) => humps.camelizeKeys(d),
@@ -42,7 +44,7 @@ const Dags = () => {
                 </Stat>
                 <Stat color="green.500" backgroundColor="green.100" px="1" mr="2px">
                   <StatNumber fontSize="0.85em">1,034</StatNumber>
-                  <StatLabel fontSize="0.75em">SUCESS</StatLabel>
+                  <StatLabel fontSize="0.75em">SUCCESS</StatLabel>
                 </Stat>
                 <Stat color="red.500" backgroundColor="red.100" px="1">
                   <StatNumber fontSize="0.85em">10</StatNumber>

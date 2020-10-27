@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import useReactRouter from 'use-react-router';
 import { useGet } from 'restful-react';
 import humps from 'humps';
@@ -9,14 +9,14 @@ import 'highlight.js/styles/github.css';
 
 import DagContainer from '../../containers/DagContainer';
 
-const DagCode = () => {
+interface Props {}
+
+const DagCode: FunctionComponent<Props> = () => {
   const { match: { params: { dagId } } } = useReactRouter();
 
   hljs.registerLanguage('python', python);
 
-  // const { data } = useQuery(`dags/${dagId}`);
-
-  const { data, loading } = useGet({
+  const { data } = useGet({
     path: `dags/${dagId}`,
     resolve: (d) => humps.camelizeKeys(d),
   });

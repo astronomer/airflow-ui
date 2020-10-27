@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import {
@@ -18,7 +17,9 @@ import {
   useColorMode,
 } from '@chakra-ui/core';
 
-const AppContainer = ({ children }) => {
+interface Props {}
+
+const AppContainer: FunctionComponent<Props> = ({ children }) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const now = dayjs();
   const version = '3.0.0';
@@ -98,14 +99,6 @@ const AppContainer = ({ children }) => {
       </Box>
     </Flex>
   );
-};
-
-AppContainer.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.array,
-    PropTypes.node,
-  ]).isRequired,
 };
 
 export default AppContainer;

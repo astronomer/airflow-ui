@@ -1,0 +1,22 @@
+/* This file is auto-generated;
+ * Edit .neutrinorc.js to change configuration.
+ */
+{
+  "compilerOptions": {
+    "strict": true,
+    "allowJs": true,
+    "importsNotUsedAsValues": "error",
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "jsx": "preserve"
+  },
+  "include": [
+    "src",
+    "test"
+  ]
+}

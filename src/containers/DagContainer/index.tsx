@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import useReactRouter from 'use-react-router';
 import { Link } from 'react-router-dom';
 import { useGet, useMutate } from 'restful-react';
@@ -14,7 +13,11 @@ import {
 
 import AppContainer from '../AppContainer';
 
-const DagContainer = ({ children, current }) => {
+interface Props {
+  current: string;
+}
+
+const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
   const { match: { params: { dagId } } } = useReactRouter();
   const { data: dag, refetch: refetchDag } = useGet({
     path: `dags/${dagId}`,
@@ -102,15 +105,6 @@ const DagContainer = ({ children, current }) => {
       <Box p="4">{children}</Box>
     </AppContainer>
   );
-};
-
-DagContainer.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.array,
-    PropTypes.node,
-  ]).isRequired,
-  current: PropTypes.string.isRequired,
 };
 
 export default DagContainer;

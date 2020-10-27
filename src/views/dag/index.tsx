@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import useReactRouter from 'use-react-router';
 import { useGet } from 'restful-react';
 import humps from 'humps';
@@ -13,7 +13,9 @@ import {
 import drawChart from './drawChart';
 import DagContainer from '../../containers/DagContainer';
 
-const Dag = () => {
+interface Props {}
+
+const Dag: FunctionComponent<Props> = () => {
   const { match: { params: { dagId } } } = useReactRouter();
 
   const { data } = useGet({

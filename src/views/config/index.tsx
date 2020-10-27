@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { useGet } from 'restful-react';
 import humps from 'humps';
 import {
@@ -10,7 +10,9 @@ import {
 
 import AppContainer from '../../containers/AppContainer';
 
-const Config = () => {
+interface Props {}
+
+const Config: FunctionComponent<Props> = () => {
   const { data: config } = useGet({
     path: '/config',
     resolve: (d) => humps.camelizeKeys(d),
@@ -25,7 +27,7 @@ const Config = () => {
 
       <List styleType="none" mt="8">
         {config && config.sections && config.sections.map((section) => (
-          <ListItem>{section.name}</ListItem>
+          <ListItem key={section.name}>{section.name}</ListItem>
         ))}
       </List>
     </AppContainer>

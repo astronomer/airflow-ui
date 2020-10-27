@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import {
   Alert,
   AlertIcon,
@@ -14,9 +14,9 @@ import { MdLock, MdPerson } from 'react-icons/md';
 
 import AppContainer from '../../containers/AppContainer';
 
-// import useQuery from '../../api/query';
+interface Props {}
 
-const Login = () => (
+const Login: FunctionComponent<Props> = () => (
   <AppContainer>
     <Alert status="error" my="4">
       <AlertIcon />

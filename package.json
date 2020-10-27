@@ -1,0 +1,41 @@
+{
+  "name": "airflow-ui",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server --mode development --open",
+    "build": "webpack --mode production",
+    "test": "jest",
+    "lint": "eslint --cache --format codeframe --ext mjs,jsx,js src test"
+  },
+  "dependencies": {
+    "@chakra-ui/core": "^0.8.0",
+    "@emotion/core": "^10.0.35",
+    "@emotion/styled": "^10.0.27",
+    "d3": "^6.2.0",
+    "dayjs": "^1.9.1",
+    "emotion-theming": "^10.0.27",
+    "highlight.js": "^10.2.1",
+    "humps": "^2.0.1",
+    "prop-types": "^15",
+    "react": "^16",
+    "react-dom": "^16",
+    "react-hot-loader": "^4",
+    "react-icons": "^3.11.0",
+    "react-router-dom": "^5.2.0",
+    "restful-react": "^15.1.1",
+    "use-react-router": "^1.0.7"
+  },
+  "devDependencies": {
+    "@neutrinojs/airbnb": "^9.4.0",
+    "@neutrinojs/jest": "^9.4.0",
+    "@neutrinojs/react": "^9.4.0",
+    "eslint": "^7",
+    "jest": "^26",
+    "neutrino": "^9.4.0",
+    "webpack": "^4",
+    "webpack-cli": "^3",
+    "webpack-dev-server": "^3"
+  }
+}

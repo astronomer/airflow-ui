@@ -9,9 +9,7 @@ import 'highlight.js/styles/github.css';
 
 import DagContainer from '../../containers/DagContainer';
 
-interface Props {}
-
-const DagCode: FunctionComponent<Props> = () => {
+const DagCode: FunctionComponent = () => {
   const { match: { params: { dagId } } } = useReactRouter();
 
   hljs.registerLanguage('python', python);
@@ -26,7 +24,7 @@ const DagCode: FunctionComponent<Props> = () => {
   if (!dag) return null;
 
   return (
-    <DagContainer dag={dag} current="code">
+    <DagContainer current="code">
       <pre>
         <Code display="block" p="4" className="python">DAG Code</Code>
       </pre>

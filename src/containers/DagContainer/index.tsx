@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect, ChangeEvent } from 'react';
 import useReactRouter from 'use-react-router';
 import { Link } from 'react-router-dom';
 import { useGet, useMutate } from 'restful-react';
@@ -13,13 +13,15 @@ import {
 
 import AppContainer from '../AppContainer';
 
+import type { Dag } from '../../interfaces';
+
 interface Props {
   current: string;
 }
 
 const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
-  const { match: { params: { dagId } } } = useReactRouter();
-  const { data: dag, refetch: refetchDag } = useGet({
+  const { match: { params: { dagId } } }: { match: { params: { dagId: Dag['dagId'] }}} = useReactRouter();
+  const { data: dag, refetch: refetchDag }: { data: Dag, refetch: Function } = useGet({
     path: `dags/${dagId}`,
     resolve: (d) => humps.camelizeKeys(d),
   });
@@ -36,7 +38,7 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
     }
   }, [dag]);
 
-  const toggleDagPaused = (e) => {
+  const toggleDagPaused = (e: ChangeEvent<HTMLInputElement>): void => {
     updateDag({
       is_paused: !e.target.checked,
     }).then(refetchDag());
@@ -45,9 +47,9 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
   return (
     <AppContainer>
       <Box
-        pt="4"
+        pt={4}
         mx={-4}
-        px="4"
+        px={4}
         pb="2"
         bg={colorMode === 'light' ? 'gray.100' : 'gray.700'}
       >
@@ -73,6 +75,7 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
               to={`/dags/${dagId}/`}
               variant={current === 'overview' ? 'solid' : 'ghost'}
               variantColor="blue"
+              size="sm"
               mr="2"
             >
               Overview
@@ -81,6 +84,7 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
               as={Link}
               to={`/dags/${dagId}/graph`}
               variant={current === 'graph' ? 'solid' : 'ghost'}
+              size="sm"
               mr="2"
             >
               Graph
@@ -89,6 +93,7 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
               as={Link}
               to={`/dags/${dagId}/code`}
               variant={current === 'code' ? 'solid' : 'ghost'}
+              size="sm"
             >
               Code
             </Button>

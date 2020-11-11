@@ -14,9 +14,7 @@ import { MdLock, MdPerson } from 'react-icons/md';
 
 import AppContainer from '../../containers/AppContainer';
 
-interface Props {}
-
-const Login: FunctionComponent<Props> = () => (
+const Login: FunctionComponent = () => (
   <AppContainer>
     <Alert status="error" my="4">
       <AlertIcon />

@@ -10,9 +10,7 @@ import {
 
 import AppContainer from '../../containers/AppContainer';
 
-interface Props {}
-
-const Config: FunctionComponent<Props> = () => {
+const Config: FunctionComponent = () => {
   const { data: config } = useGet({
     path: '/config',
     resolve: (d) => humps.camelizeKeys(d),

@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 
-const drawChart = (height, width) => {
+const drawChart = (height: number, width: number) => {
   d3.select('#chart')
     .append('svg')
     .attr('width', width)

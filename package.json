@@ -11,7 +11,7 @@
     "build": "webpack --mode production",
     "test": "jest",
     "prelint": "rewrite-tsconfig",
-    "lint": "eslint --cache --format codeframe --ext mjs,jsx,js,tsx,ts src test && tsc"
+    "lint": "eslint --format codeframe --ext mjs,jsx,js,tsx,ts src test && tsc"
   },
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
@@ -35,6 +35,12 @@
     "@neutrinojs/eslint": "^9.4.0",
     "@neutrinojs/jest": "^9.4.0",
     "@neutrinojs/react": "^9.4.0",
+    "@types/d3": "^6.1.0",
+    "@types/humps": "^2.0.0",
+    "@types/lodash": "^4.14.165",
+    "@types/mocha": "^8.0.4",
+    "@types/qs": "^6.9.5",
+    "@types/react-router-dom": "^5.1.6",
     "eslint": "^7",
     "jest": "^26",
     "neutrino": "^9.4.0",

@@ -1,25 +1,33 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
 import { useGet } from 'restful-react';
 import humps from 'humps';
 import {
-  Badge,
+  Button,
   Box,
   Code,
   List,
   ListItem,
+  Tag,
 } from '@chakra-ui/core';
 
 import drawChart from './drawChart';
 import DagContainer from '../../containers/DagContainer';
+import SidebarTask from './SidebarTask';
 
-interface Props {}
+import type { Dag as DagType, Task } from '../../interfaces';
 
-const Dag: FunctionComponent<Props> = () => {
+const Dag: FunctionComponent = () => {
   const { match: { params: { dagId } } } = useReactRouter();
+  const [sidebarTask, setSidebarTask] = useState(null);
 
-  const { data } = useGet({
+  const { data: dag }: { data: DagType } = useGet({
     path: `dags/${dagId}`,
+    resolve: (d) => humps.camelizeKeys(d),
+  });
+
+  const { data: taskData } = useGet({
+    path: `dags/${dagId}/tasks`,
     resolve: (d) => humps.camelizeKeys(d),
   });
 
@@ -27,12 +35,14 @@ const Dag: FunctionComponent<Props> = () => {
     drawChart(400, 600);
   }, []);
 
-  const dag = data;
+  const setTask = (task: Task) => {
+    setSidebarTask(task);
+  }
 
   if (!dag) return null;
 
   return (
-    <DagContainer dag={dag} current="overview">
+    <DagContainer current="overview">
       <List styleType="none" mt="8">
         {dag && dag.description && (
           <ListItem>
@@ -68,12 +78,24 @@ const Dag: FunctionComponent<Props> = () => {
             Tags:
             {' '}
             {dag.tags.map((tag) => (
-              <Badge key={tag.name} variantColor="blue" mr={1}>{tag.name}</Badge>
+              <Tag key={tag.name} mr={1}>{tag.name}</Tag>
             ))}
           </ListItem>
         )}
       </List>
+      {taskData && taskData.tasks && taskData.tasks.map((task: Task) => (
+        <div key={task.taskId}>
+          <Button
+            onClick={() => setTask(task)}
+            mt={4}
+            variant="outline"
+          >
+            {task.taskId}
+          </Button>
+        </div>
+      ))}
       <Box id="chart" mt={4} />
+      <SidebarTask task={sidebarTask} />
     </DagContainer>
   );
 };

@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import {
   Accordion,
   AccordionItem,
-  AccordionHeader,
+  AccordionButton,
   AccordionPanel,
   AccordionIcon,
   Box,
@@ -21,7 +21,11 @@ import {
   TabPanel,
   useColorMode,
   useDisclosure,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
+
+import { MdEvent } from 'react-icons/md';
+
+import { LogsIcon } from '../../utils/icons';
 
 interface Props {
   task?: {
@@ -54,7 +58,11 @@ const SidebarTask: FunctionComponent<Props> = ({ task }) => {
           <Heading as="h3" size="md">
             {task.taskId}
             <Box mt={4}>
-              <Icon name="calendar" color={colorMode === 'light' ? 'gray.400' : 'gray.500'} mr={2} />
+              <Icon
+                as={MdEvent}
+                color={colorMode === 'light' ? 'gray.400' : 'gray.500'}
+                mr={2}
+              />
               2020-11-06 21:29:10+00:00
             </Box>
           </Heading>
@@ -65,7 +73,7 @@ const SidebarTask: FunctionComponent<Props> = ({ task }) => {
             <TabList>
               <Tab>Details</Tab>
               <Tab>
-                <Icon name="logs" />
+                <Icon as={LogsIcon} />
                 Log
               </Tab>
               <Tab>Three</Tab>
@@ -74,12 +82,12 @@ const SidebarTask: FunctionComponent<Props> = ({ task }) => {
               <TabPanel>
                 <Accordion allowMultiple allowToggle>
                   <AccordionItem>
-                    <AccordionHeader>
+                    <AccordionButton>
                       <Box flex="1" textAlign="left">
                         Task Properties
                       </Box>
                       <AccordionIcon />
-                    </AccordionHeader>
+                    </AccordionButton>
                     <AccordionPanel pb={4}>
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
@@ -89,12 +97,12 @@ const SidebarTask: FunctionComponent<Props> = ({ task }) => {
                   </AccordionItem>
 
                   <AccordionItem>
-                    <AccordionHeader>
+                    <AccordionButton>
                       <Box flex="1" textAlign="left">
                         Section 2 title
                       </Box>
                       <AccordionIcon />
-                    </AccordionHeader>
+                    </AccordionButton>
                     <AccordionPanel pb={4}>
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim

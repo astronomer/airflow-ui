@@ -9,7 +9,7 @@ import {
   Heading,
   Switch,
   useColorMode,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 
 import AppContainer from '../AppContainer';
 
@@ -72,9 +72,9 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
           <Box as="nav">
             <Button
               as={Link}
-              to={`/dags/${dagId}/`}
+              to={`/dags/${dagId}`}
               variant={current === 'overview' ? 'solid' : 'ghost'}
-              variantColor="blue"
+              colorScheme="blue"
               size="sm"
               mr="2"
             >

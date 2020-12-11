@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import useReactRouter from 'use-react-router';
 import { useGet } from 'restful-react';
 import humps from 'humps';
-import { Code } from '@chakra-ui/core';
+import { Code } from '@chakra-ui/react';
 import hljs from 'highlight.js/lib/core';
 import python from 'highlight.js/lib/languages/python';
 import 'highlight.js/styles/github.css';

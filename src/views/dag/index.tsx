@@ -5,11 +5,13 @@ import humps from 'humps';
 import {
   Button,
   Box,
+  Flex,
   Code,
   List,
   ListItem,
   Tag,
-} from '@chakra-ui/core';
+  useColorMode,
+} from '@chakra-ui/react';
 
 import drawChart from './drawChart';
 import DagContainer from '../../containers/DagContainer';
@@ -20,6 +22,7 @@ import type { Dag as DagType, Task } from '../../interfaces';
 const Dag: FunctionComponent = () => {
   const { match: { params: { dagId } } } = useReactRouter();
   const [sidebarTask, setSidebarTask] = useState(null);
+  const { colorMode } = useColorMode();
 
   const { data: dag }: { data: DagType } = useGet({
     path: `dags/${dagId}`,
@@ -83,17 +86,27 @@ const Dag: FunctionComponent = () => {
           </ListItem>
         )}
       </List>
-      {taskData && taskData.tasks && taskData.tasks.map((task: Task) => (
-        <div key={task.taskId}>
-          <Button
-            onClick={() => setTask(task)}
-            mt={4}
-            variant="outline"
-          >
-            {task.taskId}
-          </Button>
-        </div>
-      ))}
+      <Box
+        mt={2}
+        p={4}
+        borderRadius="4px"
+        borderWidth="4px"
+        borderColor={colorMode === 'light' ? 'gray.100' : 'gray.700'}
+      >
+        <Flex>
+          {taskData && taskData.tasks && taskData.tasks.map((task: Task) => (
+            <div key={task.taskId}>
+              <Button
+                onClick={() => setTask(task)}
+                mt={4}
+                variant="outline"
+              >
+                {task.taskId}
+              </Button>
+            </div>
+          ))}
+        </Flex>
+      </Box>
       <Box id="chart" mt={4} />
       <SidebarTask task={sidebarTask} />
     </DagContainer>

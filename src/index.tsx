@@ -4,11 +4,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { RestfulProvider } from 'restful-react';
 // import humps from 'humps';
 import {
-  ColorModeProvider,
-  CSSReset,
-  ThemeProvider,
+  ChakraProvider,
   theme,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import App from './App';
 
 const USERNAME = 'admin';
@@ -29,19 +27,7 @@ const airflowTheme = {
     "5xl": "36px",
     "6xl": "48px",
   },
-  icons: {
-    ...theme.icons,
-    logs: {
-      path: (
-        <path
-          fill="currentColor"
-          d="M10.1667 18L9 16.8333L11.3333 14.5L9 12.1667L10.1667 11L12.5 13.3333L14.8333 11L16 12.1667L13.6667 14.5L16 16.8333L14.8333 18L12.5 15.6667L10.1667 18Z"
-        />
-      ),
-      viewBox: "0 0 16 18",
-    },
-  },
-}
+};
 
 render(
   <BrowserRouter basename="/">
@@ -52,12 +38,9 @@ render(
         headers: { Authorization: authorization },
       })}
     >
-      <ThemeProvider theme={airflowTheme}>
-        <ColorModeProvider>
-          <CSSReset />
-          <App />
-        </ColorModeProvider>
-      </ThemeProvider>
+      <ChakraProvider theme={airflowTheme}>
+        <App />
+      </ChakraProvider>
     </RestfulProvider>
   </BrowserRouter>,
   document.getElementById('root'),

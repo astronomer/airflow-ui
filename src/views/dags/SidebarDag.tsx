@@ -11,7 +11,7 @@ import {
   DrawerCloseButton,
   DrawerOverlay,
   useDisclosure,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 
 import type { Dag } from '../../interfaces';
 

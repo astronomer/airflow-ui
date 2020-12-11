@@ -14,12 +14,12 @@
     "lint": "eslint --format codeframe --ext mjs,jsx,js,tsx,ts src test && tsc"
   },
   "dependencies": {
-    "@chakra-ui/core": "^0.8.0",
-    "@emotion/core": "^10.0.35",
-    "@emotion/styled": "^10.0.27",
+    "@chakra-ui/react": "^1.0.3",
+    "@emotion/react": "^11.1.2",
+    "@emotion/styled": "^11.0.0",
     "d3": "^6.2.0",
     "dayjs": "^1.9.1",
-    "emotion-theming": "^10.0.27",
+    "framer-motion": "^2.9.5",
     "highlight.js": "^10.2.1",
     "humps": "^2.0.1",
     "react": "^16",

@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useGet } from 'restful-react';
 import humps from 'humps';
-import { MdCheckCircle, MdError } from 'react-icons/md';
+import { MdCheckCircle, MdError, MdSearch } from 'react-icons/md';
 import {
   Badge,
   Box,
@@ -19,7 +19,7 @@ import {
   TagLabel,
   Tooltip,
   useColorMode,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 
 import AppContainer from '../../containers/AppContainer';
 import SidebarDag from './SidebarDag';
@@ -37,7 +37,8 @@ const Dags: FunctionComponent = () => {
     resolve: (d) => humps.camelizeKeys(d),
   });
   const { colorMode } = useColorMode();
-  const bg = colorMode === 'light' ? 'white' : 'gray.800';
+  const isDarkMode = colorMode === 'dark';
+  const bg = isDarkMode ? 'gray.800' : 'white';
   const [sidebarDag, setSidebarDag] = useState('');
 
   const showDagSideBar = (dagId: string) => setSidebarDag(dagId);
@@ -50,7 +51,7 @@ const Dags: FunctionComponent = () => {
         display="flex"
         top="56px"
         right="0"
-        left="0"
+        left="57px"
         width="100%"
         py={2}
         px={4}
@@ -59,14 +60,14 @@ const Dags: FunctionComponent = () => {
         backgroundColor={bg}
       >
         <Flex>
-          <Button size="sm" mr={1} variantColor="blue">All</Button>
+          <Button size="sm" mr={1} colorScheme="blue">All</Button>
           <Button size="sm" mr={1}>Active</Button>
           <Button size="sm">Paused</Button>
         </Flex>
         <Box pr={4} mr={4} borderRightWidth="1px" />
         <InputGroup flex="1" size="sm">
           <InputLeftElement>
-            <Icon name="search" color="gray.300" />
+            <Icon as={MdSearch} color="gray.300" />
           </InputLeftElement>
           <Input
             type="search"
@@ -91,26 +92,31 @@ const Dags: FunctionComponent = () => {
         </thead>
         <tbody>
           {loading && (
-            <Box
-              as="tr"
-              borderBottomWidth="1px"
-            >
-              <td><Skeleton height="30px" /></td>
-              <td><Skeleton height="30px" /></td>
-              <td><Skeleton height="30px" /></td>
-              <td><Skeleton height="30px" /></td>
-            </Box>
+            <tr>
+              <td colSpan="4">Loading…</td>
+            </tr>
           )}
           {data && data.dags.map((dag: Dag) => (
             <Box
               as="tr"
               key={dag.dagId}
-              py="2px"
-              borderBottomWidth="1px"
               onClick={() => showDagSideBar(dag.dagId)}
+              py="4px"
+              _odd={{
+                backgroundColor: isDarkMode ? 'gray.900' : 'gray.50',
+              }}
+              _hover={{
+                backgroundColor: isDarkMode ? 'gray.700' : 'gray.100',
+              }}
             >
               <td>
-                <Link as={RouterLink} to={`/dags/${dag.dagId}`} fontWeight="bold">{dag.dagId}</Link>
+                <Link
+                  as={RouterLink}
+                  to={`/dags/${dag.dagId}`}
+                  fontWeight="bold"
+                >
+                  {dag.dagId}
+                </Link>
                 {dag.tags.map((tag: DagTag) => (
                   <Tag
                     size="sm"
@@ -129,19 +135,19 @@ const Dags: FunctionComponent = () => {
               </td>
               <Box as="td" textAlign="right">
                 <Tooltip label={`${'10'} running`} aria-label={`${'10'} running`} placement="bottom" hasArrow>
-                  <span><Tag size="sm" rounded="full" variantColor="teal" mr={1}>
+                  <span><Tag size="sm" rounded="full" colorScheme="teal" mr={1}>
                     <Spinner size="sm" speed="0.85s" ml={-1} mr={1} />
                     <TagLabel>{'10'}</TagLabel>
                   </Tag></span>
                 </Tooltip>
                 <Tooltip label={`${'1,034'} successful`} aria-label={`${'1,034'} successful`} placement="bottom" hasArrow>
-                  <span><Tag size="sm" rounded="full" variantColor="green" mr={1}>
+                  <span><Tag size="sm" rounded="full" colorScheme="green" mr={1}>
                     <Box as={MdCheckCircle} size="1rem" ml={-1} mr={1} />
                     <TagLabel>{'1,034'}</TagLabel>
                   </Tag></span>
                 </Tooltip>
                 <Tooltip label={`${'12'} failed`} aria-label={`${'12'} failed`} placement="bottom" hasArrow>
-                  <span><Tag size="sm" rounded="full" variantColor="red">
+                  <span><Tag size="sm" rounded="full" colorScheme="red">
                     <Box as={MdError} size="1rem" ml={-1} mr={1} />
                     <TagLabel>{'12'}</TagLabel>
                   </Tag></span>

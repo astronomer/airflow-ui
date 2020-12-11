@@ -6,10 +6,11 @@ import {
   Button,
   FormLabel,
   FormControl,
+  Icon,
   Input,
   InputGroup,
   InputLeftElement,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { MdLock, MdPerson } from 'react-icons/md';
 
 import AppContainer from '../../containers/AppContainer';
@@ -26,7 +27,7 @@ const Login: FunctionComponent = () => (
           <FormLabel htmlFor="username">Username</FormLabel>
           <InputGroup>
             <InputLeftElement>
-              <Box as={MdPerson} size="24px" color="gray.300" />
+              <Icon as={MdPerson} color="gray.300" />
             </InputLeftElement>
             <Input
               name="username"
@@ -38,7 +39,7 @@ const Login: FunctionComponent = () => (
           <FormLabel htmlFor="password">Password</FormLabel>
           <InputGroup>
             <InputLeftElement>
-              <Box as={MdLock} size="24px" color="gray.300" />
+              <Icon as={MdLock} color="gray.300" />
             </InputLeftElement>
             <Input
               type="password"
@@ -50,7 +51,7 @@ const Login: FunctionComponent = () => (
         <Button
           width="100%"
           mt={4}
-          variantColor="teal"
+          colorScheme="teal"
           type="submit"
         >
           Log in

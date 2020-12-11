@@ -6,7 +6,7 @@ import {
   Heading,
   List,
   ListItem,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 
 import AppContainer from '../../containers/AppContainer';
 

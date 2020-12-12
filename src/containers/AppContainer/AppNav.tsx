@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Box,
+  Tooltip,
 } from '@chakra-ui/react';
 import {
   MdLock,
@@ -18,28 +19,72 @@ interface Props {
 }
 
 const AppNav: FunctionComponent<Props> = ({ bodyBg, overlayBg, isDarkMode }) => {
-  const renderNavItem = (icon, path: string) => {
-    const hoverBg = isDarkMode ? 'gray.800' : 'gray.200';
+  const renderNavItem = (item) => {
+    const { label, icon, path }: { label: string, icon: React.Component, path: string } = item;
+    const location = useLocation();
+    const isActive = location.pathname === path;
+    const hoverBg = isDarkMode ? 'gray.600' : 'gray.200';
     return (
-      <Box
-        as={Link}
-        to={path}
-        display="flex"
-        width="56px"
-        height="56px"
-        alignItems="center"
-        justifyContent="center"
-        borderWidth="3px"
-        borderColor="transparent"
-        borderLeftColor="transparent"
-        _hover={{
-          backgroundColor: hoverBg,
-        }}
+      <Tooltip
+        label={label}
+        aria-label={label}
+        placement="right"
+        hasArrow
       >
-        <Box as={icon} size="24px" color="gray.500" />
-      </Box>
+        <Box
+          as={Link}
+          to={path}
+          display="flex"
+          width="56px"
+          height="56px"
+          alignItems="center"
+          justifyContent="center"
+          borderWidth="3px"
+          borderColor="transparent"
+          borderLeftColor={isActive ? 'blue.500' : 'transparent'}
+          color={isActive ? 'blue.500' : 'gray.500'}
+          _hover={{
+            color: 'blue.500',
+            backgroundColor: hoverBg,
+          }}
+        >
+          <Box
+            as={icon}
+            size="24px"
+            color="currentcolor"
+          />
+        </Box>
+      </Tooltip>
     );
   };
+
+  const navItems = [
+    {
+      label: 'Dashboard',
+      icon: MdDashboard,
+      path: '/',
+    },
+    {
+      label: 'DAGs',
+      icon: MdPlaylistPlay,
+      path: '/dags',
+    },
+    {
+      label: 'Security',
+      icon: MdLock,
+      path: '/security',
+    },
+    {
+      label: 'Access',
+      icon: MdGroup,
+      path: '/access',
+    },
+    {
+      label: 'Admin',
+      icon: MdSettings,
+      path: '/config',
+    },
+  ];
 
   return (
     <Box
@@ -51,7 +96,18 @@ const AppNav: FunctionComponent<Props> = ({ bodyBg, overlayBg, isDarkMode }) => 
       display="flex"
       flexDirection="column"
     >
-      <Box as={Link} to="/" width="56px" height="56px" display="flex" alignItems="center" justifyContent="center">
+      <Box
+        as={Link}
+        to="/"
+        width="56px"
+        height="56px"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        _hover={{
+          transformOrigin: '28px 28px',
+        }}
+      >
         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0.861099 35.3873L17.7729 18.0515C17.8788 17.9429 17.8991 17.775 17.8108 17.6516C16.782 16.2156 14.8848 15.9667 14.1814 15.002C12.0981 12.1441 11.5695 10.5266 10.6743 10.6269C10.6117 10.6339 10.556 10.6676 10.512 10.7126L4.4026 16.9752C0.887961 20.5779 0.383943 28.5103 0.291509 35.1524C0.287333 35.4525 0.651482 35.6021 0.861099 35.3873Z" fill="#017cee" />
           <path d="M35.4734 34.9588L18.1375 18.047C18.0289 17.941 17.861 17.9207 17.7377 18.0091C16.3017 19.0378 16.0528 20.9351 15.088 21.6384C12.2302 23.7217 10.6126 24.2504 10.7129 25.1456C10.72 25.2082 10.7536 25.2639 10.7987 25.3077L17.0613 31.4172C20.664 34.9319 28.5964 35.4359 35.2385 35.5282C35.5386 35.5326 35.6882 35.1684 35.4734 34.9588Z" fill="#00ad46" />
@@ -64,11 +120,7 @@ const AppNav: FunctionComponent<Props> = ({ bodyBg, overlayBg, isDarkMode }) => 
           <path d="M17.9649 18.6209C18.3825 18.6157 18.7169 18.273 18.7117 17.8553C18.7065 17.4377 18.3638 17.1034 17.9462 17.1085C17.5285 17.1137 17.1942 17.4564 17.1994 17.8741C17.2045 18.2917 17.5473 18.626 17.9649 18.6209Z" fill="#4a4848" />
         </svg>
       </Box>
-      {renderNavItem(MdDashboard, '/')}
-      {renderNavItem(MdPlaylistPlay, '/dags')}
-      {renderNavItem(MdLock, '/')}
-      {renderNavItem(MdGroup, '/')}
-      {renderNavItem(MdSettings, '/admin')}
+      {navItems.map(item => renderNavItem(item))}
     </Box>
   );
 };

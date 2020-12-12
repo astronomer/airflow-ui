@@ -1,17 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { Link } from 'react-router-dom';
 import {
   Box,
   Flex,
   useColorMode,
 } from '@chakra-ui/react';
-import {
-  MdLock,
-  MdDashboard,
-  MdGroup,
-  MdSettings,
-  MdPlaylistPlay
-} from 'react-icons/md';
 
 import AppHeader from './AppHeader';
 import AppNav from './AppNav';
@@ -22,29 +14,6 @@ const AppContainer: FunctionComponent = ({ children }) => {
   const isDarkMode = colorMode === 'dark';
   const bodyBg = isDarkMode ? 'gray.800' : 'white';
   const overlayBg = isDarkMode ? 'gray.700' : 'gray.100';
-
-  const renderNavItem = (icon, path: string) => {
-    const hoverBg = isDarkMode ? 'gray.800' : 'gray.200';
-    return (
-      <Box
-        as={Link}
-        to={path}
-        display="flex"
-        width="56px"
-        height="56px"
-        alignItems="center"
-        justifyContent="center"
-        borderWidth="3px"
-        borderColor="transparent"
-        borderLeftColor="transparent"
-        _hover={{
-          backgroundColor: hoverBg,
-        }}
-      >
-        <Box as={icon} size="24px" color="gray.500" />
-      </Box>
-    );
-  };
 
   return (
     <Flex width="100vw" height="100vh" alignItems="stretch">

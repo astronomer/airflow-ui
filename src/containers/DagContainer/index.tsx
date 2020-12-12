@@ -21,7 +21,7 @@ interface Props {
 
 const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: Dag['dagId'] }}} = useReactRouter();
-  const { data: dag, refetch: refetchDag }: { data: Dag, refetch: Function } = useGet({
+  const { data: dag, refetch: refetchDag }: { data: Dag, refetch } = useGet({
     path: `dags/${dagId}`,
     resolve: (d) => humps.camelizeKeys(d),
   });

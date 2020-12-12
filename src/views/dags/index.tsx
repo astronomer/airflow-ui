@@ -13,7 +13,6 @@ import {
   InputGroup,
   InputLeftElement,
   Link,
-  Skeleton,
   Spinner,
   Tag,
   TagLabel,

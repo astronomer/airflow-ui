@@ -15,15 +15,13 @@ import {
 interface Props {
   bodyBg: string;
   overlayBg: string;
-  isDarkMode: boolean;
 }
 
-const AppNav: FunctionComponent<Props> = ({ bodyBg, overlayBg, isDarkMode }) => {
+const AppNav: FunctionComponent<Props> = ({ bodyBg, overlayBg }) => {
   const renderNavItem = (item) => {
     const { label, icon, path }: { label: string, icon: React.Component, path: string } = item;
     const location = useLocation();
     const isActive = location.pathname === path;
-    const hoverBg = isDarkMode ? 'gray.600' : 'gray.200';
     return (
       <Tooltip
         label={label}
@@ -45,7 +43,6 @@ const AppNav: FunctionComponent<Props> = ({ bodyBg, overlayBg, isDarkMode }) => 
           color={isActive ? 'blue.500' : 'gray.500'}
           _hover={{
             color: 'blue.500',
-            backgroundColor: hoverBg,
           }}
         >
           <Box

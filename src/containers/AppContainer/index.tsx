@@ -17,7 +17,7 @@ const AppContainer: FunctionComponent = ({ children }) => {
 
   return (
     <Flex width="100vw" height="100vh" alignItems="stretch">
-      <AppNav isDarkMode={isDarkMode} bodyBg={bodyBg} overlayBg={overlayBg} />
+      <AppNav bodyBg={bodyBg} overlayBg={overlayBg} />
       <Box flex="1" alignItems="stretch">
         <AppHeader isDarkMode={isDarkMode} bodyBg={bodyBg} overlayBg={overlayBg} />
         <Flex direction="column" height="100vh" pt="56px" overflowY="scroll">

@@ -9,13 +9,14 @@ import { PrivateRoute } from './auth';
 import Dag from './views/dag';
 import DagCode from './views/dagCode';
 import Dags from './views/dags';
+import Dashboard from './views/dashboard';
 import Config from './views/config';
 import Login from './views/login';
 
 const App = () => (
   <Switch>
     <Route exact path="/login" component={Login} />
-    <PrivateRoute exact path="/" component={Dags} />
+    <PrivateRoute exact path="/" component={Dashboard} />
     <PrivateRoute exact path="/dags" component={Dags} />
     <PrivateRoute exact path="/dags/:dagId" component={Dag} />
     <PrivateRoute exact path="/dags/:dagId/details" component={Dag} />

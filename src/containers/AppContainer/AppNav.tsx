@@ -24,6 +24,7 @@ const AppNav: FunctionComponent<Props> = ({ bodyBg, overlayBg }) => {
     const isActive = location.pathname === path;
     return (
       <Tooltip
+        key={label}
         label={label}
         aria-label={label}
         placement="right"

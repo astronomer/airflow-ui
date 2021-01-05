@@ -11,7 +11,9 @@ export interface Dag {
   fileToken: string,
   owners: Array<string>,
   description: string,
-  scheduleInterval: string,
+  scheduleInterval: {
+    value: string,
+  },
   // "schedule_interval": {
   // "__type": "string",
   // "days": 0,

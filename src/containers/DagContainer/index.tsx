@@ -1,12 +1,13 @@
 import React, { FunctionComponent, useState, useEffect, ChangeEvent } from 'react';
 import useReactRouter from 'use-react-router';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { useGet, useMutate } from 'restful-react';
 import humps from 'humps';
 import {
   Box,
   Button,
   Heading,
+  Link,
   Switch,
   useColorMode,
 } from '@chakra-ui/react';
@@ -14,6 +15,7 @@ import {
 import AppContainer from '../AppContainer';
 
 import type { Dag } from '../../interfaces';
+import { MdBluetooth } from 'react-icons/md';
 
 interface Props {
   current: string;
@@ -58,8 +60,8 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
             as="span"
             color={colorMode === 'light' ? 'gray.400' : 'gray.500'}
           >
-            <Link to="/dags">{dag && dag.isSubdag ? 'SubDAG' : 'DAG'}</Link>
-            /
+            <Link as={RouterLink} to="/dags" color="currentColor" _hover={{ color: 'blue.500' }}>DAGs</Link>
+            {'/ '}
           </Box>
           {dag && dag.dagId}
         </Heading>

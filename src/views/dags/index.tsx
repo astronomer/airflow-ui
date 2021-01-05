@@ -14,6 +14,12 @@ import {
   InputLeftElement,
   Link,
   Spinner,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
   Tag,
   TagLabel,
   Tooltip,
@@ -76,31 +82,28 @@ const Dags: FunctionComponent = () => {
           />
         </InputGroup>
       </Box>
-      <Box as="table" width="100%" marginTop={16}>
-        <thead>
-          <Box
-            as="tr"
+      <Table marginTop={16}>
+        <Thead>
+          <Tr
             borderBottomWidth="1px"
             textAlign="left"
           >
-            <th>DAG ID</th>
-            <th></th>
-            <th>SCHEDULE</th>
-            <Box as="th" textAlign="right">PAST WEEK</Box>
-          </Box>
-        </thead>
-        <tbody>
+            <Th>DAG ID</Th>
+            <Th></Th>
+            <Th>SCHEDULE</Th>
+            <Th textAlign="right">PAST WEEK</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
           {loading && (
-            <tr>
-              <td colSpan="4">Loading…</td>
-            </tr>
+            <Tr>
+              <Td colSpan="4">Loading…</Td>
+            </Tr>
           )}
           {data && data.dags.map((dag: Dag) => (
-            <Box
-              as="tr"
+            <Tr
               key={dag.dagId}
               onClick={() => showDagSideBar(dag.dagId)}
-              py="4px"
               _odd={{
                 backgroundColor: isDarkMode ? 'gray.900' : 'gray.50',
               }}
@@ -108,7 +111,7 @@ const Dags: FunctionComponent = () => {
                 backgroundColor: isDarkMode ? 'gray.700' : 'gray.100',
               }}
             >
-              <td>
+              <Td>
                 <Link
                   as={RouterLink}
                   to={`/dags/${dag.dagId}`}
@@ -127,12 +130,12 @@ const Dags: FunctionComponent = () => {
                     {tag.name}
                   </Tag>
                 ))}
-              </td>
-              <td></td>
-              <td>
+              </Td>
+              <Td />
+              <Td>
                 <Badge mr="4">{dag.scheduleInterval && dag.scheduleInterval.value}</Badge>
-              </td>
-              <Box as="td" textAlign="right">
+              </Td>
+              <Td textAlign="right">
                 <Tooltip label={`${'10'} running`} aria-label={`${'10'} running`} placement="bottom" hasArrow>
                   <span><Tag size="sm" rounded="full" colorScheme="teal" mr={1}>
                     <Spinner size="sm" speed="0.85s" ml={-1} mr={1} />
@@ -151,11 +154,11 @@ const Dags: FunctionComponent = () => {
                     <TagLabel>{'12'}</TagLabel>
                   </Tag></span>
                 </Tooltip>
-              </Box>
-            </Box>
+              </Td>
+            </Tr>
           ))}
-        </tbody>
-      </Box>
+        </Tbody>
+      </Table>
       {data && `${data.dags.length} of ${data.totalEntries} DAG${data.totalEntries !== 1 && 's'}`}
       <SidebarDag dagId={sidebarDag} />
     </AppContainer>

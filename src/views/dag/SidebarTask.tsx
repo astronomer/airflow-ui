@@ -39,7 +39,7 @@ const SidebarTask: FunctionComponent<Props> = ({ task }) => {
 
   useEffect(() => {
     onOpen();
-  }, [task]);
+  }, [task, onOpen]);
 
   if (!task) return null;
 

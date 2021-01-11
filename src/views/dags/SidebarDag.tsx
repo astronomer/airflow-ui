@@ -1,6 +1,4 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { useGet } from 'restful-react';
-import humps from 'humps';
 import {
   Box,
   Button,
@@ -17,27 +15,22 @@ import type { Dag } from '../../interfaces';
 
 interface Props {
   dagId?: Dag['dagId'];
+  dags: Dag[];
 }
 
-const SidebarDag: FunctionComponent<Props> = ({ dagId }) => {
+const SidebarDag: FunctionComponent<Props> = ({ dagId, dags }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [dag, setDag] = useState<Dag | null>(null);
 
-  const { data } = useGet({
-    path: `dags/${dagId}`,
-    resolve: (d) => humps.camelizeKeys(d),
-  });
-
-  const updateDag = (id: Dag['dagId']) => {
-    setDag(data);
-    onOpen();
-  }
-
   useEffect(() => {
     if (dagId) {
-      updateDag(dagId);
+      const dag = dags.find(d => d.dagId === dagId);
+      if (dag) {
+        setDag(dag);
+        onOpen();
+      }
     }
-  }, [dagId]);
+  }, [dagId, dags, setDag, onOpen]);
 
   if (!dag) return null;
 

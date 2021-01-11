@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   Box,
@@ -11,51 +11,57 @@ import {
   MdSettings,
   MdPlaylistPlay
 } from 'react-icons/md';
+import type { IconType } from 'react-icons/lib';
 
 interface Props {
   bodyBg: string;
   overlayBg: string;
 }
 
-const AppNav: FunctionComponent<Props> = ({ bodyBg, overlayBg }) => {
-  const renderNavItem = (item) => {
-    const { label, icon, path }: { label: string, icon: React.Component, path: string } = item;
-    const location = useLocation();
-    const isActive = location.pathname === path;
-    return (
-      <Tooltip
-        key={label}
-        label={label}
-        aria-label={label}
-        placement="right"
-        hasArrow
+interface NavType {
+  label: string;
+  icon: IconType;
+  path: string;
+}
+
+const NavItem: React.FunctionComponent<NavType> = ({ label, icon, path }) => {
+  const location = useLocation();
+  const isActive = location.pathname === path;
+  return (
+    <Tooltip
+      key={label}
+      label={label}
+      aria-label={label}
+      placement="right"
+      hasArrow
+    >
+      <Box
+        as={Link}
+        to={path}
+        display="flex"
+        width="56px"
+        height="56px"
+        alignItems="center"
+        justifyContent="center"
+        borderWidth="3px"
+        borderColor="transparent"
+        borderLeftColor={isActive ? 'blue.500' : 'transparent'}
+        color={isActive ? 'blue.500' : 'gray.500'}
+        _hover={{
+          color: 'blue.500',
+        }}
       >
         <Box
-          as={Link}
-          to={path}
-          display="flex"
-          width="56px"
-          height="56px"
-          alignItems="center"
-          justifyContent="center"
-          borderWidth="3px"
-          borderColor="transparent"
-          borderLeftColor={isActive ? 'blue.500' : 'transparent'}
-          color={isActive ? 'blue.500' : 'gray.500'}
-          _hover={{
-            color: 'blue.500',
-          }}
-        >
-          <Box
-            as={icon}
-            size="24px"
-            color="currentcolor"
-          />
-        </Box>
-      </Tooltip>
-    );
-  };
+          as={icon}
+          size="24px"
+          color="currentcolor"
+        />
+      </Box>
+    </Tooltip>
+  );
+}
 
+const AppNav: React.FunctionComponent<Props> = ({ bodyBg, overlayBg }) => {
   const navItems = [
     {
       label: 'Dashboard',
@@ -118,7 +124,7 @@ const AppNav: FunctionComponent<Props> = ({ bodyBg, overlayBg }) => {
           <path d="M17.9649 18.6209C18.3825 18.6157 18.7169 18.273 18.7117 17.8553C18.7065 17.4377 18.3638 17.1034 17.9462 17.1085C17.5285 17.1137 17.1942 17.4564 17.1994 17.8741C17.2045 18.2917 17.5473 18.626 17.9649 18.6209Z" fill="#4a4848" />
         </svg>
       </Box>
-      {navItems.map(item => renderNavItem(item))}
+      {navItems.map((item, i) => <NavItem {...item} key={i} />)}
     </Box>
   );
 };

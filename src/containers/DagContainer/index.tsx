@@ -15,7 +15,6 @@ import {
 import AppContainer from '../AppContainer';
 
 import type { Dag } from '../../interfaces';
-import { MdBluetooth } from 'react-icons/md';
 
 interface Props {
   current: string;
@@ -23,7 +22,7 @@ interface Props {
 
 const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: Dag['dagId'] }}} = useReactRouter();
-  const { data: dag, refetch: refetchDag }: { data: Dag, refetch } = useGet({
+  const { data: dag, refetch: refetchDag }: { data: Dag, refetch: () => void } = useGet({
     path: `dags/${dagId}`,
     resolve: (d) => humps.camelizeKeys(d),
   });

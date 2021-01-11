@@ -160,7 +160,7 @@ const Dags: FunctionComponent = () => {
         </Tbody>
       </Table>
       {data && `${data.dags.length} of ${data.totalEntries} DAG${data.totalEntries !== 1 && 's'}`}
-      <SidebarDag dagId={sidebarDag} />
+      <SidebarDag dagId={sidebarDag} dags={data && data.dags} />
     </AppContainer>
   );
 };

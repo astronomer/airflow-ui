@@ -1,6 +1,6 @@
 import { hot } from 'react-hot-loader';
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 
 import { PrivateRoute } from './auth';
@@ -9,15 +9,14 @@ import { PrivateRoute } from './auth';
 import Dag from './views/dag';
 import DagCode from './views/dagCode';
 import Dags from './views/dags';
-import Dashboard from './views/dashboard';
 import Config from './views/config';
 import Login from './views/login';
 
 const App = () => (
   <Switch>
     <Route exact path="/login" component={Login} />
-    <PrivateRoute exact path="/" component={Dashboard} />
-    <PrivateRoute exact path="/dags" component={Dags} />
+    <PrivateRoute exact path="/" component={Dags} />
+    <Redirect exact path="/dags" to="/" />
     <PrivateRoute exact path="/dags/:dagId" component={Dag} />
     <PrivateRoute exact path="/dags/:dagId/details" component={Dag} />
     <PrivateRoute exact path="/dags/:dagId/graph" component={Dag} />

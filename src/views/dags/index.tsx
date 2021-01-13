@@ -44,9 +44,13 @@ const Dags: FunctionComponent = () => {
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const bg = isDarkMode ? 'gray.800' : 'white';
+
+  const [currentStatus, setCurrentStatus] = useState('all');
   const [sidebarDag, setSidebarDag] = useState('');
 
   const showDagSideBar = (dagId: string) => setSidebarDag(dagId);
+
+  const updateStatus = (newStatus: string) => setCurrentStatus(newStatus);
 
   return (
     <AppContainer>
@@ -65,9 +69,9 @@ const Dags: FunctionComponent = () => {
         backgroundColor={bg}
       >
         <Flex>
-          <Button size="sm" mr={1} colorScheme="blue">All</Button>
-          <Button size="sm" mr={1}>Active</Button>
-          <Button size="sm">Paused</Button>
+          <Button onClick={() => updateStatus('all')} size="sm" mr={1} colorScheme={currentStatus == 'all' ? 'blue' : null}>All</Button>
+          <Button onClick={() => updateStatus('active')} size="sm" mr={1} colorScheme={currentStatus == 'active' ? 'blue' : null}>Active</Button>
+          <Button onClick={() => updateStatus('paused')} size="sm" colorScheme={currentStatus == 'paused' ? 'blue' : null}>Paused</Button>
         </Flex>
         <Box pr={4} mr={4} borderRightWidth="1px" />
         <InputGroup flex="1" size="sm">

@@ -6,7 +6,6 @@ import {
 } from '@chakra-ui/react';
 import {
   MdLock,
-  MdDashboard,
   MdGroup,
   MdSettings,
   MdPlaylistPlay
@@ -64,14 +63,9 @@ const NavItem: React.FunctionComponent<NavType> = ({ label, icon, path }) => {
 const AppNav: React.FunctionComponent<Props> = ({ bodyBg, overlayBg }) => {
   const navItems = [
     {
-      label: 'Dashboard',
-      icon: MdDashboard,
-      path: '/',
-    },
-    {
       label: 'DAGs',
       icon: MdPlaylistPlay,
-      path: '/dags',
+      path: '/',
     },
     {
       label: 'Security',

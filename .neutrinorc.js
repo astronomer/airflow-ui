@@ -3,16 +3,23 @@ const typescriptLint = require('neutrinojs-typescript-eslint');
 const react = require('@neutrinojs/react');
 const jest = require('@neutrinojs/jest');
 const eslint = require('@neutrinojs/eslint');
+const { resolve } = require('path');
 
 module.exports = {
+  options: {
+    root: __dirname,
+  },
   use: [
-    typescript({ tsconfig: {
-      compilerOptions: {
-        strict: true,
-        allowJs: true,
-        declaration: true,
-      },
-    } }),
+    (neutrino) => {
+      // Alias's for internal modules
+      neutrino.config.resolve.alias.set('root', resolve(__dirname));
+      neutrino.config.resolve.alias.set('src', resolve(__dirname, 'src'));
+      neutrino.config.resolve.alias.set('views', resolve(__dirname, 'src/views'));
+      neutrino.config.resolve.alias.set('containers', resolve(__dirname, 'src/containers'));
+      neutrino.config.resolve.alias.set('utils', resolve(__dirname, 'src/utils'));
+      neutrino.config.resolve.alias.set('static', resolve(__dirname, 'src/static'));
+    },
+    typescript(),
     typescriptLint(),
     eslint(),
     jest(),

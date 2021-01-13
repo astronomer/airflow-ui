@@ -12,9 +12,9 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 
-import AppContainer from '../AppContainer';
+import AppContainer from 'containers/AppContainer';
 
-import type { Dag } from '../../interfaces';
+import type { Dag } from 'interfaces';
 
 interface Props {
   current: string;

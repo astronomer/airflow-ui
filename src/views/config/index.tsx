@@ -8,7 +8,7 @@ import {
   ListItem,
 } from '@chakra-ui/react';
 
-import AppContainer from '../../containers/AppContainer';
+import AppContainer from 'containers/AppContainer';
 
 const Config: FunctionComponent = () => {
   const { data: config } = useGet({

@@ -26,10 +26,10 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 
-import AppContainer from '../../containers/AppContainer';
+import AppContainer from 'containers/AppContainer';
 import SidebarDag from './SidebarDag';
 
-import type { Dag, DagTag } from '../../interfaces';
+import type { Dag, DagTag } from 'interfaces';
 
 interface Data {
   dags: Dag[],

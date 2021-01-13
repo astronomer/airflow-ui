@@ -6,11 +6,11 @@ import './App.css';
 import { PrivateRoute } from './auth';
 
 // Pages
-import Dag from './views/dag';
-import DagCode from './views/dagCode';
-import Dags from './views/dags';
-import Config from './views/config';
-import Login from './views/login';
+import Dag from 'views/dag';
+import DagCode from 'views/dagCode';
+import Dags from 'views/dags';
+import Config from 'views/config';
+import Login from 'views/login';
 
 const App = () => (
   <Switch>

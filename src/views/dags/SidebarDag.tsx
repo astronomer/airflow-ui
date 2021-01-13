@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import type { Dag } from '../../interfaces';
+import type { Dag } from 'interfaces';
 
 interface Props {
   dagId?: Dag['dagId'];

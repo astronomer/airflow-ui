@@ -2,8 +2,8 @@ import React, { createContext } from 'react';
 import { Route, Redirect, RouteProps } from 'react-router-dom';
 import useReactRouter from 'use-react-router';
 
-import { set } from './utils/localStorage';
-import authCheck from './utils/authCheck';
+import { set } from 'utils/localStorage';
+import authCheck from 'utils/authCheck';
 
 interface Props extends RouteProps {
   component: React.ComponentClass;

@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { MdLock, MdPerson } from 'react-icons/md';
 
-import AppContainer from '../../containers/AppContainer';
+import AppContainer from 'containers/AppContainer';
 
 const Login: FunctionComponent = () => (
   <AppContainer>

@@ -25,7 +25,7 @@ import {
 
 import { MdEvent } from 'react-icons/md';
 
-import { LogsIcon } from '../../utils/icons';
+import { LogsIcon } from 'utils/icons';
 
 interface Props {
   task?: {

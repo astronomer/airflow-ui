@@ -7,7 +7,7 @@ import hljs from 'highlight.js/lib/core';
 import python from 'highlight.js/lib/languages/python';
 import 'highlight.js/styles/github.css';
 
-import DagContainer from '../../containers/DagContainer';
+import DagContainer from 'containers/DagContainer';
 
 const DagCode: FunctionComponent = () => {
   const { match: { params: { dagId } } } = useReactRouter();

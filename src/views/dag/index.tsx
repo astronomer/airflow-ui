@@ -14,10 +14,10 @@ import {
 } from '@chakra-ui/react';
 
 import drawChart from './drawChart';
-import DagContainer from '../../containers/DagContainer';
+import DagContainer from 'containers/DagContainer';
 import SidebarTask from './SidebarTask';
 
-import type { Dag as DagType, Task } from '../../interfaces';
+import type { Dag as DagType, Task } from 'interfaces';
 
 const Dag: FunctionComponent = () => {
   const { match: { params: { dagId } } } = useReactRouter();

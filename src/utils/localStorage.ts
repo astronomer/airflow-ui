@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 export function set(key: string, value:string): Record<string, unknown> {
   localStorage[key] = value;
 

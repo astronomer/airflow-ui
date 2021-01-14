@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
-import { useGet } from 'restful-react';
-import humps from 'humps';
 import {
   Button,
   Box,
@@ -16,23 +14,18 @@ import {
 import drawChart from './drawChart';
 import DagContainer from 'containers/DagContainer';
 import SidebarTask from './SidebarTask';
+import ErrorMessage from 'components/ErrorMessage';
 
+import { useDag, useDagTasks } from 'api';
 import type { Dag as DagType, Task } from 'interfaces';
 
 const Dag: FunctionComponent = () => {
-  const { match: { params: { dagId } } } = useReactRouter();
-  const [sidebarTask, setSidebarTask] = useState(null);
+  const { match: { params: { dagId } } }: { match: { params: { dagId: DagType['dagId'] }}} = useReactRouter();
+  const [sidebarTask, setSidebarTask] = useState<Task | null>(null);
   const { colorMode } = useColorMode();
 
-  const { data: dag }: { data: DagType } = useGet({
-    path: `dags/${dagId}`,
-    resolve: (d) => humps.camelizeKeys(d),
-  });
-
-  const { data: taskData } = useGet({
-    path: `dags/${dagId}/tasks`,
-    resolve: (d) => humps.camelizeKeys(d),
-  });
+  const { data: dag, status: dagStatus, error: dagError } = useDag(dagId);
+  const { data: taskData, status: tasksStatus, error: tasksError } = useDagTasks(dagId);
 
   useEffect(() => {
     drawChart(400, 600);
@@ -46,6 +39,7 @@ const Dag: FunctionComponent = () => {
 
   return (
     <DagContainer current="overview">
+      <ErrorMessage errors={[dagError, tasksError]} />
       <List styleType="none" mt="8">
         {dag && dag.description && (
           <ListItem>
@@ -94,7 +88,7 @@ const Dag: FunctionComponent = () => {
         borderColor={colorMode === 'light' ? 'gray.100' : 'gray.700'}
       >
         <Flex>
-          {taskData && taskData.tasks && taskData.tasks.map((task: Task) => (
+          {taskData && taskData.tasks.map((task: Task) => (
             <div key={task.taskId}>
               <Button
                 onClick={() => setTask(task)}
@@ -108,7 +102,7 @@ const Dag: FunctionComponent = () => {
         </Flex>
       </Box>
       <Box id="chart" mt={4} />
-      <SidebarTask task={sidebarTask} />
+      {sidebarTask && <SidebarTask task={sidebarTask} />}
     </DagContainer>
   );
 };

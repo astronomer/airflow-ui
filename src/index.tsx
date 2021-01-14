@@ -1,17 +1,22 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { RestfulProvider } from 'restful-react';
-// import humps from 'humps';
+import { ReactQueryDevtoolsPanel } from 'react-query/devtools';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import {
   ChakraProvider,
   theme,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import App from './App';
 
 const USERNAME = 'admin';
 const PASSWORD = 'admin';
 const authorization = `Basic ${btoa(`${USERNAME}:${PASSWORD}`)}`;
+const queryClient = new QueryClient();
 
 const airflowTheme = {
   ...theme,
@@ -29,19 +34,17 @@ const airflowTheme = {
   },
 };
 
+axios.defaults.baseURL = 'http://127.0.0.1:28080/api/v1/';
+axios.defaults.headers.common['Authorization'] = authorization;
+
 render(
   <BrowserRouter basename="/">
-    <RestfulProvider
-      base="http://127.0.0.1:28080/api/v1/"
-      // resolve={data => humps.camelizeKeys(data)}
-      requestOptions={() => ({
-        headers: { Authorization: authorization },
-      })}
-    >
-      <ChakraProvider theme={airflowTheme}>
+    <ChakraProvider theme={airflowTheme}>
+      <QueryClientProvider client={queryClient}>
         <App />
-      </ChakraProvider>
-    </RestfulProvider>
+        <ReactQueryDevtoolsPanel />
+      </QueryClientProvider>
+    </ChakraProvider>
   </BrowserRouter>,
   document.getElementById('root'),
 );

@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { useGet } from 'restful-react';
-import humps from 'humps';
 import { MdCheckCircle, MdError, MdSearch } from 'react-icons/md';
 import {
   Badge,
@@ -17,6 +15,7 @@ import {
   Table,
   Thead,
   Tbody,
+  Text,
   Tr,
   Th,
   Td,
@@ -28,29 +27,27 @@ import {
 
 import AppContainer from 'containers/AppContainer';
 import SidebarDag from './SidebarDag';
+import { useDags } from 'api';
+import ErrorMessage from 'components/ErrorMessage';
 
 import type { Dag, DagTag } from 'interfaces';
 
-interface Data {
+interface Dags {
   dags: Dag[],
   totalEntries: number,
 }
 
 const Dags: FunctionComponent = () => {
-  const { data, loading }: { data: Data, loading: boolean } = useGet({
-    path: '/dags',
-    resolve: (d) => humps.camelizeKeys(d),
-  });
+  const { data, status, error } = useDags();
+  if (error) console.log(error)
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const bg = isDarkMode ? 'gray.800' : 'white';
 
-  const [currentStatus, setCurrentStatus] = useState('all');
+  const [filter, setFilter] = useState<'all' | 'active' | 'paused'>('all');
   const [sidebarDag, setSidebarDag] = useState('');
 
   const showDagSideBar = (dagId: string) => setSidebarDag(dagId);
-
-  const updateStatus = (newStatus: string) => setCurrentStatus(newStatus);
 
   return (
     <AppContainer>
@@ -69,9 +66,9 @@ const Dags: FunctionComponent = () => {
         backgroundColor={bg}
       >
         <Flex>
-          <Button onClick={() => updateStatus('all')} size="sm" mr={1} colorScheme={currentStatus == 'all' ? 'blue' : null}>All</Button>
-          <Button onClick={() => updateStatus('active')} size="sm" mr={1} colorScheme={currentStatus == 'active' ? 'blue' : null}>Active</Button>
-          <Button onClick={() => updateStatus('paused')} size="sm" colorScheme={currentStatus == 'paused' ? 'blue' : null}>Paused</Button>
+          <Button onClick={() => setFilter('all')} size="sm" mr={1} colorScheme={filter == 'all' ? 'blue' : ''}>All</Button>
+          <Button onClick={() => setFilter('active')} size="sm" mr={1} colorScheme={filter == 'active' ? 'blue' : ''}>Active</Button>
+          <Button onClick={() => setFilter('paused')} size="sm" colorScheme={filter == 'paused' ? 'blue' : ''}>Paused</Button>
         </Flex>
         <Box pr={4} mr={4} borderRightWidth="1px" />
         <InputGroup flex="1" size="sm">
@@ -86,6 +83,11 @@ const Dags: FunctionComponent = () => {
           />
         </InputGroup>
       </Box>
+      {error &&
+        <Flex>
+          <Text color="red">{error.message}</Text>
+        </Flex>
+      }
       <Table marginTop={16}>
         <Thead>
           <Tr
@@ -99,9 +101,10 @@ const Dags: FunctionComponent = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {loading && (
+          <ErrorMessage errors={[error]} />
+          {status === 'loading' && (
             <Tr>
-              <Td colSpan="4">Loading…</Td>
+              <Td colSpan={4}>Loading…</Td>
             </Tr>
           )}
           {data && data.dags.map((dag: Dag) => (

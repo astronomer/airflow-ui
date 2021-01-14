@@ -1,8 +1,7 @@
-import React, { FunctionComponent, useState, useEffect, ChangeEvent } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import useReactRouter from 'use-react-router';
 import { Link as RouterLink } from 'react-router-dom';
-import { useGet, useMutate } from 'restful-react';
-import humps from 'humps';
+import axios from 'axios';
 import {
   Box,
   Button,
@@ -12,9 +11,10 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 
+import ErrorMessage from 'components/ErrorMessage';
 import AppContainer from 'containers/AppContainer';
-
 import type { Dag } from 'interfaces';
+import { useDag, useSaveDag } from 'api';
 
 interface Props {
   current: string;
@@ -22,28 +22,21 @@ interface Props {
 
 const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: Dag['dagId'] }}} = useReactRouter();
-  const { data: dag, refetch: refetchDag }: { data: Dag, refetch: () => void } = useGet({
-    path: `dags/${dagId}`,
-    resolve: (d) => humps.camelizeKeys(d),
-  });
-  const { mutate: updateDag } = useMutate({
-    verb: 'PATCH',
-    path: `dags/${dagId}`,
-  });
-  const { colorMode } = useColorMode();
   const [isPaused, setIsPaused] = useState(false);
+  const { colorMode } = useColorMode();
+  const { data: dag, status, error } = useDag(dagId);
+  const mutation = useSaveDag(dagId);
 
   useEffect(() => {
-    if (dag) {
+    if (dag && dag.isPaused !== isPaused) {
       setIsPaused(dag.isPaused);
     }
-  }, [dag]);
+  }, [dag, isPaused]);
 
-  const toggleDagPaused = (e: ChangeEvent<HTMLInputElement>): void => {
-    updateDag({
-      is_paused: !e.target.checked,
-    }).then(refetchDag());
-  };
+  const toggleDagPaused = (): void => {
+    mutation.mutate({ is_paused: !isPaused });
+    setIsPaused(!isPaused);
+  }
 
   return (
     <AppContainer>
@@ -103,12 +96,15 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
             <Switch
               id="pause"
               isChecked={!isPaused}
-              onChange={(e) => toggleDagPaused(e)}
+              onChange={toggleDagPaused}
             />
           )}
         </Box>
       </Box>
-      <Box p="4">{children}</Box>
+      <Box p="4">
+        <ErrorMessage errors={[error, mutation.error]} />
+        {children}
+      </Box>
     </AppContainer>
   );
 };

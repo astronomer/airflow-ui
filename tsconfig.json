@@ -11,9 +11,6 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "jsx": "preserve",
-    "lib": [
-      "es5", "es6", "dom", "dom.iterable"
-    ],
     // baseUrl allows to absolute paths but you also have to add the alias in .neutrinorc.js
     "baseUrl": "src",
   },

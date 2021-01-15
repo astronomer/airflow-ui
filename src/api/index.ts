@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// TODO: fix types for react-query functions
 import axios from 'axios';
 import humps from 'humps';
 import { useQuery, useMutation, useQueryClient } from 'react-query';

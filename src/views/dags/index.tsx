@@ -48,6 +48,18 @@ const Dags: FunctionComponent = () => {
   const [sidebarDag, setSidebarDag] = useState('');
 
   const showDagSideBar = (dagId: string) => setSidebarDag(dagId);
+  const filteredDags = data && data.dags ?
+    data.dags.filter((dag: Dag) => {
+      switch (filter) {
+        case 'active':
+          return dag.isPaused === false;
+        case 'paused':
+          return dag.isPaused === true;
+        default:
+          return true;
+      }
+    }) :
+    [];
 
   return (
     <AppContainer>
@@ -66,9 +78,9 @@ const Dags: FunctionComponent = () => {
         backgroundColor={bg}
       >
         <Flex>
-          <Button onClick={() => setFilter('all')} size="sm" mr={1} colorScheme={filter == 'all' ? 'blue' : ''}>All</Button>
-          <Button onClick={() => setFilter('active')} size="sm" mr={1} colorScheme={filter == 'active' ? 'blue' : ''}>Active</Button>
-          <Button onClick={() => setFilter('paused')} size="sm" colorScheme={filter == 'paused' ? 'blue' : ''}>Paused</Button>
+          <Button onClick={() => setFilter('all')} size="sm" mr={1} colorScheme={filter == 'all' ? 'blue' : undefined}>All</Button>
+          <Button onClick={() => setFilter('active')} size="sm" mr={1} colorScheme={filter == 'active' ? 'blue' : undefined}>Active</Button>
+          <Button onClick={() => setFilter('paused')} size="sm" colorScheme={filter == 'paused' ? 'blue' : undefined}>Paused</Button>
         </Flex>
         <Box pr={4} mr={4} borderRightWidth="1px" />
         <InputGroup flex="1" size="sm">
@@ -107,7 +119,7 @@ const Dags: FunctionComponent = () => {
               <Td colSpan={4}>Loading…</Td>
             </Tr>
           )}
-          {data && data.dags.map((dag: Dag) => (
+          {filteredDags.map(dag => (
             <Tr
               key={dag.dagId}
               onClick={() => showDagSideBar(dag.dagId)}
@@ -166,7 +178,7 @@ const Dags: FunctionComponent = () => {
           ))}
         </Tbody>
       </Table>
-      {data && `${data.dags.length} of ${data.totalEntries} DAG${data.totalEntries !== 1 && 's'}`}
+      {data && `${filteredDags.length} of ${data.totalEntries} DAG${data.totalEntries !== 1 && 's'}`}
       <SidebarDag dagId={sidebarDag} dags={data && data.dags} />
     </AppContainer>
   );

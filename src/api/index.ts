@@ -36,7 +36,7 @@ const fetchDagTasks = (dagId: Dag['dagId']): Promise<any> =>
 export function useDagTasks(dagId: Dag['dagId']) { return useQuery<TaskData, Error>('dagTasks', () => fetchDagTasks(dagId)); }
 
 const fetchConfig = (): Promise<any> => 
-  axios.get('/config');
+  axios.get('/config').then((res) => humps.camelizeKeys(res.data));
 export function useConfig() { return useQuery<any, Error>('config', fetchConfig); }
 
 

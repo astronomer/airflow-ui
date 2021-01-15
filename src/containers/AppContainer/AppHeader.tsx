@@ -29,12 +29,13 @@ interface Props {
 const AppHeader: FunctionComponent<Props> = ({ bodyBg, overlayBg, isDarkMode }) => {
   const { toggleColorMode } = useColorMode();
   const now = dayjs();
+  const headerHeight = '56px';
   return (
     <Flex
       as="header"
       position="fixed"
-      width="calc(100vw - 56px)"
-      height="56px"
+      width={`calc(100vw - ${headerHeight})`}
+      height={headerHeight}
       zIndex={2}
       align="center"
       justifyContent="space-between"
@@ -53,7 +54,7 @@ const AppHeader: FunctionComponent<Props> = ({ bodyBg, overlayBg, isDarkMode }) 
       <Flex align="center">
         <Box
           as="time"
-          dateTime={now}
+          dateTime={now.toString()}
           mr="4"
           fontSize="md"
         >

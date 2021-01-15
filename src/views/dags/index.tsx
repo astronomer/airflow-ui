@@ -100,6 +100,7 @@ const Dags: FunctionComponent = () => {
           <Text color="red">{error.message}</Text>
         </Flex>
       }
+      <ErrorMessage errors={[error]} />
       <Table marginTop={16}>
         <Thead>
           <Tr
@@ -113,7 +114,6 @@ const Dags: FunctionComponent = () => {
           </Tr>
         </Thead>
         <Tbody>
-          <ErrorMessage errors={[error]} />
           {status === 'loading' && (
             <Tr>
               <Td colSpan={4}>Loading…</Td>

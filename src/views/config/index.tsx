@@ -1,31 +1,29 @@
 import React, { FunctionComponent } from 'react';
 import {
   Code,
-  Heading,
   List,
   ListItem,
 } from '@chakra-ui/react';
 
 import { useConfig } from 'api';
-import AppContainer from 'containers/AppContainer';
+import AdminContainer from 'containers/AdminContainer';
 import ErrorMessage from 'components/ErrorMessage';
 
 const Config: FunctionComponent = () => {
-  const { data: config, error } = useConfig();
+  const { data, error } = useConfig();
   return (
-    <AppContainer>
-      <Heading as="h1">Config</Heading>
+    <AdminContainer current="configuration">
       <ErrorMessage errors={[error]} />
       <pre>
-        <Code display="block" p="4" className="python">{config}</Code>
+        <Code display="block" p="4" className="python">{data}</Code>
       </pre>
 
       <List styleType="none" mt="8">
-        {config && config.sections && config.sections.map((section) => (
+        {data && data.sections && data.sections.map((section) => (
           <ListItem key={section.name}>{section.name}</ListItem>
         ))}
       </List>
-    </AppContainer>
+    </AdminContainer>
   );
 };
 

@@ -1,12 +1,10 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import useReactRouter from 'use-react-router';
-import { Link as RouterLink } from 'react-router-dom';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 import {
   Box,
   Button,
   Heading,
-  Link,
   Switch,
   useColorMode,
 } from '@chakra-ui/react';
@@ -18,6 +16,12 @@ import { useDag, useSaveDag } from 'api';
 
 interface Props {
   current: string;
+}
+
+interface NavBtnItem {
+  label: string;
+  path: string;
+  currentSlug: string;
 }
 
 const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
@@ -38,6 +42,43 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
     setIsPaused(!isPaused);
   }
 
+  const renderNavBtn = (item: NavBtnItem) => (
+    <Button
+      key={item.currentSlug}
+      as={Link}
+      to={item.path}
+      variant={current === item.currentSlug ? 'solid' : 'ghost'}
+      colorScheme="blue"
+      size="sm"
+      mr="2"
+    >
+      {item.label}
+    </Button>
+  );
+
+  const navItems = [
+    {
+      label: 'Overview',
+      path: `/dags/${dagId}`,
+      currentSlug: 'overview',
+    },
+    {
+      label: 'Tree',
+      path: `/dags/${dagId}/tree`,
+      currentSlug: 'tree',
+    },
+    {
+      label: 'Graph',
+      path: `/dags/${dagId}/graph`,
+      currentSlug: 'graph',
+    },
+    {
+      label: 'Code',
+      path: `/dags/${dagId}/code`,
+      currentSlug: 'code',
+    },
+  ];
+
   return (
     <AppContainer>
       <Box
@@ -52,7 +93,7 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
             as="span"
             color={colorMode === 'light' ? 'gray.400' : 'gray.500'}
           >
-            <Link as={RouterLink} to="/dags" color="currentColor" _hover={{ color: 'blue.500' }}>DAGs</Link>
+            <Link to="/dags" color="currentColor" _hover={{ color: 'blue.500' }}>DAGs</Link>
             {'/ '}
           </Box>
           {dag && dag.dagId}
@@ -64,33 +105,7 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
           mt="4"
         >
           <Box as="nav">
-            <Button
-              as={Link}
-              to={`/dags/${dagId}`}
-              variant={current === 'overview' ? 'solid' : 'ghost'}
-              colorScheme="blue"
-              size="sm"
-              mr="2"
-            >
-              Overview
-            </Button>
-            <Button
-              as={Link}
-              to={`/dags/${dagId}/graph`}
-              variant={current === 'graph' ? 'solid' : 'ghost'}
-              size="sm"
-              mr="2"
-            >
-              Graph
-            </Button>
-            <Button
-              as={Link}
-              to={`/dags/${dagId}/code`}
-              variant={current === 'code' ? 'solid' : 'ghost'}
-              size="sm"
-            >
-              Code
-            </Button>
+            {navItems.map((item) => renderNavBtn(item))}
           </Box>
           {dag && (
             <Switch

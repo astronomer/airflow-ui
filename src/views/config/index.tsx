@@ -1,6 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { useGet } from 'restful-react';
-import humps from 'humps';
 import {
   Code,
   Heading,
@@ -8,17 +6,16 @@ import {
   ListItem,
 } from '@chakra-ui/react';
 
+import { useConfig } from 'api';
 import AppContainer from 'containers/AppContainer';
+import ErrorMessage from 'components/ErrorMessage';
 
 const Config: FunctionComponent = () => {
-  const { data: config } = useGet({
-    path: '/config',
-    resolve: (d) => humps.camelizeKeys(d),
-  });
-
+  const { data: config, error } = useConfig();
   return (
     <AppContainer>
       <Heading as="h1">Config</Heading>
+      <ErrorMessage errors={[error]} />
       <pre>
         <Code display="block" p="4" className="python">{config}</Code>
       </pre>

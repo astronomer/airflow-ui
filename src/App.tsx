@@ -1,7 +1,6 @@
 import { hot } from 'react-hot-loader';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import './App.css';
 
 import { PrivateRoute } from './auth';
 

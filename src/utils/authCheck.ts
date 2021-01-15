@@ -8,7 +8,7 @@ const authCheck = (): boolean => {
     const expire = checkExpire('token');
     if (!expire) return true;
 
-    console.log('Token invalid, please reauthenticate.'); // eslint-disable-line
+    console.log('Token invalid, please reauthenticate.');
     clearAuth();
   }
 

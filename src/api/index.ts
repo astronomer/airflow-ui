@@ -19,7 +19,13 @@ interface TaskData {
 
 const fetchDags = (): Promise<any> =>
   axios.get('/dags').then((res) => humps.camelizeKeys(res.data));
-export function useDags(): any { return useQuery<Dags, Error>('dags', fetchDags); }
+export function useDags(): any {
+  return useQuery<Dags, Error>('dags', fetchDags,
+    {
+      refetchInterval: 500,
+    }
+  );
+}
 
 const fetchDag = (dagId: Dag['dagId']): Promise<any> =>
   axios.get(`dags/${dagId}`).then((res) => humps.camelizeKeys(res.data));

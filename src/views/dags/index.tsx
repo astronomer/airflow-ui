@@ -119,7 +119,7 @@ const Dags: FunctionComponent = () => {
               <Td colSpan={4}>Loading…</Td>
             </Tr>
           )}
-          {filteredDags.map(dag => (
+          {filteredDags.map((dag: Dag) => (
             <Tr
               key={dag.dagId}
               onClick={() => showDagSideBar(dag.dagId)}

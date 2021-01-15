@@ -17,32 +17,35 @@ interface TaskData {
   tasks: Task[];
 }
 
-const fetchDags = (): Promise<any> =>
-  axios.get('/dags').then((res) => humps.camelizeKeys(res.data));
-export function useDags(): any {
-  return useQuery<Dags, Error>('dags', fetchDags,
-    {
-      refetchInterval: 500,
-    }
+// intercept responses and turn them to camelCase
+axios.interceptors.response.use(
+  (res) => humps.camelizeKeys(res.data) as any,
+  error => Promise.reject(error)
+);
+
+export function useDags() {
+  return useQuery<Dags, Error>(
+    'dags',
+    (): Promise<any> => axios.get('/dags'),
+    { refetchInterval: 500 }
   );
 }
 
-const fetchDag = (dagId: Dag['dagId']): Promise<any> =>
-  axios.get(`dags/${dagId}`).then((res) => humps.camelizeKeys(res.data));
-export function useDag(dagId: Dag['dagId']) { return useQuery<Dag, Error>(['dag', dagId], () => fetchDag(dagId)); }
+export function useDag(dagId: Dag['dagId']) {
+  return useQuery<Dag, Error>(['dag', dagId], (): Promise<any> => axios.get(`dags/${dagId}`));
+}
 
-const fetchDagTasks = (dagId: Dag['dagId']): Promise<any> =>
-  axios.get(`dags/${dagId}/tasks`).then((res) => humps.camelizeKeys(res.data));
-export function useDagTasks(dagId: Dag['dagId']) { return useQuery<TaskData, Error>('dagTasks', () => fetchDagTasks(dagId)); }
+export function useDagTasks(dagId: Dag['dagId']) {
+  return useQuery<TaskData, Error>('dagTasks', (): Promise<any> => axios.get(`dags/${dagId}/tasks`));
+}
 
-const fetchConfig = (): Promise<any> =>
-  axios.get('/config').then((res) => humps.camelizeKeys(res.data));
-export function useConfig() { return useQuery<any, Error>('config', fetchConfig); }
+export function useConfig() {
+  return useQuery<any, Error>('config', (): Promise<any> => axios.get('/config'));
+}
 
-const fetchVariables = (): Promise<any> =>
-  axios.get('/variables').then((res) => humps.camelizeKeys(res.data));
-export function useVariables() { return useQuery<any, Error>('variables', fetchVariables); }
-
+export function useVariables() {
+  return useQuery<any, Error>('variables', (): Promise<any> => axios.get('/variables'));
+}
 
 export function useSaveDag(dagId: Dag['dagId']) {
   const queryClient = useQueryClient();
@@ -59,7 +62,7 @@ export function useSaveDag(dagId: Dag['dagId']) {
       return { [dagId]: previousDag }
     },
     onSuccess: (res) => {
-      queryClient.setQueryData(['dag', dagId], res.data);
+      queryClient.setQueryData(['dag', dagId], res);
     },
     onError: (error, data, context) => {
       // rollback to previous

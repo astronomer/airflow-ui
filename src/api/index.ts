@@ -35,9 +35,13 @@ const fetchDagTasks = (dagId: Dag['dagId']): Promise<any> =>
   axios.get(`dags/${dagId}/tasks`).then((res) => humps.camelizeKeys(res.data));
 export function useDagTasks(dagId: Dag['dagId']) { return useQuery<TaskData, Error>('dagTasks', () => fetchDagTasks(dagId)); }
 
-const fetchConfig = (): Promise<any> => 
+const fetchConfig = (): Promise<any> =>
   axios.get('/config').then((res) => humps.camelizeKeys(res.data));
 export function useConfig() { return useQuery<any, Error>('config', fetchConfig); }
+
+const fetchVariables = (): Promise<any> =>
+  axios.get('/variables').then((res) => humps.camelizeKeys(res.data));
+export function useVariables() { return useQuery<any, Error>('variables', fetchVariables); }
 
 
 export function useSaveDag(dagId: Dag['dagId']) {

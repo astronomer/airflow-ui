@@ -76,3 +76,8 @@ export interface TaskInstance {
     notification_sent: boolean,
   },
 }
+
+export interface Variable {
+  key: string,
+  value: string,
+}

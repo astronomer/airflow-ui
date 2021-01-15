@@ -42,7 +42,7 @@ render(
     <ChakraProvider theme={airflowTheme}>
       <QueryClientProvider client={queryClient}>
         <App />
-        <ReactQueryDevtoolsPanel />
+        {/* <ReactQueryDevtoolsPanel /> */}
       </QueryClientProvider>
     </ChakraProvider>
   </BrowserRouter>,

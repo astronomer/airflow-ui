@@ -17,6 +17,7 @@ interface TaskData {
   tasks: Task[];
 }
 
+axios.defaults.baseURL = 'http://127.0.0.1:28080/api/v1/';
 // intercept responses and turn them to camelCase
 axios.interceptors.response.use(
   (res) => humps.camelizeKeys(res.data) as any,
@@ -55,23 +56,19 @@ export function useSaveDag(dagId: Dag['dagId']) {
       await queryClient.cancelQueries(['dag', dagId]);
       const previousDag = queryClient.getQueryData(['dag', dagId])
 
+      // optimistically set the dag before the async request
       queryClient.setQueryData(['dag', dagId], (old) => ({
         ...(old as Dag),
         ...(variables as unknown as Record<string, any>),
       }))
       return { [dagId]: previousDag }
     },
-    onSuccess: (res) => {
-      queryClient.setQueryData(['dag', dagId], res);
-    },
-    onError: (error, data, context) => {
-      // rollback to previous
-      console.log('context', context);
-      if ((context as any)?.previousDag) {
+    onSettled: (res, error, variables, context) => {
+      // rollback to previous cache on error
+      if (error && (context as any)?.previousDag)
         queryClient.setQueryData<Dag>(['dag', dagId], (context as any)[dagId])
-      }
-    },
-    onSettled: () => {
+      else
+        queryClient.setQueryData(['dag', dagId], res);
       queryClient.invalidateQueries(['dag', dagId])
     },
   })

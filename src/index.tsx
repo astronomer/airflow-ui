@@ -10,12 +10,9 @@ import {
   ChakraProvider,
   theme,
 } from '@chakra-ui/react';
-import axios from 'axios';
 import App from './App';
+import { AuthProvider } from './auth';
 
-const USERNAME = 'admin';
-const PASSWORD = 'admin';
-const authorization = `Basic ${btoa(`${USERNAME}:${PASSWORD}`)}`;
 const queryClient = new QueryClient();
 
 const airflowTheme = {
@@ -34,16 +31,16 @@ const airflowTheme = {
   },
 };
 
-axios.defaults.baseURL = 'http://127.0.0.1:28080/api/v1/';
-axios.defaults.headers.common['Authorization'] = authorization;
-
 render(
   <BrowserRouter basename="/">
     <ChakraProvider theme={airflowTheme}>
-      <QueryClientProvider client={queryClient}>
-        <App />
-        {/* <ReactQueryDevtoolsPanel /> */}
-      </QueryClientProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <App />
+          {/* Uncomment below to debug ReactQuery */}
+          {/* <ReactQueryDevtoolsPanel /> */}
+        </QueryClientProvider>
+      </AuthProvider>
     </ChakraProvider>
   </BrowserRouter>,
   document.getElementById('root'),

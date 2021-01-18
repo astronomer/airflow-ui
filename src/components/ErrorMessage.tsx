@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-  Box,
-  Text
+  Alert,
+  AlertIcon,
 } from '@chakra-ui/react';
 
 interface Props {
@@ -9,13 +9,18 @@ interface Props {
 }
 
 const ErrorMessage: React.FC<Props> = ({ errors }) => (
-  <Box>
-    {errors.map((e, i) => (
-      <Text key={i} color="tomato">
-        {e && e.message}
-      </Text>
-    ))}
-  </Box>
+  <>
+    {errors.map((e, i) => {
+      if (e && e.message)
+        return (
+          <Alert status="error" my="4" key={i}>
+            <AlertIcon />
+            {e.message}
+          </Alert>
+        )
+      else return null;
+    })}
+  </>
 );
 
 export default ErrorMessage;

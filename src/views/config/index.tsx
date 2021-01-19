@@ -12,7 +12,7 @@ import ErrorMessage from 'components/ErrorMessage';
 const Config: FunctionComponent = () => {
   const { data, error } = useConfig();
   return (
-    <AdminContainer current="configuration">
+    <AdminContainer current="Configuration">
       <ErrorMessage errors={[error]} />
       <pre>
         <Code display="block" p="4" className="python">{data}</Code>

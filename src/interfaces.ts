@@ -39,6 +39,26 @@ export interface DagRun {
   conf: JSON,
 }
 
+export interface Connection {
+  connectionId: string,
+  connType: string,
+  host: string,
+  login: string,
+  schema: string,
+  port: number,
+  password: string,
+  extra: string,
+}
+
+export interface Pool {
+  name: string,
+  slots: number,
+  occupiedSlots: number,
+  usedSlots: number,
+  queuedSlots: number,
+  openSlots: number
+}
+
 export interface Task {
   taskId: string,
   owner: string,
@@ -79,5 +99,14 @@ export interface TaskInstance {
 
 export interface Variable {
   key: string,
+  value: string,
+}
+
+export interface XCom {
+  key: string,
+  timestamp: Date,
+  executionDate: Date,
+  taskId: Task['taskId'],
+  dagId: Dag['dagId'],
   value: string,
 }

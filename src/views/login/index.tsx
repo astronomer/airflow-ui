@@ -22,9 +22,9 @@ const Login: FunctionComponent = () => {
   const { login, error, loading } = useAuthContext();
 
   const onSubmit = (e: FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     login(username, password);
-  }
+  };
 
   return (
     <AppContainer>
@@ -42,6 +42,7 @@ const Login: FunctionComponent = () => {
                 placeholder="Username"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
+                isRequired
               />
             </InputGroup>
           </FormControl>
@@ -57,6 +58,7 @@ const Login: FunctionComponent = () => {
                 placeholder="Password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
+                isRequired
               />
             </InputGroup>
           </FormControl>

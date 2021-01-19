@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import {
-  Code,
   Table,
   Thead,
   Tbody,
@@ -10,25 +9,27 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 
-import { useVariables } from 'api';
+import { useConnections } from 'api';
 import AdminContainer from 'containers/AdminContainer';
 
-import type { Variable } from 'interfaces';
+import type { Connection } from 'interfaces';
 
-const Variables: FunctionComponent = () => {
-  const { data, error } = useVariables();
+const Connections: FunctionComponent = () => {
+  const { data, error } = useConnections();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const oddStyle = { backgroundColor: isDarkMode ? 'gray.900' : 'gray.50' };
   const hoverStyle = { backgroundColor: isDarkMode ? 'gray.700' : 'gray.100' };
 
   return (
-    <AdminContainer current="Variables">
+    <AdminContainer current="Connections">
       <Table>
         <Thead>
           <Tr>
-            <Th>Key</Th>
-            <Th>Value</Th>
+            <Th>ID</Th>
+            <Th>Type</Th>
+            <Th>Host</Th>
+            <Th>Port</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -37,15 +38,17 @@ const Variables: FunctionComponent = () => {
               <Td colSpan={2}>Loading…</Td>
             </Tr>
           )}
-          {data && data.variables.length === 0 && (
+          {data && data.connections.length === 0 && (
             <Tr>
-              <Td colSpan={2}>No variables added.</Td>
+              <Td colSpan={2}>No connections added.</Td>
             </Tr>
           )}
-          {data && data.variables.map((v: Variable) => (
-            <Tr key={v.key} _odd={oddStyle} _hover={hoverStyle}>
-              <Td><Code>{v.key}</Code></Td>
-              <Td><Code>{v.value}</Code></Td>
+          {data && data.connections.map((c: Connection) => (
+            <Tr key={c.connectionId} _odd={oddStyle} _hover={hoverStyle}>
+              <Td>{c.connectionId}</Td>
+              <Td>{c.connType}</Td>
+              <Td>{c.host}</Td>
+              <Td>{c.port}</Td>
             </Tr>
           ))}
         </Tbody>
@@ -54,4 +57,4 @@ const Variables: FunctionComponent = () => {
   );
 };
 
-export default Variables;
+export default Connections;

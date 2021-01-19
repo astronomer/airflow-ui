@@ -6,7 +6,6 @@ import {
 } from '@chakra-ui/react';
 import {
   MdDescription,
-  MdLock,
   MdGroup,
   MdSettings,
   MdPlaylistPlay
@@ -72,14 +71,9 @@ const AppNav: React.FunctionComponent<Props> = ({ bodyBg, overlayBg }) => {
       path: '/',
     },
     {
-      label: 'Security',
-      icon: MdLock,
-      path: '/security',
-    },
-    {
       label: 'Access',
       icon: MdGroup,
-      path: '/access',
+      path: '/users',
     },
     {
       label: 'Admin',

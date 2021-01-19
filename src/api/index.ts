@@ -44,6 +44,14 @@ export function useConfig() {
   return useQuery<any, Error>('config', (): Promise<any> => axios.get('/config'));
 }
 
+export function useConnections() {
+  return useQuery<any, Error>('connections', (): Promise<any> => axios.get('/connections'));
+}
+
+export function usePools() {
+  return useQuery<any, Error>('pools', (): Promise<any> => axios.get('/pools'));
+}
+
 export function useVariables() {
   return useQuery<any, Error>('variables', (): Promise<any> => axios.get('/variables'));
 }

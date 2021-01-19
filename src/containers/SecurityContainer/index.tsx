@@ -18,7 +18,7 @@ interface NavBtnItem {
   path: string;
 }
 
-const AdminContainer: FunctionComponent<Props> = ({ children, current }) => {
+const SecurityContainer: FunctionComponent<Props> = ({ children, current }) => {
   const { colorMode } = useColorMode();
 
   const renderNavBtn = (item: NavBtnItem) => (
@@ -37,24 +37,16 @@ const AdminContainer: FunctionComponent<Props> = ({ children, current }) => {
 
   const navItems = [
     {
-      label: 'Configuration',
-      path: '/config',
+      label: 'Users',
+      path: '/users',
     },
     {
-      label: 'Variables',
-      path: '/variables',
+      label: 'Roles',
+      path: '/roles',
     },
     {
-      label: 'Connections',
-      path: '/connections',
-    },
-    {
-      label: 'Pools',
-      path: '/pools',
-    },
-    {
-      label: 'XComs',
-      path: '/xcoms',
+      label: 'Permissions',
+      path: '/permissions',
     },
   ];
 
@@ -72,7 +64,7 @@ const AdminContainer: FunctionComponent<Props> = ({ children, current }) => {
             as="span"
             color={colorMode === 'light' ? 'gray.400' : 'gray.500'}
           >
-            Admin/
+            Access/
             {' '}
           </Box>
           {current}
@@ -93,4 +85,4 @@ const AdminContainer: FunctionComponent<Props> = ({ children, current }) => {
   );
 };
 
-export default AdminContainer;
+export default SecurityContainer;

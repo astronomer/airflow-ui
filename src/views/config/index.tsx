@@ -9,6 +9,8 @@ import { useConfig } from 'api';
 import AdminContainer from 'containers/AdminContainer';
 import ErrorMessage from 'components/ErrorMessage';
 
+import type { ConfigSection } from 'interfaces';
+
 const Config: FunctionComponent = () => {
   const { data, error } = useConfig();
   return (
@@ -19,7 +21,7 @@ const Config: FunctionComponent = () => {
       </pre>
 
       <List styleType="none" mt="8">
-        {data && data.sections && data.sections.map((section) => (
+        {data && data.sections && data.sections.map((section: ConfigSection) => (
           <ListItem key={section.name}>{section.name}</ListItem>
         ))}
       </List>

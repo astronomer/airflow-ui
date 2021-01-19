@@ -1,3 +1,17 @@
+export interface ConfigOption {
+  key: string,
+  value: string,
+}
+
+export interface ConfigSection {
+  name: string,
+  options: ConfigOption[],
+}
+
+export interface Config {
+  sections: ConfigSection[],
+}
+
 export interface DagTag {
   name: string,
 }

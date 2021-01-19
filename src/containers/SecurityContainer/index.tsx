@@ -26,7 +26,7 @@ const SecurityContainer: FunctionComponent<Props> = ({ children, current }) => {
       key={item.label}
       as={Link}
       to={item.path}
-      variant={current === item.label.toLowerCase() ? 'solid' : 'ghost'}
+      variant={current === item.label ? 'solid' : 'ghost'}
       colorScheme="blue"
       size="sm"
       mr="2"

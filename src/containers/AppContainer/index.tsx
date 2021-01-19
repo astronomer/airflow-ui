@@ -5,12 +5,14 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 
+import { useVersion } from 'api';
+
 import AppHeader from './AppHeader';
 import AppNav from './AppNav';
 
 const AppContainer: FunctionComponent = ({ children }) => {
+  const { data } = useVersion();
   const { colorMode } = useColorMode();
-  const version = '3.0.0';
   const isDarkMode = colorMode === 'dark';
   const bodyBg = isDarkMode ? 'gray.800' : 'white';
   const overlayBg = isDarkMode ? 'gray.700' : 'gray.100';
@@ -29,14 +31,24 @@ const AppContainer: FunctionComponent = ({ children }) => {
             bg={overlayBg}
           >
             Apache Airflow
-            {' '}
-            <a
-              href={`https://pypi.python.org/pypi/apache-airflow/${version}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {`v${version}`}
-            </a>
+            {data && data.version && (
+              <>
+                {' '}
+                <a
+                  href={`https://pypi.python.org/pypi/apache-airflow/${data.version}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {`v${data.version}`}
+                </a>
+              </>
+            )}
+            {data && data.gitVersion && (
+              <>
+                <br />
+                Git Version: {data.gitVersion}
+              </>
+            )}
           </Box>
         </Flex>
       </Box>

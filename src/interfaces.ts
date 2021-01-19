@@ -102,6 +102,11 @@ export interface Variable {
   value: string,
 }
 
+export interface Version {
+  version: string,
+  gitVersion: string,
+}
+
 export interface XCom {
   key: string,
   timestamp: Date,

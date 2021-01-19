@@ -56,6 +56,10 @@ export function useVariables() {
   return useQuery<any, Error>('variables', (): Promise<any> => axios.get('/variables'));
 }
 
+export function useVersion() {
+  return useQuery<any, Error>('version', (): Promise<any> => axios.get('/version'));
+}
+
 export function useSaveDag(dagId: Dag['dagId']) {
   const queryClient = useQueryClient();
   return useMutation<any, Error>((updateDag) => axios.patch(`dags/${dagId}`, updateDag),

@@ -17,6 +17,11 @@ const queryClient = new QueryClient();
 
 const airflowTheme = {
   ...theme,
+  config: {
+    ...theme.config,
+    useSystemColorMode: true,
+    initialColorMode: 'dark',
+  },
   fontSizes: {
     xs: "10px",
     sm: "12px",

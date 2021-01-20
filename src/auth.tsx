@@ -1,10 +1,12 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { Route } from 'react-router-dom';
-import { checkExpire, clearAuth, get, set } from 'utils/localStorage';
 import axios from 'axios';
+import { useQueryClient } from 'react-query';
+
+import { checkExpire, clearAuth, get, set } from 'utils/localStorage';
 import Login from 'views/login';
 
-  // todo: eventually replace hasValidAuthToken with a user object
+// todo: eventually replace hasValidAuthToken with a user object
 interface AuthContextData {
   hasValidAuthToken: boolean;
   login: (username: string, password: string) => void;
@@ -27,6 +29,14 @@ export const AuthProvider = ({ children, ...rest }): React.ReactElement => {
   const [hasValidAuthToken, setHasValidAuthToken] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
+
+  const clearData = () => {
+    setHasValidAuthToken(false);
+    clearAuth();
+    queryClient.clear();
+    axios.defaults.headers.common['Authorization'] = null;
+  }
 
   useEffect(() => {
     const token = get('token');
@@ -35,20 +45,15 @@ export const AuthProvider = ({ children, ...rest }): React.ReactElement => {
       axios.defaults.headers.common['Authorization'] = token;
       setHasValidAuthToken(true);
     } else if (token) {
-      setHasValidAuthToken(false)
+      clearData();
       setError(new Error('Token invalid, please reauthenticate.'))
-      clearAuth();
     } else {
       setHasValidAuthToken(false);
     }
     setLoading(false);
   }, []);
 
-  const logout = () => {
-    setHasValidAuthToken(false);
-    clearAuth();
-    axios.defaults.headers.common['Authorization'] = null;
-  }
+  const logout = () => clearData();
 
   // Login with basic auth. There is no actual auth endpoint yet, so we check against a generic endpoint 
   const login = async (username: string, password: string) => {

@@ -39,13 +39,13 @@ const airflowTheme = {
 render(
   <BrowserRouter basename="/">
     <ChakraProvider theme={airflowTheme}>
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
           <App />
           {/* Uncomment below to debug ReactQuery */}
           {/* <ReactQueryDevtoolsPanel /> */}
-        </QueryClientProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </QueryClientProvider>
     </ChakraProvider>
   </BrowserRouter>,
   document.getElementById('root'),

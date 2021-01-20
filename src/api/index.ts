@@ -3,9 +3,34 @@
 // TODO: fix types for react-query functions
 import axios from 'axios';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-
-import type { Dag } from 'interfaces';
 import { useToast } from '@chakra-ui/react';
+
+import type {
+  Dag,
+  Task,
+  DagRun,
+  Variable,
+} from 'interfaces';
+
+interface Dags {
+  dags: Dag[],
+  totalEntries: number,
+}
+
+interface TaskData {
+  totalEntries: number;
+  tasks: Task[];
+}
+
+interface DagRunData {
+  dagRuns: DagRun[];
+  totalEntries: number;
+}
+
+interface VariablesData {
+  totalEntries: number;
+  variables: Variable[];
+}
 
 axios.defaults.baseURL = 'http://127.0.0.1:28080/api/v1/';
 
@@ -34,7 +59,8 @@ export function useDagTasks(dagId: Dag['dagId']) {
 export function useDagRuns(dagId: Dag['dagId']) {
   return useQuery<any, Error>(
     ['dagRun', dagId],
-    () => axios.get(`dags/${dagId}/dagRuns`),
+    (): Promise<any> => axios.get(`dags/${dagId}/dagRuns`),
+    { placeholderData: { dagRuns: [], totalEntries: 0 } },
   );
 }
 
@@ -109,4 +135,37 @@ export function useSaveDag(dagId: Dag['dagId']) {
         queryClient.invalidateQueries(['dag', dagId]);
       },
     });
+}
+
+export function useAddVariable() {
+  const queryClient = useQueryClient();
+  return useMutation<any, Error>((addVariable) => axios.post('/variables', addVariable),
+  {
+    onMutate: async () => {
+      await queryClient.cancelQueries('variables');
+    },
+    onSuccess: (data) => {
+      const prevData = queryClient.getQueryData('variables');
+      const newVars = [...prevData.variables, data];
+      const nextData = { totalEntries: newVars.length, variables: newVars };
+      queryClient.setQueryData<VariablesData>('variables', nextData);
+    },
+  });
+}
+
+export function useDeleteVariable(variableKey: Variable['key']) {
+  const queryClient = useQueryClient();
+  return useMutation<any, Error>((deleteVariable) => axios.delete(`/variables/${variableKey}`, deleteVariable),
+  {
+    onMutate: async () => {
+      await queryClient.cancelQueries('variables');
+    },
+    onSuccess: () => {
+      const prevData = queryClient.getQueryData('variables');
+      const newVars = prevData.variables.filter(var => var.key !== variableKey);
+      // console.log({ newVars });
+      // const nextData = { totalEntries: newVars.length, variables: newVars };
+      // queryClient.setQueryData<VariablesData>('variables', nextData);
+    },
+  });
 }

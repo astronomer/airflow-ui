@@ -5,7 +5,7 @@ import axios from 'axios';
 import humps from 'humps';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
-import type { Dag, Task, DagRun } from 'interfaces';
+import type { Dag, Task, DagRun, Variable } from 'interfaces';
 
 interface Dags {
   dags: Dag[],
@@ -58,7 +58,7 @@ export function useDagTasks(dagId: Dag['dagId']) {
 export function useDagRuns(dagId: Dag['dagId']) {
   return useQuery<DagRunData, Error>(
     ['dagRun', dagId],
-    (): Promise<any> => axios.get(`dags/${dagId}/dagRuns`), 
+    (): Promise<any> => axios.get(`dags/${dagId}/dagRuns`),
     { placeholderData: { dagRuns: [], totalEntries: 0 } },
   );
 }
@@ -123,4 +123,18 @@ export function useSaveDag(dagId: Dag['dagId']) {
       queryClient.invalidateQueries(['dag', dagId])
     },
   })
+}
+
+export function useAddVariable() {
+  const queryClient = useQueryClient();
+  return useMutation<any, Error>((addVariable) => axios.post('/variables', addVariable),
+  {
+    onMutate: async (variables) => {
+      await queryClient.cancelQueries('variables');
+    }
+  });
+}
+
+export function useDeleteVariable(variableKey: Variable['key']) {
+  return useMutation<any, Error>((deleteVariable) => axios.post(`/variables/${variableKey}`, deleteVariable), {});
 }

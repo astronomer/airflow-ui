@@ -11,7 +11,6 @@ import {
   Table,
   Thead,
   Tbody,
-  Text,
   Tr,
   Th,
   Td,
@@ -32,8 +31,7 @@ interface Dags {
 }
 
 const Dags: FunctionComponent = () => {
-  const { data, status, error } = useDags();
-  if (error) console.log(error)
+  const { data: { dags, totalEntries }, status, error } = useDags();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const bg = isDarkMode ? 'gray.800' : 'white';
@@ -42,18 +40,16 @@ const Dags: FunctionComponent = () => {
   const [sidebarDag, setSidebarDag] = useState('');
 
   const showDagSideBar = (dagId: string) => setSidebarDag(dagId);
-  const filteredDags = data && data.dags ?
-    data.dags.filter((dag: Dag) => {
-      switch (filter) {
-        case 'active':
-          return dag.isPaused === false;
-        case 'paused':
-          return dag.isPaused === true;
-        default:
-          return true;
-      }
-    }) :
-    [];
+  const filteredDags = dags.filter((dag: Dag) => {
+    switch (filter) {
+      case 'active':
+        return dag.isPaused === false;
+      case 'paused':
+        return dag.isPaused === true;
+      default:
+        return true;
+    }
+  });
 
   return (
     <AppContainer>
@@ -88,11 +84,6 @@ const Dags: FunctionComponent = () => {
           />
         </InputGroup>
       </Box>
-      {error &&
-        <Flex>
-          <Text color="red">{error.message}</Text>
-        </Flex>
-      }
       <ErrorMessage errors={[error]} />
       <Table marginTop={16}>
         <Thead>
@@ -118,8 +109,8 @@ const Dags: FunctionComponent = () => {
           )}
         </Tbody>
       </Table>
-      {data && `${filteredDags.length} of ${data.totalEntries} DAG${data.totalEntries !== 1 && 's'}`}
-      {data && data.dags && <SidebarDag dagId={sidebarDag} dags={data.dags} />}
+      {`${filteredDags.length} of ${totalEntries} DAG${totalEntries !== 1 && 's'}`}
+      <SidebarDag dagId={sidebarDag} dags={dags} />
     </AppContainer>
   );
 };

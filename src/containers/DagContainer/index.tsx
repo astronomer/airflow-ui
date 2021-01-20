@@ -12,7 +12,7 @@ import {
 import ErrorMessage from 'components/ErrorMessage';
 import AppContainer from 'containers/AppContainer';
 import type { Dag } from 'interfaces';
-import { useDag, useSaveDag } from 'api';
+import { useDag, useDagRuns, useSaveDag } from 'api';
 
 interface Props {
   current: string;
@@ -29,6 +29,9 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
   const [isPaused, setIsPaused] = useState(false);
   const { colorMode } = useColorMode();
   const { data: dag, status, error } = useDag(dagId);
+  const { data: { dagRuns }, status: dagRunsStatus, error: dagRunsError } = useDagRuns(dagId);
+  console.log(dagRuns);
+
   const mutation = useSaveDag(dagId);
 
   useEffect(() => {
@@ -41,20 +44,6 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
     mutation.mutate({ is_paused: !isPaused });
     setIsPaused(!isPaused);
   }
-
-  const renderNavBtn = (item: NavBtnItem) => (
-    <Button
-      key={item.currentSlug}
-      as={Link}
-      to={item.path}
-      variant={current === item.currentSlug ? 'solid' : 'ghost'}
-      colorScheme="blue"
-      size="sm"
-      mr="2"
-    >
-      {item.label}
-    </Button>
-  );
 
   const navItems = [
     {
@@ -105,7 +94,19 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
           mt="4"
         >
           <Box as="nav">
-            {navItems.map((item) => renderNavBtn(item))}
+            {navItems.map((item: NavBtnItem) => 
+              <Button
+                key={item.currentSlug}
+                as={Link}
+                to={item.path}
+                variant={current === item.currentSlug ? 'solid' : 'ghost'}
+                colorScheme="blue"
+                size="sm"
+                mr="2"
+              >
+                {item.label}
+              </Button>
+            )}
           </Box>
           {dag && (
             <Switch

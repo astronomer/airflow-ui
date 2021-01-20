@@ -5,7 +5,7 @@ import axios from 'axios';
 import humps from 'humps';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
-import type { Dag, Task } from 'interfaces';
+import type { Dag, Task, DagRun } from 'interfaces';
 
 interface Dags {
   dags: Dag[],
@@ -15,6 +15,11 @@ interface Dags {
 interface TaskData {
   totalEntries: number;
   tasks: Task[];
+}
+
+interface DagRunData {
+  dagRuns: DagRun[];
+  totalEntries: number;
 }
 
 axios.defaults.baseURL = 'http://127.0.0.1:28080/api/v1/';
@@ -28,16 +33,34 @@ export function useDags() {
   return useQuery<Dags, Error>(
     'dags',
     (): Promise<any> => axios.get('/dags'),
-    { refetchInterval: 500 }
+    {
+      refetchInterval: 500,
+      placeholderData: { dags: [], totalEntries: 0 },
+    }
   );
 }
 
 export function useDag(dagId: Dag['dagId']) {
-  return useQuery<Dag, Error>(['dag', dagId], (): Promise<any> => axios.get(`dags/${dagId}`));
+  return useQuery<Dag, Error>(
+    ['dag', dagId],
+    (): Promise<any> => axios.get(`dags/${dagId}`),
+  );
 }
 
 export function useDagTasks(dagId: Dag['dagId']) {
-  return useQuery<TaskData, Error>('dagTasks', (): Promise<any> => axios.get(`dags/${dagId}/tasks`));
+  return useQuery<TaskData, Error>(
+    'dagTasks',
+    (): Promise<any> => axios.get(`dags/${dagId}/tasks`),
+    { placeholderData: { tasks: [], totalEntries: 0 } },
+  );
+}
+
+export function useDagRuns(dagId: Dag['dagId']) {
+  return useQuery<DagRunData, Error>(
+    ['dagRun', dagId],
+    (): Promise<any> => axios.get(`dags/${dagId}/dagRuns`), 
+    { placeholderData: { dagRuns: [], totalEntries: 0 } },
+  );
 }
 
 export function useConfig() {
@@ -45,19 +68,35 @@ export function useConfig() {
 }
 
 export function useConnections() {
-  return useQuery<any, Error>('connections', (): Promise<any> => axios.get('/connections'));
+  return useQuery<any, Error>(
+    'connections',
+    (): Promise<any> => axios.get('/connections'),
+    { placeholderData: { connections: [], totalEntries: 0 } },
+  );
 }
 
 export function usePools() {
-  return useQuery<any, Error>('pools', (): Promise<any> => axios.get('/pools'));
+  return useQuery<any, Error>(
+    'pools',
+    (): Promise<any> => axios.get('/pools'),
+    { placeholderData: { pools: [], totalEntries: 0 } },
+  );
 }
 
 export function useVariables() {
-  return useQuery<any, Error>('variables', (): Promise<any> => axios.get('/variables'));
+  return useQuery<any, Error>(
+    'variables',
+    (): Promise<any> => axios.get('/variables'),
+    { placeholderData: { variables: [], totalEntries: 0 } },
+  );
 }
 
 export function useVersion() {
-  return useQuery<any, Error>('version', (): Promise<any> => axios.get('/version'));
+  return useQuery<any, Error>(
+    'version',
+    (): Promise<any> => axios.get('/version'),
+    { placeholderData: { version: '', gitVersion: '' } },
+  );
 }
 
 export function useSaveDag(dagId: Dag['dagId']) {

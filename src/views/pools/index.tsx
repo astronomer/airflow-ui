@@ -13,9 +13,10 @@ import { usePools } from 'api';
 import AdminContainer from 'containers/AdminContainer';
 
 import type { Pool } from 'interfaces';
+import ErrorMessage from 'components/ErrorMessage';
 
 const Pools: FunctionComponent = () => {
-  const { data, error } = usePools();
+  const { data: { pools }, error } = usePools();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const oddStyle = { backgroundColor: isDarkMode ? 'gray.900' : 'gray.50' };
@@ -23,6 +24,7 @@ const Pools: FunctionComponent = () => {
 
   return (
     <AdminContainer current="Pools">
+      <ErrorMessage errors={[error]} />
       <Table>
         <Thead>
           <Tr>
@@ -38,12 +40,12 @@ const Pools: FunctionComponent = () => {
               <Td colSpan={2}>Loading…</Td>
             </Tr>
           )}
-          {data && data.pools.length === 0 && (
+          {pools.length === 0 && (
             <Tr>
               <Td colSpan={2}>No pools added.</Td>
             </Tr>
           )}
-          {data && data.pools.map((p: Pool) => (
+          {pools.map((p: Pool) => (
             <Tr key={p.name} _odd={oddStyle} _hover={hoverStyle}>
               <Td>{p.name}</Td>
               <Td>{p.slots}</Td>

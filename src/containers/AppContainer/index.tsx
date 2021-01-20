@@ -11,7 +11,7 @@ import AppHeader from './AppHeader';
 import AppNav from './AppNav';
 
 const AppContainer: FunctionComponent = ({ children }) => {
-  const { data } = useVersion();
+  const { data: { version, gitVersion } } = useVersion();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const bodyBg = isDarkMode ? 'gray.800' : 'white';
@@ -31,24 +31,16 @@ const AppContainer: FunctionComponent = ({ children }) => {
             bg={overlayBg}
           >
             Apache Airflow
-            {data && data.version && (
-              <>
-                {' '}
-                <a
-                  href={`https://pypi.python.org/pypi/apache-airflow/${data.version}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {`v${data.version}`}
-                </a>
-              </>
-            )}
-            {data && data.gitVersion && (
-              <>
-                <br />
-                Git Version: {data.gitVersion}
-              </>
-            )}
+            {' '}
+            <a
+              href={`https://pypi.python.org/pypi/apache-airflow/${version}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {`v${version}`}
+            </a>
+            <br />
+            Git Version: {gitVersion}
           </Box>
         </Flex>
       </Box>

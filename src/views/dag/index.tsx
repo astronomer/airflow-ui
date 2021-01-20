@@ -25,7 +25,7 @@ const Dag: FunctionComponent = () => {
   const { colorMode } = useColorMode();
 
   const { data: dag, status: dagStatus, error: dagError } = useDag(dagId);
-  const { data: taskData, status: tasksStatus, error: tasksError } = useDagTasks(dagId);
+  const { data: { tasks }, status: tasksStatus, error: tasksError } = useDagTasks(dagId);
 
   useEffect(() => {
     drawChart(400, 600);
@@ -88,7 +88,7 @@ const Dag: FunctionComponent = () => {
         borderColor={colorMode === 'light' ? 'gray.100' : 'gray.700'}
       >
         <Flex>
-          {taskData && taskData.tasks.map((task: Task) => (
+          {tasks.map((task: Task) => (
             <div key={task.taskId}>
               <Button
                 onClick={() => setTask(task)}

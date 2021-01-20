@@ -14,9 +14,10 @@ import { useVariables } from 'api';
 import AdminContainer from 'containers/AdminContainer';
 
 import type { Variable } from 'interfaces';
+import ErrorMessage from 'components/ErrorMessage';
 
 const Variables: FunctionComponent = () => {
-  const { data, error } = useVariables();
+  const { data: { variables }, error } = useVariables();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const oddStyle = { backgroundColor: isDarkMode ? 'gray.900' : 'gray.50' };
@@ -24,6 +25,7 @@ const Variables: FunctionComponent = () => {
 
   return (
     <AdminContainer current="Variables">
+      <ErrorMessage errors={[error]} />
       <Table>
         <Thead>
           <Tr>
@@ -37,12 +39,12 @@ const Variables: FunctionComponent = () => {
               <Td colSpan={2}>Loading…</Td>
             </Tr>
           )}
-          {data && data.variables.length === 0 && (
+          {variables.length === 0 && (
             <Tr>
               <Td colSpan={2}>No variables added.</Td>
             </Tr>
           )}
-          {data && data.variables.map((v: Variable) => (
+          {variables.map((v: Variable) => (
             <Tr key={v.key} _odd={oddStyle} _hover={hoverStyle}>
               <Td><Code>{v.key}</Code></Td>
               <Td><Code>{v.value}</Code></Td>

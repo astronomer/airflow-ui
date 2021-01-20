@@ -13,9 +13,10 @@ import { useConnections } from 'api';
 import AdminContainer from 'containers/AdminContainer';
 
 import type { Connection } from 'interfaces';
+import ErrorMessage from 'components/ErrorMessage';
 
 const Connections: FunctionComponent = () => {
-  const { data, error } = useConnections();
+  const { data: { connections }, error } = useConnections();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const oddStyle = { backgroundColor: isDarkMode ? 'gray.900' : 'gray.50' };
@@ -23,6 +24,7 @@ const Connections: FunctionComponent = () => {
 
   return (
     <AdminContainer current="Connections">
+      <ErrorMessage errors={[error]} />
       <Table>
         <Thead>
           <Tr>
@@ -38,12 +40,12 @@ const Connections: FunctionComponent = () => {
               <Td colSpan={2}>Loading…</Td>
             </Tr>
           )}
-          {data && data.connections.length === 0 && (
+          {connections.length === 0 && (
             <Tr>
               <Td colSpan={2}>No connections added.</Td>
             </Tr>
           )}
-          {data && data.connections.map((c: Connection) => (
+          {connections.map((c: Connection) => (
             <Tr key={c.connectionId} _odd={oddStyle} _hover={hoverStyle}>
               <Td>{c.connectionId}</Td>
               <Td>{c.connType}</Td>

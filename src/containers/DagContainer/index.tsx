@@ -100,7 +100,7 @@ const DagContainer: React.FC<Props> = ({ children, current }) => {
           )}
         </Box>
       </Box>
-      <Box p="4">
+      <Box py="4">
         <ErrorMessage errors={[error, mutation.error]} />
         {children}
       </Box>

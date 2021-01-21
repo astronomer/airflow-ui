@@ -62,7 +62,7 @@ const AccessContainer: React.FC<Props> = ({ children, current }) => {
           </Box>
         </Box>
       </Box>
-      <Box p="4">{children}</Box>
+      <Box py="4">{children}</Box>
     </AppContainer>
   );
 };

@@ -26,7 +26,7 @@ const Variables: React.FC = () => {
   return (
     <AdminContainer current="Variables">
       <ErrorMessage errors={[error]} />
-      <Table>
+      <Table size="sm">
         <Thead>
           <Tr>
             <Th>Key</Th>

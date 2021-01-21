@@ -25,7 +25,7 @@ const Connections: React.FC = () => {
   return (
     <AdminContainer current="Connections">
       <ErrorMessage errors={[error]} />
-      <Table>
+      <Table size="sm">
         <Thead>
           <Tr>
             <Th>ID</Th>

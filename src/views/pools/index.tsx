@@ -25,7 +25,7 @@ const Pools: React.FC = () => {
   return (
     <AdminContainer current="Pools">
       <ErrorMessage errors={[error]} />
-      <Table>
+      <Table size="sm">
         <Thead>
           <Tr>
             <Th>Name</Th>

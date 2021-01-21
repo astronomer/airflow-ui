@@ -85,7 +85,7 @@ const Dags: React.FC = () => {
         </InputGroup>
       </Box>
       <ErrorMessage errors={[error]} />
-      <Table marginTop={16}>
+      <Table size="sm" marginTop={16}>
         <Thead>
           <Tr
             borderBottomWidth="1px"

@@ -37,12 +37,12 @@ const Connections: React.FC = () => {
         <Tbody>
           {status === 'loading' && (
             <Tr>
-              <Td colSpan={2}>Loading…</Td>
+              <Td colSpan={4}>Loading…</Td>
             </Tr>
           )}
           {connections.length === 0 && (
             <Tr>
-              <Td colSpan={2}>No connections added.</Td>
+              <Td colSpan={4}>No connections added.</Td>
             </Tr>
           )}
           {connections.map((c: Connection) => (

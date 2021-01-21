@@ -37,12 +37,12 @@ const Pools: React.FC = () => {
         <Tbody>
           {status === 'loading' && (
             <Tr>
-              <Td colSpan={2}>Loading…</Td>
+              <Td colSpan={4}>Loading…</Td>
             </Tr>
           )}
           {pools.length === 0 && (
             <Tr>
-              <Td colSpan={2}>No pools added.</Td>
+              <Td colSpan={4}>No pools added.</Td>
             </Tr>
           )}
           {pools.map((p: Pool) => (

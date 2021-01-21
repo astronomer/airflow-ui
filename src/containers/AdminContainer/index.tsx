@@ -18,24 +18,24 @@ const AdminContainer: FunctionComponent<Props> = ({ children, current }) => {
 
   const navItems = [
     {
-      label: 'Configuration',
-      path: '/config',
+      label: 'Config',
+      path: '/admin/config',
     },
     {
       label: 'Variables',
-      path: '/variables',
+      path: '/admin/variables',
     },
     {
       label: 'Connections',
-      path: '/connections',
+      path: '/admin/connections',
     },
     {
       label: 'Pools',
-      path: '/pools',
+      path: '/admin/pools',
     },
     {
       label: 'XComs',
-      path: '/xcoms',
+      path: '/admin/xcoms',
     },
   ];
 

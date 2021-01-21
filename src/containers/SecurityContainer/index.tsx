@@ -19,15 +19,15 @@ const SecurityContainer: FunctionComponent<Props> = ({ children, current }) => {
   const navItems = [
     {
       label: 'Users',
-      path: '/users',
+      path: '/access/users',
     },
     {
       label: 'Roles',
-      path: '/roles',
+      path: '/access/roles',
     },
     {
       label: 'Permissions',
-      path: '/permissions',
+      path: '/access/permissions',
     },
   ];
 

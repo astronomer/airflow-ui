@@ -21,25 +21,24 @@ import XComs from 'views/xcoms';
 
 const App = () => (
   <Switch>
-
-    <PrivateRoute exact path="/" component={Dags} />
-    <Redirect exact path="/dags" to="/" />
+    <Redirect exact path="/" to="/dags" />
+    <PrivateRoute exact path="/dags" component={Dags} />
     <PrivateRoute exact path="/dags/:dagId" component={Dag} />
     <PrivateRoute exact path="/dags/:dagId/code" component={DagCode} />
     <PrivateRoute exact path="/dags/:dagId/graph" component={DagGraph} />
     <PrivateRoute exact path="/dags/:dagId/tree" component={DagTree} />
 
-    <PrivateRoute exact path="/users" component={Users} />
-    <PrivateRoute exact path="/roles" component={Roles} />
-    <PrivateRoute exact path="/permissions" component={Permissions} />
+    <PrivateRoute exact path="/access/users" component={Users} />
+    <PrivateRoute exact path="/access/roles" component={Roles} />
+    <PrivateRoute exact path="/access/permissions" component={Permissions} />
 
     <PrivateRoute exact path="/task-instances" component={TaskInstances} />
 
-    <PrivateRoute exact path="/config" component={Config} />
-    <PrivateRoute exact path="/variables" component={Variables} />
-    <PrivateRoute exact path="/connections" component={Connections} />
-    <PrivateRoute exact path="/pools" component={Pools} />
-    <PrivateRoute exact path="/xcoms" component={XComs} />
+    <PrivateRoute exact path="/admin/config" component={Config} />
+    <PrivateRoute exact path="/admin/variables" component={Variables} />
+    <PrivateRoute exact path="/admin/connections" component={Connections} />
+    <PrivateRoute exact path="/admin/pools" component={Pools} />
+    <PrivateRoute exact path="/admin/xcoms" component={XComs} />
   </Switch>
 );
 

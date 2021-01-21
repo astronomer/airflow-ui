@@ -1,84 +1,39 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import {
-  Box,
-  Tooltip,
-} from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
+import { Box } from '@chakra-ui/react';
 import {
   MdDescription,
   MdGroup,
   MdSettings,
   MdPlaylistPlay
 } from 'react-icons/md';
-import type { IconType } from 'react-icons/lib';
+
+import AppNavBtn from './AppNavBtn';
 
 interface Props {
   bodyBg: string;
   overlayBg: string;
 }
 
-interface NavType {
-  label: string;
-  icon: IconType;
-  path: string;
-  href: string;
-}
-
-const NavItem: React.FunctionComponent<NavType> = ({ label, icon, path, href }, location) => {
-  const isActive = path && location.pathname === path;
-  return (
-    <Tooltip
-      key={label}
-      label={label}
-      aria-label={label}
-      placement="right"
-      hasArrow
-    >
-      <Box
-        as={path ? Link : 'a'}
-        to={path}
-        href={href}
-        target={href && '_blank'}
-        display="flex"
-        width="56px"
-        height="56px"
-        alignItems="center"
-        justifyContent="center"
-        borderWidth="3px"
-        borderColor="transparent"
-        borderLeftColor={isActive ? 'blue.500' : 'transparent'}
-        color={isActive ? 'blue.500' : 'gray.500'}
-        _hover={{
-          color: 'blue.500',
-        }}
-      >
-        <Box
-          as={icon}
-          size="24px"
-          color="currentcolor"
-        />
-      </Box>
-    </Tooltip>
-  );
-}
-
 const AppNav: React.FunctionComponent<Props> = ({ bodyBg, overlayBg }) => {
-  const location = useLocation();
   const navItems = [
     {
       label: 'DAGs',
       icon: MdPlaylistPlay,
-      path: '/',
+      path: '/dags',
+      activePath: '/dags',
     },
     {
       label: 'Access',
       icon: MdGroup,
-      path: '/users',
+      path: '/access/users',
+      activePath: '/access',
     },
     {
       label: 'Admin',
       icon: MdSettings,
-      path: '/config',
+      path: '/admin/config',
+      activePath: '/admin',
     },
     {
       label: 'Docs',
@@ -121,7 +76,9 @@ const AppNav: React.FunctionComponent<Props> = ({ bodyBg, overlayBg }) => {
           <path d="M17.9649 18.6209C18.3825 18.6157 18.7169 18.273 18.7117 17.8553C18.7065 17.4377 18.3638 17.1034 17.9462 17.1085C17.5285 17.1137 17.1942 17.4564 17.1994 17.8741C17.2045 18.2917 17.5473 18.626 17.9649 18.6209Z" fill="#4a4848" />
         </svg>
       </Box>
-      {navItems.map((item) => <NavItem {...item} location={location} key={item.label} />)}
+      {navItems.map((item) => (
+        <AppNavBtn key={item.label} navItem={item} />
+      ))}
     </Box>
   );
 };

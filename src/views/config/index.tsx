@@ -14,7 +14,7 @@ import type { ConfigSection } from 'interfaces';
 const Config: FunctionComponent = () => {
   const { data, error } = useConfig();
   return (
-    <AdminContainer current="Configuration">
+    <AdminContainer current="Config">
       <ErrorMessage errors={[error]} />
       <pre>
         <Code display="block" p="4" className="python">{data}</Code>

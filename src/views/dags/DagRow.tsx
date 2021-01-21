@@ -45,7 +45,7 @@ const DagRow: React.FC<Props> = ({ dag, showDagSideBar }) => {
         backgroundColor: isDarkMode ? 'gray.700' : 'gray.100',
       }}
     >
-      <Td onClick={e => e.stopPropagation()}>
+      <Td onClick={e => e.stopPropagation()} paddingRight="0" width="58px">
         <Switch
           id="pause"
           isChecked={!isPaused}

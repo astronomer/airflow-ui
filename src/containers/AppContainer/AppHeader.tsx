@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import {
   Avatar,
   Box,
+  Button,
   Flex,
   Icon,
   Menu,
@@ -12,6 +13,7 @@ import {
   MenuList,
   MenuItem,
   useColorMode,
+  Tooltip,
 } from '@chakra-ui/react';
 import {
   MdWbSunny,
@@ -52,14 +54,18 @@ const AppHeader: React.FC<Props> = ({ bodyBg, overlayBg, isDarkMode }) => {
         <ApacheAirflowIcon />
       </Link>
       <Flex align="center">
-        <Box
-          as="time"
-          dateTime={now.toString()}
-          mr="4"
-          fontSize="md"
-        >
-          {now.format('h:mmA Z')}
-        </Box>
+        <Tooltip label="Change time zone" hasArrow>
+          {/* TODO: open modal for time zone update */}
+          <Button variant="ghost" mr="4">
+            <Box
+              as="time"
+              dateTime={now.toString()}
+              fontSize="md"
+            >
+              {now.format('h:mmA Z')}
+            </Box>
+          </Button>
+        </Tooltip>
         <Menu>
           <MenuButton>
             <Avatar name="Ryan Hamilton" size="sm" bg="blue.300" />

@@ -14,7 +14,7 @@ import Connections from 'views/connections';
 import Permissions from 'views/permissions';
 import Pools from 'views/pools';
 import Roles from 'views/roles';
-import TaskInstances from 'views/task-instances';
+import TaskInstances from 'views/taskInstances';
 import Users from 'views/users';
 import Variables from 'views/variables';
 import XComs from 'views/xcoms';

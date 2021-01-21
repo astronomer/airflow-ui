@@ -12,7 +12,7 @@ interface Props {
   current: string;
 }
 
-const SecurityContainer: FunctionComponent<Props> = ({ children, current }) => {
+const AccessContainer: FunctionComponent<Props> = ({ children, current }) => {
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
 
@@ -67,4 +67,4 @@ const SecurityContainer: FunctionComponent<Props> = ({ children, current }) => {
   );
 };
 
-export default SecurityContainer;
+export default AccessContainer;

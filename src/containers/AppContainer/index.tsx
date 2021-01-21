@@ -39,8 +39,12 @@ const AppContainer: React.FC = ({ children }) => {
             >
               {`v${version}`}
             </a>
-            <br />
-            Git Version: {gitVersion}
+            {gitVersion && (
+              <>
+                <br />
+                Git Version: {gitVersion}
+              </>
+            )}
           </Box>
         </Flex>
       </Box>

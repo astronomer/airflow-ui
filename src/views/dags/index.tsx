@@ -109,7 +109,9 @@ const Dags: React.FC = () => {
           )}
         </Tbody>
       </Table>
-      {`${filteredDags.length} of ${totalEntries} DAG${totalEntries !== 1 && 's'}`}
+      <Box mt="2" mb="6" px="2" fontSize="sm">
+        {`1-${filteredDags.length} of ${filteredDags.length} DAG${filteredDags.length !== 1 && 's'}`}
+      </Box>
       <SidebarDag dagId={sidebarDag} dags={dags} />
     </AppContainer>
   );

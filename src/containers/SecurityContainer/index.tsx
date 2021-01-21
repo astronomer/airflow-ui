@@ -1,39 +1,20 @@
 import React, { FunctionComponent } from 'react';
-import { Link } from 'react-router-dom';
 import {
   Box,
-  Button,
   Heading,
   useColorMode,
 } from '@chakra-ui/react';
 
-import AppContainer from '../AppContainer';
+import SectionNavBtn from 'components/SectionNavBtn';
+import AppContainer from 'containers/AppContainer';
 
 interface Props {
   current: string;
 }
 
-interface NavBtnItem {
-  label: string;
-  path: string;
-}
-
 const SecurityContainer: FunctionComponent<Props> = ({ children, current }) => {
   const { colorMode } = useColorMode();
-
-  const renderNavBtn = (item: NavBtnItem) => (
-    <Button
-      key={item.label}
-      as={Link}
-      to={item.path}
-      variant={current === item.label ? 'solid' : 'ghost'}
-      colorScheme="blue"
-      size="sm"
-      mr="2"
-    >
-      {item.label}
-    </Button>
-  );
+  const isDarkMode = colorMode === 'dark';
 
   const navItems = [
     {
@@ -57,15 +38,14 @@ const SecurityContainer: FunctionComponent<Props> = ({ children, current }) => {
         mx={-4}
         px={4}
         pb="2"
-        bg={colorMode === 'light' ? 'gray.100' : 'gray.700'}
+        bg={isDarkMode ? 'gray.700' : 'gray.100'}
       >
         <Heading as="h1">
           <Box
             as="span"
-            color={colorMode === 'light' ? 'gray.400' : 'gray.500'}
+            color={isDarkMode ? 'gray.500' : 'gray.400'}
           >
             Access/
-            {' '}
           </Box>
           {current}
         </Heading>
@@ -76,7 +56,9 @@ const SecurityContainer: FunctionComponent<Props> = ({ children, current }) => {
           mt="4"
         >
           <Box as="nav">
-            {navItems.map((item) => renderNavBtn(item))}
+            {navItems.map((item) => (
+              <SectionNavBtn key={item.label} item={item} currentLabel={current} />
+            ))}
           </Box>
         </Box>
       </Box>

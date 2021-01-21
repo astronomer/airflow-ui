@@ -3,7 +3,7 @@ import React, { FunctionComponent } from 'react';
 import DagContainer from 'containers/DagContainer';
 
 const DagTree: FunctionComponent = () => (
-  <DagContainer current="tree">
+  <DagContainer current="Tree">
     <p>TK</p>
   </DagContainer>
 );

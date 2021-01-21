@@ -38,7 +38,7 @@ const Dag: FunctionComponent = () => {
   if (!dag) return null;
 
   return (
-    <DagContainer current="overview">
+    <DagContainer current="Overview">
       <ErrorMessage errors={[dagError, tasksError]} />
       <List styleType="none" mt="8">
         {dag && dag.description && (

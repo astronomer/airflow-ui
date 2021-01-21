@@ -19,7 +19,7 @@ const DagCode: FunctionComponent = () => {
   if (!dag) return null;
 
   return (
-    <DagContainer current="code">
+    <DagContainer current="Code">
       <ErrorMessage errors={[error]} />
       <pre>
         <Code display="block" p="4" className="python">DAG Code</Code>

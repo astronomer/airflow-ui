@@ -1,11 +1,11 @@
 import React from 'react';
 
-import SecurityContainer from 'containers/SecurityContainer';
+import AccessContainer from 'containers/AccessContainer';
 
 const Users: React.FC = () => (
-  <SecurityContainer current="Users">
+  <AccessContainer current="Users">
     <p>TK</p>
-  </SecurityContainer>
+  </AccessContainer>
 );
 
 export default Users;

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import SecurityContainer from 'containers/SecurityContainer';
+import AccessContainer from 'containers/AccessContainer';
 
 const Roles: React.FC = () => (
-  <SecurityContainer current="Roles">
+  <AccessContainer current="Roles">
     <p>TK</p>
-  </SecurityContainer>
+  </AccessContainer>
 );
 
 export default Roles;

@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent, FormEvent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import {
   Box,
   Button,
@@ -16,7 +16,7 @@ import AppContainer from 'containers/AppContainer';
 import { useAuthContext } from 'src/auth';
 import ErrorMessage from 'components/ErrorMessage';
 
-const Login: FunctionComponent = () => {
+const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { login, error, loading } = useAuthContext();

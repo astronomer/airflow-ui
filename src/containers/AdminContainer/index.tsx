@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import {
   Box,
   Heading,
@@ -12,7 +12,7 @@ interface Props {
   current: string;
 }
 
-const AdminContainer: FunctionComponent<Props> = ({ children, current }) => {
+const AdminContainer: React.FC<Props> = ({ children, current }) => {
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
 

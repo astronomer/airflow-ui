@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
 import {
   Button,
@@ -19,7 +19,7 @@ import ErrorMessage from 'components/ErrorMessage';
 import { useDag, useDagTasks } from 'api';
 import type { Dag as DagType, Task } from 'interfaces';
 
-const Dag: FunctionComponent = () => {
+const Dag: React.FC = () => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: DagType['dagId'] }}} = useReactRouter();
   const [sidebarTask, setSidebarTask] = useState<Task | null>(null);
   const { colorMode } = useColorMode();

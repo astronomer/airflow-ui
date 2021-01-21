@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useReactRouter from 'use-react-router';
 import { Link } from 'react-router-dom';
 import {
@@ -18,7 +18,7 @@ interface Props {
   current: string;
 }
 
-const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
+const DagContainer: React.FC<Props> = ({ children, current }) => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: Dag['dagId'] }}} = useReactRouter();
   const [isPaused, setIsPaused] = useState(false);
   const { colorMode } = useColorMode();

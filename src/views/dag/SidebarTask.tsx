@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   Accordion,
   AccordionItem,
@@ -33,7 +33,7 @@ interface Props {
   }
 }
 
-const SidebarTask: FunctionComponent<Props> = ({ task }) => {
+const SidebarTask: React.FC<Props> = ({ task }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode } = useColorMode();
 

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import {
   Box,
   Flex,
@@ -10,7 +10,7 @@ import { useVersion } from 'api';
 import AppHeader from './AppHeader';
 import AppNav from './AppNav';
 
-const AppContainer: FunctionComponent = ({ children }) => {
+const AppContainer: React.FC = ({ children }) => {
   const { data: { version, gitVersion } } = useVersion();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';

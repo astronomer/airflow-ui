@@ -15,7 +15,7 @@ interface Props {
   overlayBg: string;
 }
 
-const AppNav: React.FunctionComponent<Props> = ({ bodyBg, overlayBg }) => {
+const AppNav: React.FC<Props> = ({ bodyBg, overlayBg }) => {
   const navItems = [
     {
       label: 'DAGs',

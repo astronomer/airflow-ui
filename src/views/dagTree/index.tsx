@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 
 import DagContainer from 'containers/DagContainer';
 
-const DagTree: FunctionComponent = () => (
+const DagTree: React.FC = () => (
   <DagContainer current="Tree">
     <p>TK</p>
   </DagContainer>

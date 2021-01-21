@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import {
   Table,
   Thead,
@@ -15,7 +15,7 @@ import AdminContainer from 'containers/AdminContainer';
 import type { Connection } from 'interfaces';
 import ErrorMessage from 'components/ErrorMessage';
 
-const Connections: FunctionComponent = () => {
+const Connections: React.FC = () => {
   const { data: { connections }, error } = useConnections();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';

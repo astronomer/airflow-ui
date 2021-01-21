@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import {
@@ -28,7 +28,7 @@ interface Props {
   isDarkMode: boolean;
 }
 
-const AppHeader: FunctionComponent<Props> = ({ bodyBg, overlayBg, isDarkMode }) => {
+const AppHeader: React.FC<Props> = ({ bodyBg, overlayBg, isDarkMode }) => {
   const { toggleColorMode } = useColorMode();
   const now = dayjs();
   const headerHeight = '56px';

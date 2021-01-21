@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 
 import SecurityContainer from 'containers/SecurityContainer';
 
-const Roles: FunctionComponent = () => (
+const Roles: React.FC = () => (
   <SecurityContainer current="Roles">
     <p>TK</p>
   </SecurityContainer>

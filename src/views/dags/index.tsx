@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { useState } from 'react';
 import { MdSearch } from 'react-icons/md';
 import {
   Box,
@@ -30,7 +30,7 @@ interface Dags {
   totalEntries: number,
 }
 
-const Dags: FunctionComponent = () => {
+const Dags: React.FC = () => {
   const { data: { dags, totalEntries }, status, error } = useDags();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
@@ -104,7 +104,7 @@ const Dags: FunctionComponent = () => {
               <Td colSpan={4}>Loading…</Td>
             </Tr>
           )}
-          {filteredDags.map((dag: Dag) => 
+          {filteredDags.map((dag: Dag) =>
             <DagRow dag={dag} key={dag.dagId} showDagSideBar={() => showDagSideBar(dag.dagId)} />
           )}
         </Tbody>

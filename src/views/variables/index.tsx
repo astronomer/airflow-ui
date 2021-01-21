@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import {
   Code,
   Table,
@@ -16,7 +16,7 @@ import AdminContainer from 'containers/AdminContainer';
 import type { Variable } from 'interfaces';
 import ErrorMessage from 'components/ErrorMessage';
 
-const Variables: FunctionComponent = () => {
+const Variables: React.FC = () => {
   const { data: { variables }, error } = useVariables();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import {
   Table,
   Thead,
@@ -15,7 +15,7 @@ import AdminContainer from 'containers/AdminContainer';
 import type { Pool } from 'interfaces';
 import ErrorMessage from 'components/ErrorMessage';
 
-const Pools: FunctionComponent = () => {
+const Pools: React.FC = () => {
   const { data: { pools }, error } = usePools();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';

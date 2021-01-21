@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -18,7 +18,7 @@ interface Props {
   dags: Dag[];
 }
 
-const SidebarDag: FunctionComponent<Props> = ({ dagId, dags }) => {
+const SidebarDag: React.FC<Props> = ({ dagId, dags }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [dag, setDag] = useState<Dag | null>(null);
 

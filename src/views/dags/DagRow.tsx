@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { MdCheckCircle, MdError } from 'react-icons/md';
 import {
@@ -23,7 +23,7 @@ interface Props {
   showDagSideBar: () => void;
 }
 
-const DagRow: FunctionComponent<Props> = ({ dag, showDagSideBar }) => {
+const DagRow: React.FC<Props> = ({ dag, showDagSideBar }) => {
   const [isPaused, setIsPaused] = useState(dag.isPaused);
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';

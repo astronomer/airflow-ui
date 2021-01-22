@@ -1,7 +1,8 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { MdCheckCircle, MdError } from 'react-icons/md';
 import {
+  Flex,
   Badge,
   Box,
   Link,
@@ -53,24 +54,26 @@ const DagRow: React.FC<Props> = ({ dag, showDagSideBar }) => {
         />
       </Td>
       <Td>
-        <Link
-          as={RouterLink}
-          to={`/dags/${dag.dagId}`}
-          fontWeight="bold"
-        >
-          {dag.dagId}
-        </Link>
-        {dag.tags.map((tag: DagTag) => (
-          <Tag
-            size="sm"
-            mt="1"
-            ml="1"
-            mb="1"
-            key={tag.name}
+        <Flex alignItems="center">
+          <Link
+            as={RouterLink}
+            to={`/dags/${dag.dagId}`}
+            fontWeight="bold"
           >
-            {tag.name}
-          </Tag>
-        ))}
+            {dag.dagId}
+          </Link>
+          {dag.tags.map((tag: DagTag) => (
+            <Tag
+              size="sm"
+              mt="1"
+              ml="1"
+              mb="1"
+              key={tag.name}
+            >
+              {tag.name}
+            </Tag>
+          ))}
+        </Flex>
       </Td>
       <Td />
       <Td>

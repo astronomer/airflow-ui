@@ -1,7 +1,8 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext, useCallback, ReactNode } from 'react';
 import { Route } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useQueryClient } from 'react-query';
+import humps from 'humps';
 
 import { checkExpire, clearAuth, get, set } from 'utils/localStorage';
 import Login from 'views/login';
@@ -25,18 +26,32 @@ export const authContextDefaultValue: AuthContextData = {
 
 export const AuthContext = createContext<AuthContextData>(authContextDefaultValue);
 
-export const AuthProvider = ({ children, ...rest }): React.ReactElement => {
+export type Props = {
+  children: ReactNode;
+};
+
+export const AuthProvider = ({ children }: Props): React.ReactElement => {
   const [hasValidAuthToken, setHasValidAuthToken] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(true);
   const queryClient = useQueryClient();
 
-  const clearData = () => {
+  const clearData = useCallback(() => {
     setHasValidAuthToken(false);
     clearAuth();
     queryClient.clear();
     axios.defaults.headers.common['Authorization'] = null;
-  }
+  }, [queryClient]);
+
+  // intercept responses, transform response to camelCase, and logout the user on unauthorized error
+  axios.interceptors.response.use(
+    res => res.data ? humps.camelizeKeys(res.data) as unknown as AxiosResponse: res,
+    error => {
+      if (error && error.response && error.response.status === 401)
+        logout();
+      return Promise.reject(error)
+    }
+  );
 
   useEffect(() => {
     const token = get('token');
@@ -51,7 +66,7 @@ export const AuthProvider = ({ children, ...rest }): React.ReactElement => {
       setHasValidAuthToken(false);
     }
     setLoading(false);
-  }, []);
+  }, [clearData]);
 
   const logout = () => clearData();
 
@@ -66,10 +81,10 @@ export const AuthProvider = ({ children, ...rest }): React.ReactElement => {
           'Authorization': authorization,
         },
       });
-      setLoading(false);
-      setHasValidAuthToken(true);
       set('token', authorization);
       axios.defaults.headers.common['Authorization'] = authorization;
+      setLoading(false);
+      setHasValidAuthToken(true);
     } catch (e) {
       setLoading(false);
       setError(e);
@@ -85,13 +100,13 @@ export const AuthProvider = ({ children, ...rest }): React.ReactElement => {
         loading,
         error,
       }}
-      {...rest}
     >
       {children}
     </AuthContext.Provider>
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useAuthContext = () => useContext(AuthContext);
 
 export const PrivateRoute: React.FC = (props) => {

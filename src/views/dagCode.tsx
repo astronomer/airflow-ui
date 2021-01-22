@@ -15,7 +15,7 @@ const DagCode: React.FC = () => {
 
   hljs.registerLanguage('python', python);
 
-  const { data: dag, status, error } = useDag(dagId);
+  const { data: dag, error } = useDag(dagId);
   if (!dag) return null;
 
   return (

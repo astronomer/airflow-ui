@@ -14,9 +14,10 @@ import AdminContainer from 'containers/AdminContainer';
 
 import type { Pool } from 'interfaces';
 import ErrorMessage from 'components/ErrorMessage';
+import { defaultPools } from 'api/defaults';
 
 const Pools: React.FC = () => {
-  const { data: { pools }, error } = usePools();
+  const { data: { pools } = defaultPools, error } = usePools();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const oddStyle = { backgroundColor: isDarkMode ? 'gray.900' : 'gray.50' };

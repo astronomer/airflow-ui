@@ -15,9 +15,10 @@ import AdminContainer from 'containers/AdminContainer';
 
 import type { Variable } from 'interfaces';
 import ErrorMessage from 'components/ErrorMessage';
+import { defaultVariables } from 'api/defaults';
 
 const Variables: React.FC = () => {
-  const { data: { variables }, error } = useVariables();
+  const { data: { variables } = defaultVariables, error } = useVariables();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const oddStyle = { backgroundColor: isDarkMode ? 'gray.900' : 'gray.50' };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ReactQueryDevtoolsPanel } from 'react-query/devtools';
 import {
   QueryClient,

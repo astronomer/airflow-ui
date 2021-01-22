@@ -8,7 +8,7 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 
-import { useDag, useDagRuns, useSaveDag } from 'api';
+import { useDag, useSaveDag } from 'api';
 import ErrorMessage from 'components/ErrorMessage';
 import SectionNavBtn from 'components/SectionNavBtn';
 import AppContainer from 'containers/AppContainer';
@@ -23,9 +23,8 @@ const DagContainer: React.FC<Props> = ({ children, current }) => {
   const [isPaused, setIsPaused] = useState(false);
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
-  const { data: dag, status, error } = useDag(dagId);
-  const { data: { dagRuns }, status: dagRunsStatus, error: dagRunsError } = useDagRuns(dagId);
-  console.log(dagRuns);
+  // dag error is handled in children
+  const { data: dag } = useDag(dagId);
 
   const mutation = useSaveDag(dagId);
 
@@ -101,7 +100,7 @@ const DagContainer: React.FC<Props> = ({ children, current }) => {
         </Box>
       </Box>
       <Box py="4">
-        <ErrorMessage errors={[error, mutation.error]} />
+        <ErrorMessage errors={[mutation.error]} />
         {children}
       </Box>
     </AppContainer>

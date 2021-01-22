@@ -9,6 +9,7 @@ import {
   ListItem,
   Tag,
   useColorMode,
+  Text,
 } from '@chakra-ui/react';
 
 import drawChart from './drawChart';
@@ -16,8 +17,9 @@ import DagContainer from 'containers/DagContainer';
 import SidebarTask from './SidebarTask';
 import ErrorMessage from 'components/ErrorMessage';
 
-import { useDag, useDagTasks } from 'api';
+import { useDag, useDagTasks, useDagRuns } from 'api';
 import type { Dag as DagType, Task } from 'interfaces';
+import { defaultDagRuns, defaultDagTasks } from 'api/defaults';
 
 const Dag: React.FC = () => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: DagType['dagId'] }}} = useReactRouter();
@@ -25,7 +27,9 @@ const Dag: React.FC = () => {
   const { colorMode } = useColorMode();
 
   const { data: dag, status: dagStatus, error: dagError } = useDag(dagId);
-  const { data: { tasks }, status: tasksStatus, error: tasksError } = useDagTasks(dagId);
+  const { data: { tasks } = defaultDagTasks, status: tasksStatus, error: tasksError } = useDagTasks(dagId);
+  const { data: { dagRuns } = defaultDagRuns, status: dagRunsStatus, error: dagRunsError } = useDagRuns(dagId);
+  console.log(dagRuns);
 
   useEffect(() => {
     drawChart(400, 600);
@@ -39,7 +43,10 @@ const Dag: React.FC = () => {
 
   return (
     <DagContainer current="Overview">
-      <ErrorMessage errors={[dagError, tasksError]} />
+      {(dagStatus === 'loading' || dagRunsStatus === 'loading' || tasksStatus === 'loading') &&
+        <Text>Loading...</Text>
+      }
+      <ErrorMessage errors={[dagError, tasksError, dagRunsError]} />
       <List styleType="none" mt="8">
         {dag && dag.description && (
           <ListItem>

@@ -24,14 +24,10 @@ import ErrorMessage from 'components/ErrorMessage';
 
 import type { Dag } from 'interfaces';
 import DagRow from './DagRow';
-
-interface Dags {
-  dags: Dag[],
-  totalEntries: number,
-}
+import { defaultDags } from 'api/defaults';
 
 const Dags: React.FC = () => {
-  const { data: { dags, totalEntries }, status, error } = useDags();
+  const { data: { dags } = defaultDags, status, error } = useDags();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const bg = isDarkMode ? 'gray.800' : 'white';
@@ -84,9 +80,11 @@ const Dags: React.FC = () => {
           />
         </InputGroup>
       </Box>
-      <ErrorMessage errors={[error]} />
-      <Table size="sm" marginTop={16}>
-        <Thead>
+      <Box marginTop={16}>
+        <ErrorMessage errors={[error]} />
+      </Box>
+      <Table size="sm">
+        <Thead position="sticky" top={0}>
           <Tr
             borderBottomWidth="1px"
             textAlign="left"

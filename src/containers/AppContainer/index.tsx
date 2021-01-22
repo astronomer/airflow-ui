@@ -9,9 +9,10 @@ import { useVersion } from 'api';
 
 import AppHeader from './AppHeader';
 import AppNav from './AppNav';
+import { defaultVersion } from 'api/defaults';
 
 const AppContainer: React.FC = ({ children }) => {
-  const { data: { version, gitVersion } } = useVersion();
+  const { data: { version, gitVersion } = defaultVersion } = useVersion();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const bodyBg = isDarkMode ? 'gray.800' : 'white';

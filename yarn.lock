@@ -4276,9 +4276,9 @@ data-urls@^2.0.0:
     whatwg-url "^8.0.0"
 
 dayjs@^1.9.1:
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.3.tgz#cf3357c8e7f508432826371672ebf376cb7d619b"
-  integrity sha512-/2fdLN987N8Ki7Id8BUN2nhuiRyxTLumQnSQf9CNncFCyqFsSKb9TNhzRYcC8K8eJSJOKvbvkImo/MKKhNi4iw==
+  version "1.10.4"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.4.tgz#8e544a9b8683f61783f570980a8a80eaf54ab1e2"
+  integrity sha512-RI/Hh4kqRc1UKLOAf/T5zdMMX5DQIlDxwUe3wSyMMnEbGunnpENCdbUgM+dW7kXidZqCttBrmw7BhN4TMddkCw==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.9:
   version "2.6.9"
@@ -8562,9 +8562,9 @@ react-lifecycles-compat@^3.0.4:
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
 react-query@^3.5.12:
-  version "3.5.16"
-  resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.5.16.tgz#172771a8cdb83b85c353ac32f1e30bfca27893d7"
-  integrity sha512-zOJimWPC0o2h8fta0uMc+pmFIBgfVkfCvEAeUbrlsbA6m42CFPgyRBJt6kiYjsZ/WRuJl+WIaAh/P27oUXETNw==
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.6.0.tgz#3da307a4a4cb6ea95f9c95b7e50b5281d5244e4d"
+  integrity sha512-39ptLt4qaKO1DE+ta6SpPutweEgDvUQj/KlebC+okJ9Nxbs5ExxKV8RYlLeop6vdDFyiMmwYrt1POiF8oWGh1A==
   dependencies:
     "@babel/runtime" "^7.5.5"
     match-sorter "^6.0.2"

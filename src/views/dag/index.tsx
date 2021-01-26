@@ -25,12 +25,12 @@ const Dag: React.FC = () => {
   const [sidebarTask, setSidebarTask] = useState<Task | null>(null);
   const { colorMode } = useColorMode();
 
-  const { data: dag, status: dagStatus, error: dagError } = useDag(dagId);
+  const { data: dag, isLoading: dagLoading, error: dagError } = useDag(dagId);
   const {
-    data: { tasks } = defaultDagTasks, status: tasksStatus, error: tasksError,
+    data: { tasks } = defaultDagTasks, isLoading: tasksLoading, error: tasksError,
   } = useDagTasks(dagId);
   const {
-    data: { dagRuns } = defaultDagRuns, status: dagRunsStatus, error: dagRunsError,
+    data: { dagRuns } = defaultDagRuns, isLoading: dagRunsLoading, error: dagRunsError,
   } = useDagRuns(dagId);
   console.log(dagRuns);
 
@@ -46,7 +46,7 @@ const Dag: React.FC = () => {
 
   return (
     <DagContainer current="Overview">
-      {(dagStatus === 'loading' || dagRunsStatus === 'loading' || tasksStatus === 'loading')
+      {(dagLoading || dagRunsLoading || tasksLoading)
         && <Text>Loading...</Text>}
       <ErrorMessage errors={[dagError, tasksError, dagRunsError]} />
       <List styleType="none" mt="8">

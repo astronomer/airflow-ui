@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import type { Dag } from 'interfaces';
+import { useToast } from '@chakra-ui/react';
 
 axios.defaults.baseURL = 'http://127.0.0.1:28080/api/v1/';
 
@@ -71,6 +72,7 @@ export function useVersion() {
 
 export function useSaveDag(dagId: Dag['dagId']) {
   const queryClient = useQueryClient();
+  const toast = useToast();
   return useMutation<any, Error>((updateDag) => axios.patch(`dags/${dagId}`, updateDag),
     {
       onMutate: async (variables) => {
@@ -86,8 +88,24 @@ export function useSaveDag(dagId: Dag['dagId']) {
       },
       onSettled: (res, error, variables, context) => {
       // rollback to previous cache on error
-        if (error && (context as any)?.previousDag) queryClient.setQueryData<Dag>(['dag', dagId], (context as any)[dagId]);
-        else queryClient.setQueryData(['dag', dagId], res);
+        if (error && (context as any)?.previousDag) {
+          queryClient.setQueryData<Dag>(['dag', dagId], (context as any)[dagId]);
+          toast({
+            title: 'Error updating DAG',
+            description: error.message,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+          });
+        } else {
+          queryClient.setQueryData(['dag', dagId], res);
+          toast({
+            title: 'DAG Updated',
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+          });
+        }
         queryClient.invalidateQueries(['dag', dagId]);
       },
     });

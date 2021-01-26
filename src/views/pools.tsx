@@ -17,7 +17,7 @@ import ErrorMessage from 'components/ErrorMessage';
 import { defaultPools } from 'api/defaults';
 
 const Pools: React.FC = () => {
-  const { data: { pools } = defaultPools, status, error } = usePools();
+  const { data: { pools } = defaultPools, isLoading, error } = usePools();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const oddStyle = { backgroundColor: isDarkMode ? 'gray.900' : 'gray.50' };
@@ -36,7 +36,7 @@ const Pools: React.FC = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {status === 'loading' && (
+          {isLoading && (
             <Tr>
               <Td colSpan={4}>Loading…</Td>
             </Tr>

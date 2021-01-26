@@ -9,7 +9,6 @@ import {
 } from '@chakra-ui/react';
 
 import { useDag, useSaveDag } from 'api';
-import ErrorMessage from 'components/ErrorMessage';
 import SectionNavBtn from 'components/SectionNavBtn';
 import AppContainer from 'containers/AppContainer';
 import type { Dag } from 'interfaces';
@@ -101,7 +100,6 @@ const DagContainer: React.FC<Props> = ({ children, current }) => {
         </Box>
       </Box>
       <Box py="4">
-        <ErrorMessage errors={[mutation.error]} />
         {children}
       </Box>
     </AppContainer>

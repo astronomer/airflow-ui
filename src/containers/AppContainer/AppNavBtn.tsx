@@ -20,7 +20,8 @@ interface Props {
 const AppNavBtn: React.FC<Props> = ({ navItem }) => {
   const location = useLocation();
   const {
-    label, icon, path, href, activePath } = navItem;
+    label, icon, path, href, activePath,
+  } = navItem;
   const isActive = activePath && location.pathname.includes(activePath);
   return (
     <Tooltip

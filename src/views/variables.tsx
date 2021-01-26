@@ -18,7 +18,7 @@ import ErrorMessage from 'components/ErrorMessage';
 import { defaultVariables } from 'api/defaults';
 
 const Variables: React.FC = () => {
-  const { data: { variables } = defaultVariables, status, error } = useVariables();
+  const { data: { variables } = defaultVariables, isLoading, error } = useVariables();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const oddStyle = { backgroundColor: isDarkMode ? 'gray.900' : 'gray.50' };
@@ -35,7 +35,7 @@ const Variables: React.FC = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {status === 'loading' && (
+          {isLoading && (
             <Tr>
               <Td colSpan={2}>Loading…</Td>
             </Tr>

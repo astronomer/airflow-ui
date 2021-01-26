@@ -26,7 +26,7 @@ import SidebarDag from './SidebarDag';
 import DagRow from './DagRow';
 
 const Dags: React.FC = () => {
-  const { data: { dags } = defaultDags, status, error } = useDags();
+  const { data: { dags } = defaultDags, isLoading, error } = useDags();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const bg = isDarkMode ? 'gray.800' : 'white';
@@ -96,7 +96,7 @@ const Dags: React.FC = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {status === 'loading' && (
+          {isLoading && (
             <Tr>
               <Td colSpan={4}>Loading…</Td>
             </Tr>

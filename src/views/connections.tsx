@@ -17,7 +17,7 @@ import ErrorMessage from 'components/ErrorMessage';
 import { defaultConnections } from 'api/defaults';
 
 const Connections: React.FC = () => {
-  const { data: { connections } = defaultConnections, error } = useConnections();
+  const { data: { connections } = defaultConnections, status, error } = useConnections();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const oddStyle = { backgroundColor: isDarkMode ? 'gray.900' : 'gray.50' };

@@ -5,7 +5,7 @@ import {
   MdDescription,
   MdGroup,
   MdSettings,
-  MdPlaylistPlay
+  MdPlaylistPlay,
 } from 'react-icons/md';
 
 import AppNavBtn from './AppNavBtn';
@@ -47,7 +47,7 @@ const AppNav: React.FC<Props> = ({ bodyBg, overlayBg }) => {
       as="nav"
       width="56px"
       backgroundColor={overlayBg}
-      borderRightWidth={'1px'}
+      borderRightWidth="1px"
       borderRightColor={bodyBg}
       display="flex"
       flexDirection="column"

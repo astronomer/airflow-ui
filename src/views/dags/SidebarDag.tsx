@@ -24,9 +24,9 @@ const SidebarDag: React.FC<Props> = ({ dagId, dags }) => {
 
   useEffect(() => {
     if (dagId) {
-      const dag = dags.find(d => d.dagId === dagId);
-      if (dag) {
-        setDag(dag);
+      const newDag = dags.find((d) => d.dagId === dagId);
+      if (newDag) {
+        setDag(newDag);
         onOpen();
       }
     }

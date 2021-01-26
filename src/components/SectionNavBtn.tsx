@@ -24,6 +24,6 @@ const SectionNavBtn: React.FC<Props> = ({ item, currentLabel }) => {
       {label}
     </Button>
   );
-}
+};
 
 export default SectionNavBtn;

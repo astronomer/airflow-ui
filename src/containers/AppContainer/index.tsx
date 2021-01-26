@@ -6,10 +6,9 @@ import {
 } from '@chakra-ui/react';
 
 import { useVersion } from 'api';
-
+import { defaultVersion } from 'api/defaults';
 import AppHeader from './AppHeader';
 import AppNav from './AppNav';
-import { defaultVersion } from 'api/defaults';
 
 const AppContainer: React.FC = ({ children }) => {
   const { data: { version, gitVersion } = defaultVersion } = useVersion();
@@ -43,7 +42,9 @@ const AppContainer: React.FC = ({ children }) => {
             {gitVersion && (
               <>
                 <br />
-                Git Version: {gitVersion}
+                Git Version:
+                {' '}
+                {gitVersion}
               </>
             )}
           </Box>

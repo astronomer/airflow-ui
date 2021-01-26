@@ -72,25 +72,23 @@ export function useVersion() {
 export function useSaveDag(dagId: Dag['dagId']) {
   const queryClient = useQueryClient();
   return useMutation<any, Error>((updateDag) => axios.patch(`dags/${dagId}`, updateDag),
-  {
-    onMutate: async (variables) => {
-      await queryClient.cancelQueries(['dag', dagId]);
-      const previousDag = queryClient.getQueryData(['dag', dagId])
+    {
+      onMutate: async (variables) => {
+        await queryClient.cancelQueries(['dag', dagId]);
+        const previousDag = queryClient.getQueryData(['dag', dagId]);
 
-      // optimistically set the dag before the async request
-      queryClient.setQueryData(['dag', dagId], (old) => ({
-        ...(old as Dag),
-        ...(variables as unknown as Record<string, any>),
-      }))
-      return { [dagId]: previousDag }
-    },
-    onSettled: (res, error, variables, context) => {
+        // optimistically set the dag before the async request
+        queryClient.setQueryData(['dag', dagId], (old) => ({
+          ...(old as Dag),
+          ...(variables as unknown as Record<string, any>),
+        }));
+        return { [dagId]: previousDag };
+      },
+      onSettled: (res, error, variables, context) => {
       // rollback to previous cache on error
-      if (error && (context as any)?.previousDag)
-        queryClient.setQueryData<Dag>(['dag', dagId], (context as any)[dagId])
-      else
-        queryClient.setQueryData(['dag', dagId], res);
-      queryClient.invalidateQueries(['dag', dagId])
-    },
-  })
+        if (error && (context as any)?.previousDag) queryClient.setQueryData<Dag>(['dag', dagId], (context as any)[dagId]);
+        else queryClient.setQueryData(['dag', dagId], res);
+        queryClient.invalidateQueries(['dag', dagId]);
+      },
+    });
 }

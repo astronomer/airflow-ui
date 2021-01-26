@@ -33,7 +33,7 @@ const DagRow: React.FC<Props> = ({ dag, showDagSideBar }) => {
   const togglePaused = () => {
     mutation.mutate({ is_paused: !isPaused });
     setIsPaused(!isPaused);
-  }
+  };
 
   return (
     <Tr
@@ -46,7 +46,7 @@ const DagRow: React.FC<Props> = ({ dag, showDagSideBar }) => {
         backgroundColor: isDarkMode ? 'gray.700' : 'gray.100',
       }}
     >
-      <Td onClick={e => e.stopPropagation()} paddingRight="0" width="58px">
+      <Td onClick={(e) => e.stopPropagation()} paddingRight="0" width="58px">
         <Switch
           id="pause"
           isChecked={!isPaused}
@@ -81,22 +81,28 @@ const DagRow: React.FC<Props> = ({ dag, showDagSideBar }) => {
       </Td>
       <Td textAlign="right">
         <Tooltip label={`${'10'} running`} aria-label={`${'10'} running`} placement="bottom" hasArrow>
-          <span><Tag size="sm" rounded="full" colorScheme="teal" mr={1}>
-            <Spinner size="sm" speed="0.85s" ml={-1} mr={1} />
-            <TagLabel>{'10'}</TagLabel>
-          </Tag></span>
+          <span>
+            <Tag size="sm" rounded="full" colorScheme="teal" mr={1}>
+              <Spinner size="sm" speed="0.85s" ml={-1} mr={1} />
+              <TagLabel>10</TagLabel>
+            </Tag>
+          </span>
         </Tooltip>
         <Tooltip label={`${'1,034'} successful`} aria-label={`${'1,034'} successful`} placement="bottom" hasArrow>
-          <span><Tag size="sm" rounded="full" colorScheme="green" mr={1}>
-            <Box as={MdCheckCircle} size="1rem" ml={-1} mr={1} />
-            <TagLabel>{'1,034'}</TagLabel>
-          </Tag></span>
+          <span>
+            <Tag size="sm" rounded="full" colorScheme="green" mr={1}>
+              <Box as={MdCheckCircle} size="1rem" ml={-1} mr={1} />
+              <TagLabel>1,034</TagLabel>
+            </Tag>
+          </span>
         </Tooltip>
         <Tooltip label={`${'12'} failed`} aria-label={`${'12'} failed`} placement="bottom" hasArrow>
-          <span><Tag size="sm" rounded="full" colorScheme="red">
-            <Box as={MdError} size="1rem" ml={-1} mr={1} />
-            <TagLabel>{'12'}</TagLabel>
-          </Tag></span>
+          <span>
+            <Tag size="sm" rounded="full" colorScheme="red">
+              <Box as={MdError} size="1rem" ml={-1} mr={1} />
+              <TagLabel>12</TagLabel>
+            </Tag>
+          </span>
         </Tooltip>
       </Td>
     </Tr>

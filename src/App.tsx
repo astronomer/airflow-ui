@@ -2,7 +2,7 @@ import { hot } from 'react-hot-loader';
 import React from 'react';
 import { Redirect, Switch } from 'react-router-dom';
 
-import { PrivateRoute } from './auth';
+import { PrivateRoute } from 'auth';
 
 import Dag from 'views/dag';
 import DagCode from 'views/dagCode';

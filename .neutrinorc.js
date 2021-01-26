@@ -23,7 +23,11 @@ module.exports = {
     },
     typescript(),
     typescriptLint(),
-    eslint(),
+    eslint({
+      eslint: {
+        useEslintrc: true,
+      },
+    }),
     jest(),
     react({
       html: {

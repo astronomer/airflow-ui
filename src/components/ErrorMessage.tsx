@@ -10,15 +10,16 @@ interface Props {
 
 const ErrorMessage: React.FC<Props> = ({ errors }) => (
   <>
-    {errors.map((e, i) => {
-      if (e && e.message)
+    {errors.map((e) => {
+      if (e && e.message) {
         return (
-          <Alert status="error" my="4" key={i}>
+          <Alert status="error" my="4" key={e.message}>
             <AlertIcon />
             {e.message}
           </Alert>
-        )
-      else return null;
+        );
+      }
+      return null;
     })}
   </>
 );

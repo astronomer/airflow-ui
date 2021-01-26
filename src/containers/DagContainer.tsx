@@ -37,7 +37,7 @@ const DagContainer: React.FC<Props> = ({ children, current }) => {
   const toggleDagPaused = (): void => {
     mutation.mutate({ is_paused: !isPaused });
     setIsPaused(!isPaused);
-  }
+  };
 
   const navItems = [
     {
@@ -72,8 +72,8 @@ const DagContainer: React.FC<Props> = ({ children, current }) => {
             as="span"
             color={isDarkMode ? 'gray.500' : 'gray.400'}
           >
-            <Link to="/dags" color="currentColor" _hover={{ color: 'blue.500' }}>DAGs</Link>
-            {'/'}
+            <Link to="/dags" color="currentColor">DAGs</Link>
+            /
           </Box>
           {dag && dag.dagId}
           <Box as="span" color={isDarkMode ? 'gray.500' : 'gray.400'}>/</Box>

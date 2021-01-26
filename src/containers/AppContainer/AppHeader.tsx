@@ -21,7 +21,7 @@ import {
   MdAccountCircle,
   MdExitToApp,
 } from 'react-icons/md';
-import { useAuthContext } from 'src/auth';
+import { useAuthContext } from 'auth';
 import { ApacheAirflowIcon } from 'utils/icons';
 
 interface Props {
@@ -47,7 +47,7 @@ const AppHeader: React.FC<Props> = ({ bodyBg, overlayBg, isDarkMode }) => {
       py="2"
       px="4"
       backgroundColor={overlayBg}
-      borderBottomWidth={'1px'}
+      borderBottomWidth="1px"
       borderBottomColor={bodyBg}
     >
       <Link to="/">
@@ -86,7 +86,8 @@ const AppHeader: React.FC<Props> = ({ bodyBg, overlayBg, isDarkMode }) => {
             <MenuDivider />
             <MenuItem onClick={logout}>
               <Icon as={MdExitToApp} mr="2" />
-              Logout</MenuItem>
+              Logout
+            </MenuItem>
           </MenuList>
         </Menu>
       </Flex>

@@ -13,7 +13,7 @@ import {
 import { MdLock, MdPerson } from 'react-icons/md';
 
 import AppContainer from 'containers/AppContainer';
-import { useAuthContext } from 'src/auth';
+import { useAuthContext } from 'auth';
 import ErrorMessage from 'components/ErrorMessage';
 
 const Login: React.FC = () => {
@@ -41,7 +41,7 @@ const Login: React.FC = () => {
                 name="username"
                 placeholder="Username"
                 value={username}
-                onChange={e => setUsername(e.target.value)}
+                onChange={(e) => setUsername(e.target.value)}
                 isRequired
               />
             </InputGroup>
@@ -57,7 +57,7 @@ const Login: React.FC = () => {
                 name="password"
                 placeholder="Password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 isRequired
               />
             </InputGroup>
@@ -75,6 +75,6 @@ const Login: React.FC = () => {
       </Box>
     </AppContainer>
   );
-}
+};
 
 export default Login;

@@ -71,6 +71,7 @@ const DagContainer: React.FC<Props> = ({ children, current }) => {
           <Box
             as="span"
             color={isDarkMode ? 'gray.500' : 'gray.400'}
+            _hover={{ color: 'blue.500' }}
           >
             <Link to="/dags" color="currentColor">DAGs</Link>
             /

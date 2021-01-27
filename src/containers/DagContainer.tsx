@@ -1,36 +1,29 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useReactRouter from 'use-react-router';
 import { Link } from 'react-router-dom';
 import {
   Box,
-  Button,
   Heading,
   Switch,
   useColorMode,
 } from '@chakra-ui/react';
 
-import ErrorMessage from 'components/ErrorMessage';
+import { useDag, useSaveDag } from 'api';
+import SectionNavBtn from 'components/SectionNavBtn';
 import AppContainer from 'containers/AppContainer';
 import type { Dag } from 'interfaces';
-import { useDag, useDagRuns, useSaveDag } from 'api';
 
 interface Props {
   current: string;
 }
 
-interface NavBtnItem {
-  label: string;
-  path: string;
-  currentSlug: string;
-}
-
-const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
+const DagContainer: React.FC<Props> = ({ children, current }) => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: Dag['dagId'] }}} = useReactRouter();
   const [isPaused, setIsPaused] = useState(false);
   const { colorMode } = useColorMode();
-  const { data: dag, status, error } = useDag(dagId);
-  const { data: { dagRuns }, status: dagRunsStatus, error: dagRunsError } = useDagRuns(dagId);
-  console.log(dagRuns);
+  const isDarkMode = colorMode === 'dark';
+  // dag error is handled in children
+  const { data: dag } = useDag(dagId);
 
   const mutation = useSaveDag(dagId);
 
@@ -43,28 +36,24 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
   const toggleDagPaused = (): void => {
     mutation.mutate({ is_paused: !isPaused });
     setIsPaused(!isPaused);
-  }
+  };
 
   const navItems = [
     {
       label: 'Overview',
       path: `/dags/${dagId}`,
-      currentSlug: 'overview',
     },
     {
       label: 'Tree',
       path: `/dags/${dagId}/tree`,
-      currentSlug: 'tree',
     },
     {
       label: 'Graph',
       path: `/dags/${dagId}/graph`,
-      currentSlug: 'graph',
     },
     {
       label: 'Code',
       path: `/dags/${dagId}/code`,
-      currentSlug: 'code',
     },
   ];
 
@@ -75,17 +64,20 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
         mx={-4}
         px={4}
         pb="2"
-        bg={colorMode === 'light' ? 'gray.100' : 'gray.700'}
+        bg={isDarkMode ? 'gray.700' : 'gray.100'}
       >
         <Heading as="h1">
           <Box
             as="span"
-            color={colorMode === 'light' ? 'gray.400' : 'gray.500'}
+            color={isDarkMode ? 'gray.500' : 'gray.400'}
+            _hover={{ color: 'blue.500' }}
           >
-            <Link to="/dags" color="currentColor" _hover={{ color: 'blue.500' }}>DAGs</Link>
-            {'/ '}
+            <Link to="/dags" color="currentColor">DAGs</Link>
+            /
           </Box>
           {dag && dag.dagId}
+          <Box as="span" color={isDarkMode ? 'gray.500' : 'gray.400'}>/</Box>
+          {current}
         </Heading>
         <Box
           display="flex"
@@ -94,19 +86,9 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
           mt="4"
         >
           <Box as="nav">
-            {navItems.map((item: NavBtnItem) => 
-              <Button
-                key={item.currentSlug}
-                as={Link}
-                to={item.path}
-                variant={current === item.currentSlug ? 'solid' : 'ghost'}
-                colorScheme="blue"
-                size="sm"
-                mr="2"
-              >
-                {item.label}
-              </Button>
-            )}
+            {navItems.map((item) => (
+              <SectionNavBtn key={item.label} item={item} currentLabel={current} />
+            ))}
           </Box>
           {dag && (
             <Switch
@@ -117,8 +99,7 @@ const DagContainer: FunctionComponent<Props> = ({ children, current }) => {
           )}
         </Box>
       </Box>
-      <Box p="4">
-        <ErrorMessage errors={[error, mutation.error]} />
+      <Box py="4">
         {children}
       </Box>
     </AppContainer>

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import {
   Table,
   Thead,
@@ -14,9 +14,10 @@ import AdminContainer from 'containers/AdminContainer';
 
 import type { Pool } from 'interfaces';
 import ErrorMessage from 'components/ErrorMessage';
+import { defaultPools } from 'api/defaults';
 
-const Pools: FunctionComponent = () => {
-  const { data: { pools }, error } = usePools();
+const Pools: React.FC = () => {
+  const { data: { pools } = defaultPools, isLoading, error } = usePools();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const oddStyle = { backgroundColor: isDarkMode ? 'gray.900' : 'gray.50' };
@@ -25,7 +26,7 @@ const Pools: FunctionComponent = () => {
   return (
     <AdminContainer current="Pools">
       <ErrorMessage errors={[error]} />
-      <Table>
+      <Table size="sm">
         <Thead>
           <Tr>
             <Th>Name</Th>
@@ -35,14 +36,14 @@ const Pools: FunctionComponent = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {status === 'loading' && (
+          {isLoading && (
             <Tr>
-              <Td colSpan={2}>Loading…</Td>
+              <Td colSpan={4}>Loading…</Td>
             </Tr>
           )}
           {pools.length === 0 && (
             <Tr>
-              <Td colSpan={2}>No pools added.</Td>
+              <Td colSpan={4}>No pools added.</Td>
             </Tr>
           )}
           {pools.map((p: Pool) => (

@@ -5,6 +5,8 @@
 - [TypeScript](https://www.typescriptlang.org/) - extends JavaScript by adding types.
 - [Neutrino](https://neutrinojs.org/) - lets you build web and Node.js applications with shared presets or configurations.
 - [Chakra UI](https://chakra-ui.com/) - a simple, modular and accessible component library that gives you all the building blocks you need to build your React applications.
+- [React Query](https://react-query.tanstack.com/) - powerful async data handler. all API calls go through this
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) - write tests that focus on functionality instead of implementation
 
 ## Installation
 
@@ -29,6 +31,8 @@ Run application:
 ```bash
 yarn start
 ```
+
+Be sure to check out our [best practices](/docs/BEST_PRACTICES.md)
 
 #### File Hierarchy
 

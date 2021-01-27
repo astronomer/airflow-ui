@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import {
   Code,
   List,
@@ -11,10 +11,10 @@ import ErrorMessage from 'components/ErrorMessage';
 
 import type { ConfigSection } from 'interfaces';
 
-const Config: FunctionComponent = () => {
+const Config: React.FC = () => {
   const { data, error } = useConfig();
   return (
-    <AdminContainer current="Configuration">
+    <AdminContainer current="Config">
       <ErrorMessage errors={[error]} />
       <pre>
         <Code display="block" p="4" className="python">{data}</Code>

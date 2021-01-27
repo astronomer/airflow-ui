@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent, FormEvent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import {
   Box,
   Button,
@@ -13,10 +13,10 @@ import {
 import { MdLock, MdPerson } from 'react-icons/md';
 
 import AppContainer from 'containers/AppContainer';
-import { useAuthContext } from 'src/auth';
+import { useAuthContext } from 'auth';
 import ErrorMessage from 'components/ErrorMessage';
 
-const Login: FunctionComponent = () => {
+const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { login, error, loading } = useAuthContext();
@@ -41,7 +41,7 @@ const Login: FunctionComponent = () => {
                 name="username"
                 placeholder="Username"
                 value={username}
-                onChange={e => setUsername(e.target.value)}
+                onChange={(e) => setUsername(e.target.value)}
                 isRequired
               />
             </InputGroup>
@@ -57,7 +57,7 @@ const Login: FunctionComponent = () => {
                 name="password"
                 placeholder="Password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 isRequired
               />
             </InputGroup>
@@ -75,6 +75,6 @@ const Login: FunctionComponent = () => {
       </Box>
     </AppContainer>
   );
-}
+};
 
 export default Login;

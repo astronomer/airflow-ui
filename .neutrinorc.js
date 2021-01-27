@@ -20,10 +20,15 @@ module.exports = {
       neutrino.config.resolve.alias.set('static', resolve(__dirname, 'src/static'));
       neutrino.config.resolve.alias.set('api', resolve(__dirname, 'src/api'));
       neutrino.config.resolve.alias.set('components', resolve(__dirname, 'src/components'));
+      neutrino.config.resolve.alias.set('auth', resolve(__dirname, 'src/auth'));
     },
     typescript(),
     typescriptLint(),
-    eslint(),
+    eslint({
+      eslint: {
+        useEslintrc: true,
+      },
+    }),
     jest(),
     react({
       html: {

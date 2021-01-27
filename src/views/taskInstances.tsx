@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 
 import AppContainer from 'containers/AppContainer';
 
-const TaskInstances: FunctionComponent = () => (
+const TaskInstances: React.FC = () => (
   <AppContainer>
     <p>TK</p>
   </AppContainer>

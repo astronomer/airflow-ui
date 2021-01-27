@@ -1,8 +1,6 @@
-import React, { FunctionComponent, useState, FormEvent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import {
   Button,
-  Code,
-  IconButton,
   Input,
   Table,
   Thead,
@@ -12,18 +10,21 @@ import {
   Td,
   useColorMode,
 } from '@chakra-ui/react';
-import { MdAdd, MdEdit, MdDelete } from 'react-icons/md';
+import { MdAdd } from 'react-icons/md';
 
-import { useAddVariable, useDeleteVariable, useVariables } from 'api';
+import { useAddVariable, useVariables } from 'api';
+import { defaultVariables } from 'api/defaults';
+
 import AdminContainer from 'containers/AdminContainer';
 
-import type { Variable } from 'interfaces';
 import ErrorMessage from 'components/ErrorMessage';
+import VariableRow from 'components/VariableRow';
 
-const Variables: FunctionComponent = () => {
-  const { data: { variables }, error } = useVariables();
+import type { Variable } from 'interfaces';
+
+const Variables: React.FC = () => {
+  const { data: { variables } = defaultVariables, isLoading, error } = useVariables();
   const addVariable = useAddVariable();
-  const deleteVariable = useDeleteVariable();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const oddStyle = { backgroundColor: isDarkMode ? 'gray.900' : 'gray.50' };
@@ -36,28 +37,20 @@ const Variables: FunctionComponent = () => {
     addVariable.mutate({ key, value });
   }
 
-  const handleEditVariable = () => {
-    window.alert('To do!');
-  }
-
-  const handleDeleteVariable = (variableKey: Variable['key']) => {
-    deleteVariable.mutate(variableKey);
-  }
-
   return (
     <AdminContainer current="Variables">
       <ErrorMessage errors={[error]} />
       <form onSubmit={onSubmit}>
-      <Table>
-        <Thead>
-          <Tr>
-            <Th>Key</Th>
-            <Th>Value</Th>
-            <Th />
-          </Tr>
-        </Thead>
-        <Tbody>
-            {status === 'loading' && (
+        <Table size="sm">
+          <Thead>
+            <Tr>
+              <Th>Key</Th>
+              <Th>Value</Th>
+              <Th />
+            </Tr>
+          </Thead>
+          <Tbody>
+            {isLoading && (
               <Tr>
                 <Td colSpan={3}>Loading…</Td>
               </Tr>
@@ -68,36 +61,14 @@ const Variables: FunctionComponent = () => {
               </Tr>
             )}
             {variables.map((v: Variable) => (
-              <Tr key={v.key} _odd={oddStyle} _hover={hoverStyle}>
-                <Td><Code>{v.key}</Code></Td>
-                <Td><Code>{v.value}</Code></Td>
-                <Td textAlign="right">
-                  <IconButton
-                    variant="outline"
-                    colorScheme="teal"
-                    aria-label="Edit Variable"
-                    size="sm"
-                    icon={<MdEdit />}
-                    onClick={() => handleEditVariable()}
-                  />
-                  <IconButton
-                    variant="outline"
-                    colorScheme="red"
-                    aria-label="Delete Variable"
-                    size="sm"
-                    marginLeft={2}
-                    icon={<MdDelete />}
-                    onClick={() => handleDeleteVariable(v.key)}
-                  />
-                </Td>
-              </Tr>
+              <VariableRow key={v.key} variable={v} isDarkMode={isDarkMode} />
             ))}
             <Tr key="add" _odd={oddStyle} _hover={hoverStyle}>
               <Td>
                 <Input
                   name="key"
                   value={key}
-                  onChange={(e) => setKey(e.target.value)}
+                  onChange={(e) => setKey(e.target.value.toUpperCase())}
                   placeholder="KEY"
                   isRequired
                 />

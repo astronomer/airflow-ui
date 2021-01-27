@@ -1,10 +1,17 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import { Route } from 'react-router-dom';
-import { checkExpire, clearAuth, get, set } from 'utils/localStorage';
-import axios from 'axios';
+import React, {
+  createContext, useState, useEffect, useContext, useCallback, ReactNode,
+} from 'react';
+import { Route, RouteProps } from 'react-router-dom';
+import axios, { AxiosResponse } from 'axios';
+import { useQueryClient } from 'react-query';
+import humps from 'humps';
+
+import {
+  checkExpire, clearAuth, get, set,
+} from 'utils/localStorage';
 import Login from 'views/login';
 
-  // todo: eventually replace hasValidAuthToken with a user object
+// todo: eventually replace hasValidAuthToken with a user object
 interface AuthContextData {
   hasValidAuthToken: boolean;
   login: (username: string, password: string) => void;
@@ -12,45 +19,64 @@ interface AuthContextData {
   loading: boolean;
   error: Error | null;
 }
- 
+
 export const authContextDefaultValue: AuthContextData = {
   hasValidAuthToken: false,
   login: () => null,
   logout: () => null,
   loading: true,
   error: null,
-}
+};
 
 export const AuthContext = createContext<AuthContextData>(authContextDefaultValue);
 
-export const AuthProvider = ({ children, ...rest }): React.ReactElement => {
+export type Props = {
+  children: ReactNode;
+};
+
+export const AuthProvider = ({ children }: Props): React.ReactElement => {
   const [hasValidAuthToken, setHasValidAuthToken] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
+
+  const clearData = useCallback(() => {
+    setHasValidAuthToken(false);
+    clearAuth();
+    queryClient.clear();
+    axios.defaults.headers.common.Authorization = null;
+  }, [queryClient]);
+
+  const logout = () => clearData();
+
+  // intercept responses, transform response to camelCase, and logout the user on unauthorized error
+  axios.interceptors.response.use(
+    (res) => (res.data ? humps.camelizeKeys(res.data) as unknown as AxiosResponse : res),
+    (err) => {
+      if (err && err.response && err.response.status === 401) {
+        logout();
+      }
+      return Promise.reject(error);
+    },
+  );
 
   useEffect(() => {
     const token = get('token');
     const isExpired = checkExpire('token');
     if (token && !isExpired) {
-      axios.defaults.headers.common['Authorization'] = token;
+      axios.defaults.headers.common.Authorization = token;
       setHasValidAuthToken(true);
     } else if (token) {
-      setHasValidAuthToken(false)
-      setError(new Error('Token invalid, please reauthenticate.'))
-      clearAuth();
+      clearData();
+      setError(new Error('Token invalid, please reauthenticate.'));
     } else {
       setHasValidAuthToken(false);
     }
     setLoading(false);
-  }, []);
+  }, [clearData]);
 
-  const logout = () => {
-    setHasValidAuthToken(false);
-    clearAuth();
-    axios.defaults.headers.common['Authorization'] = null;
-  }
-
-  // Login with basic auth. There is no actual auth endpoint yet, so we check against a generic endpoint 
+  // Login with basic auth.
+  // There is no actual auth endpoint yet, so we check against a generic endpoint
   const login = async (username: string, password: string) => {
     setLoading(true);
     setError(null);
@@ -58,13 +84,13 @@ export const AuthProvider = ({ children, ...rest }): React.ReactElement => {
       const authorization = `Basic ${btoa(`${username}:${password}`)}`;
       await axios.get('/config', {
         headers: {
-          'Authorization': authorization,
+          Authorization: authorization,
         },
       });
+      set('token', authorization);
+      axios.defaults.headers.common.Authorization = authorization;
       setLoading(false);
       setHasValidAuthToken(true);
-      set('token', authorization);
-      axios.defaults.headers.common['Authorization'] = authorization;
     } catch (e) {
       setLoading(false);
       setError(e);
@@ -80,16 +106,17 @@ export const AuthProvider = ({ children, ...rest }): React.ReactElement => {
         loading,
         error,
       }}
-      {...rest}
     >
       {children}
     </AuthContext.Provider>
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useAuthContext = () => useContext(AuthContext);
 
-export const PrivateRoute: React.FC = (props) => {
+export const PrivateRoute: React.FC<RouteProps> = (props) => {
   const { hasValidAuthToken } = useAuthContext();
-  return hasValidAuthToken ? <Route {...props} /> : <Login />
-}
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return hasValidAuthToken ? <Route {...props} /> : <Login />;
+};

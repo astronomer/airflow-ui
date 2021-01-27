@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { useState } from 'react';
 import { MdSearch } from 'react-icons/md';
 import {
   Box,
@@ -18,20 +18,15 @@ import {
 } from '@chakra-ui/react';
 
 import AppContainer from 'containers/AppContainer';
-import SidebarDag from './SidebarDag';
 import { useDags } from 'api';
 import ErrorMessage from 'components/ErrorMessage';
-
 import type { Dag } from 'interfaces';
+import { defaultDags } from 'api/defaults';
+import SidebarDag from './SidebarDag';
 import DagRow from './DagRow';
 
-interface Dags {
-  dags: Dag[],
-  totalEntries: number,
-}
-
-const Dags: FunctionComponent = () => {
-  const { data: { dags, totalEntries }, status, error } = useDags();
+const Dags: React.FC = () => {
+  const { data: { dags } = defaultDags, isLoading, error } = useDags();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const bg = isDarkMode ? 'gray.800' : 'white';
@@ -68,9 +63,9 @@ const Dags: FunctionComponent = () => {
         backgroundColor={bg}
       >
         <Flex>
-          <Button onClick={() => setFilter('all')} size="sm" mr={1} colorScheme={filter == 'all' ? 'blue' : undefined}>All</Button>
-          <Button onClick={() => setFilter('active')} size="sm" mr={1} colorScheme={filter == 'active' ? 'blue' : undefined}>Active</Button>
-          <Button onClick={() => setFilter('paused')} size="sm" colorScheme={filter == 'paused' ? 'blue' : undefined}>Paused</Button>
+          <Button onClick={() => setFilter('all')} size="sm" mr={1} colorScheme={filter === 'all' ? 'blue' : undefined}>All</Button>
+          <Button onClick={() => setFilter('active')} size="sm" mr={1} colorScheme={filter === 'active' ? 'blue' : undefined}>Active</Button>
+          <Button onClick={() => setFilter('paused')} size="sm" colorScheme={filter === 'paused' ? 'blue' : undefined}>Paused</Button>
         </Flex>
         <Box pr={4} mr={4} borderRightWidth="1px" />
         <InputGroup flex="1" size="sm">
@@ -84,32 +79,40 @@ const Dags: FunctionComponent = () => {
           />
         </InputGroup>
       </Box>
-      <ErrorMessage errors={[error]} />
-      <Table marginTop={16}>
-        <Thead>
+      <Box marginTop={16}>
+        <ErrorMessage errors={[error]} />
+      </Box>
+      <Table size="sm">
+        <Thead position="sticky" top={0}>
           <Tr
             borderBottomWidth="1px"
             textAlign="left"
           >
-            <Th></Th>
+            <Th />
             <Th>DAG ID</Th>
-            <Th></Th>
+            <Th />
             <Th>SCHEDULE</Th>
             <Th textAlign="right">PAST WEEK</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {status === 'loading' && (
+          {isLoading && (
             <Tr>
               <Td colSpan={4}>Loading…</Td>
             </Tr>
           )}
-          {filteredDags.map((dag: Dag) => 
-            <DagRow dag={dag} key={dag.dagId} showDagSideBar={() => showDagSideBar(dag.dagId)} />
-          )}
+          {filteredDags.map((dag: Dag) => (
+            <DagRow
+              dag={dag}
+              key={dag.dagId}
+              showDagSideBar={() => showDagSideBar(dag.dagId)}
+            />
+          ))}
         </Tbody>
       </Table>
-      {`${filteredDags.length} of ${totalEntries} DAG${totalEntries !== 1 && 's'}`}
+      <Box mt="2" mb="6" px="2" fontSize="sm">
+        {`1-${filteredDags.length} of ${filteredDags.length} DAG${filteredDags.length !== 1 && 's'}`}
+      </Box>
       <SidebarDag dagId={sidebarDag} dags={dags} />
     </AppContainer>
   );

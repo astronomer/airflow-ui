@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import {
   Table,
   Thead,
@@ -14,9 +14,10 @@ import AdminContainer from 'containers/AdminContainer';
 
 import type { Connection } from 'interfaces';
 import ErrorMessage from 'components/ErrorMessage';
+import { defaultConnections } from 'api/defaults';
 
-const Connections: FunctionComponent = () => {
-  const { data: { connections }, error } = useConnections();
+const Connections: React.FC = () => {
+  const { data: { connections } = defaultConnections, isLoading, error } = useConnections();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const oddStyle = { backgroundColor: isDarkMode ? 'gray.900' : 'gray.50' };
@@ -25,7 +26,7 @@ const Connections: FunctionComponent = () => {
   return (
     <AdminContainer current="Connections">
       <ErrorMessage errors={[error]} />
-      <Table>
+      <Table size="sm">
         <Thead>
           <Tr>
             <Th>ID</Th>
@@ -35,14 +36,14 @@ const Connections: FunctionComponent = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {status === 'loading' && (
+          {isLoading && (
             <Tr>
-              <Td colSpan={2}>Loading…</Td>
+              <Td colSpan={4}>Loading…</Td>
             </Tr>
           )}
           {connections.length === 0 && (
             <Tr>
-              <Td colSpan={2}>No connections added.</Td>
+              <Td colSpan={4}>No connections added.</Td>
             </Tr>
           )}
           {connections.map((c: Connection) => (

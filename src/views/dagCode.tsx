@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import useReactRouter from 'use-react-router';
 import { Code } from '@chakra-ui/react';
 import hljs from 'highlight.js/lib/core';
@@ -10,16 +10,16 @@ import DagContainer from 'containers/DagContainer';
 import { useDag } from 'api';
 import type { Dag } from 'interfaces';
 
-const DagCode: FunctionComponent = () => {
+const DagCode: React.FC = () => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: Dag['dagId'] }}} = useReactRouter();
 
   hljs.registerLanguage('python', python);
 
-  const { data: dag, status, error } = useDag(dagId);
+  const { data: dag, error } = useDag(dagId);
   if (!dag) return null;
 
   return (
-    <DagContainer current="code">
+    <DagContainer current="Code">
       <ErrorMessage errors={[error]} />
       <pre>
         <Code display="block" p="4" className="python">DAG Code</Code>

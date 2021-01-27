@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   Accordion,
   AccordionItem,
@@ -33,9 +33,10 @@ interface Props {
   }
 }
 
-const SidebarTask: FunctionComponent<Props> = ({ task }) => {
+const SidebarTask: React.FC<Props> = ({ task }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode } = useColorMode();
+  const isDarkmode = colorMode === 'dark';
 
   useEffect(() => {
     onOpen();
@@ -54,13 +55,13 @@ const SidebarTask: FunctionComponent<Props> = ({ task }) => {
       <DrawerContent>
         <DrawerCloseButton />
         <DrawerHeader>
-          <Heading as="h5" size="xs" color={colorMode === 'light' ? 'gray.400' : 'gray.500'}>TASK INSTANCE</Heading>
+          <Heading as="h5" size="xs" color={isDarkmode ? 'gray.500' : 'gray.400'}>TASK INSTANCE</Heading>
           <Heading as="h3" size="md">
             {task.taskId}
             <Box mt={4}>
               <Icon
                 as={MdEvent}
-                color={colorMode === 'light' ? 'gray.400' : 'gray.500'}
+                color={isDarkmode ? 'gray.500' : 'gray.400'}
                 mr={2}
               />
               2020-11-06 21:29:10+00:00

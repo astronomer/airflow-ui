@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
 import {
   Button,
@@ -9,23 +9,30 @@ import {
   ListItem,
   Tag,
   useColorMode,
+  Text,
 } from '@chakra-ui/react';
 
-import drawChart from './drawChart';
 import DagContainer from 'containers/DagContainer';
-import SidebarTask from './SidebarTask';
 import ErrorMessage from 'components/ErrorMessage';
+import { useDag, useDagTasks, useDagRuns } from 'api';
+import type { Dag as DagType, Task, DagTag } from 'interfaces';
+import { defaultDagRuns, defaultDagTasks } from 'api/defaults';
+import drawChart from './drawChart';
+import SidebarTask from './SidebarTask';
 
-import { useDag, useDagTasks } from 'api';
-import type { Dag as DagType, Task } from 'interfaces';
-
-const Dag: FunctionComponent = () => {
+const Dag: React.FC = () => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: DagType['dagId'] }}} = useReactRouter();
   const [sidebarTask, setSidebarTask] = useState<Task | null>(null);
   const { colorMode } = useColorMode();
 
-  const { data: dag, status: dagStatus, error: dagError } = useDag(dagId);
-  const { data: { tasks }, status: tasksStatus, error: tasksError } = useDagTasks(dagId);
+  const { data: dag, isLoading: dagLoading, error: dagError } = useDag(dagId);
+  const {
+    data: { tasks } = defaultDagTasks, isLoading: tasksLoading, error: tasksError,
+  } = useDagTasks(dagId);
+  const {
+    data: { dagRuns } = defaultDagRuns, isLoading: dagRunsLoading, error: dagRunsError,
+  } = useDagRuns(dagId);
+  console.log(dagRuns);
 
   useEffect(() => {
     drawChart(400, 600);
@@ -33,13 +40,15 @@ const Dag: FunctionComponent = () => {
 
   const setTask = (task: Task) => {
     setSidebarTask(task);
-  }
+  };
 
   if (!dag) return null;
 
   return (
-    <DagContainer current="overview">
-      <ErrorMessage errors={[dagError, tasksError]} />
+    <DagContainer current="Overview">
+      {(dagLoading || dagRunsLoading || tasksLoading)
+        && <Text>Loading...</Text>}
+      <ErrorMessage errors={[dagError, tasksError, dagRunsError]} />
       <List styleType="none" mt="8">
         {dag && dag.description && (
           <ListItem>
@@ -74,7 +83,7 @@ const Dag: FunctionComponent = () => {
           <ListItem>
             Tags:
             {' '}
-            {dag.tags.map((tag) => (
+            {dag.tags.map((tag: DagTag) => (
               <Tag key={tag.name} mr={1}>{tag.name}</Tag>
             ))}
           </ListItem>

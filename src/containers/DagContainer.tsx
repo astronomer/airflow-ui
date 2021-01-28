@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import useReactRouter from 'use-react-router';
 import { Link } from 'react-router-dom';
+import { MdEvent } from 'react-icons/md';
 import {
   Box,
   Heading,
+  Icon,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  Select,
   Switch,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -96,6 +102,45 @@ const DagContainer: React.FC<Props> = ({ children, current }) => {
             />
           )}
         </Box>
+      </Box>
+      <Box
+        position="sticky"
+        top="0"
+        zIndex="1"
+        display="flex"
+        justifyContent="flex-start"
+        width="calc(100% + 2rem)%"
+        mr={-4}
+        ml={-4}
+        py={2}
+        px={4}
+        borderBottomWidth="2px"
+        borderBottomColor="gray"
+        backgroundColor={useColorModeValue('white', 'gray.800')}
+      >
+        <Input
+          type="datetime-local"
+          maxWidth="200px"
+          value=""
+          size="sm"
+        />
+        <InputGroup size="sm" maxWidth="120px" ml={2}>
+          <InputLeftAddon children="Runs" />
+          <Select value="25">
+            <option value="5">5</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="365">365</option>
+          </Select>
+        </InputGroup>
+        <InputGroup size="sm" maxWidth="370px" ml={2}>
+          <InputLeftAddon children="Run" />
+          <Select value="2021-01-25T14:10:13.480606+00:00">
+            <option value="2021-01-25T14:10:13.480606+00:00">manual__2021-01-25T14:10:13.480606+00:00</option>
+            <option value="2019-01-01T00:00:00+00:00">scheduled__2019-01-01T00:00:00+00:00</option>
+          </Select>
+        </InputGroup>
       </Box>
       <Box py="4">
         {children}

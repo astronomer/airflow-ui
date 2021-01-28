@@ -38,6 +38,7 @@ const Login: React.FC = () => {
               </InputLeftElement>
               <Input
                 autoFocus
+                autoCapitalize="none"
                 name="username"
                 placeholder="Username"
                 value={username}

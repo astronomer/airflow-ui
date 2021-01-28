@@ -11,10 +11,17 @@ import DagTree from 'views/dagTree';
 import Dags from 'views/dags';
 import Config from 'views/config';
 import Connections from 'views/connections';
+
+import DagRuns from 'views/browse/DagRuns';
+import EventLogs from 'views/browse/EventLogs';
+import Jobs from 'views/browse/Jobs';
+import SlaMisses from 'views/browse/SlaMisses';
+import TaskInstances from 'views/browse/TaskInstances';
+import TaskReschedules from 'views/browse/TaskReschedules';
+
 import Permissions from 'views/permissions';
 import Pools from 'views/pools';
 import Roles from 'views/roles';
-import TaskInstances from 'views/taskInstances';
 import Users from 'views/users';
 import Variables from 'views/variables';
 import XComs from 'views/xcoms';
@@ -28,11 +35,16 @@ const App = () => (
     <PrivateRoute exact path="/dags/:dagId/graph" component={DagGraph} />
     <PrivateRoute exact path="/dags/:dagId/tree" component={DagTree} />
 
+    <PrivateRoute exact path="/browse/dag-runs" component={DagRuns} />
+    <PrivateRoute exact path="/browse/event-logs" component={EventLogs} />
+    <PrivateRoute exact path="/browse/jobs" component={Jobs} />
+    <PrivateRoute exact path="/browse/sla-misses" component={SlaMisses} />
+    <PrivateRoute exact path="/browse/task-instances" component={TaskInstances} />
+    <PrivateRoute exact path="/browse/task-reschedules" component={TaskReschedules} />
+
     <PrivateRoute exact path="/access/users" component={Users} />
     <PrivateRoute exact path="/access/roles" component={Roles} />
     <PrivateRoute exact path="/access/permissions" component={Permissions} />
-
-    <PrivateRoute exact path="/task-instances" component={TaskInstances} />
 
     <PrivateRoute exact path="/admin/config" component={Config} />
     <PrivateRoute exact path="/admin/variables" component={Variables} />

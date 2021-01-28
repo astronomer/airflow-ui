@@ -53,6 +53,17 @@ export interface DagRun {
   conf: JSON,
 }
 
+export interface EventLog {
+  dagId: string,
+  event: string,
+  eventLogId: string,
+  executionDate: Date,
+  extra: string,
+  owner: string,
+  taskId: string,
+  when: Date,
+}
+
 export interface Connection {
   connectionId: string,
   connType: string,

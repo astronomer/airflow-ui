@@ -38,6 +38,13 @@ export function useDagRuns(dagId: Dag['dagId']) {
   );
 }
 
+export function useEventLogs() {
+  return useQuery<any, Error>(
+    'eventLogs',
+    () => axios.get('/eventLogs'),
+  );
+}
+
 export function useConfig() {
   return useQuery<any, Error>('config', () => axios.get('/config'));
 }

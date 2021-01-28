@@ -4,6 +4,7 @@ import { Box } from '@chakra-ui/react';
 import {
   MdDescription,
   MdGroup,
+  MdList,
   MdSettings,
   MdPlaylistPlay,
 } from 'react-icons/md';
@@ -22,6 +23,12 @@ const AppNav: React.FC<Props> = ({ bodyBg, overlayBg }) => {
       icon: MdPlaylistPlay,
       path: '/dags',
       activePath: '/dags',
+    },
+    {
+      label: 'Browse',
+      icon: MdList,
+      path: '/browse/event-logs',
+      activePath: '/browse',
     },
     {
       label: 'Access',

@@ -28,9 +28,9 @@ const Pools: React.FC = () => {
         <Thead>
           <Tr>
             <Th>Name</Th>
-            <Th>Slots</Th>
-            <Th>Running Slots</Th>
-            <Th>Queued Slots</Th>
+            <Th isNumeric>Slots</Th>
+            <Th isNumeric>Running Slots</Th>
+            <Th isNumeric>Queued Slots</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -47,9 +47,9 @@ const Pools: React.FC = () => {
           {pools.map((p: Pool) => (
             <Tr key={p.name} _odd={oddStyle} _hover={hoverStyle}>
               <Td>{p.name}</Td>
-              <Td>{p.slots}</Td>
-              <Td>{p.usedSlots || '0'}</Td>
-              <Td>{p.queuedSlots}</Td>
+              <Td isNumeric>{p.slots}</Td>
+              <Td isNumeric>{p.usedSlots || '0'}</Td>
+              <Td isNumeric>{p.queuedSlots}</Td>
             </Tr>
           ))}
         </Tbody>

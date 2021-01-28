@@ -9,17 +9,16 @@ import {
 } from 'react-query';
 import {
   ChakraProvider,
-  theme,
+  extendTheme,
 } from '@chakra-ui/react';
+
 import App from './App';
 import { AuthProvider } from './auth';
 
 const queryClient = new QueryClient();
 
-const airflowTheme = {
-  ...theme,
+const airflowTheme = extendTheme({
   config: {
-    ...theme.config,
     useSystemColorMode: true,
     initialColorMode: 'dark',
   },
@@ -35,7 +34,14 @@ const airflowTheme = {
     '5xl': '36px',
     '6xl': '48px',
   },
-};
+  styles: {
+    global: {
+      body: {
+        overflow: 'hidden',
+      },
+    },
+  },
+});
 
 render(
   <BrowserRouter basename="/">

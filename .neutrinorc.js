@@ -29,7 +29,9 @@ module.exports = {
         useEslintrc: true,
       },
     }),
-    jest(),
+    jest({
+      moduleDirectories: ['node_modules', 'src'],
+    }),
     react({
       html: {
         title: 'Apache Airflow',

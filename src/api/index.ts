@@ -87,9 +87,9 @@ export function useSaveDag(dagId: Dag['dagId']) {
         return { [dagId]: previousDag };
       },
       onSettled: (res, error, variables, context) => {
-      // rollback to previous cache on error
+      // rollback to previous cache (context) on error
         if (error && (context as any)?.previousDag) {
-          queryClient.setQueryData<Dag>(['dag', dagId], (context as any)[dagId]);
+          queryClient.setQueryData<Dag>(['dag', dagId], (context as { [id: string]: Dag })[dagId]);
           toast({
             title: 'Error updating DAG',
             description: error.message,

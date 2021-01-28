@@ -35,6 +35,11 @@ const AppHeader: React.FC<Props> = ({ bodyBg, overlayBg, isDarkMode }) => {
   const now = dayjs();
   const headerHeight = '56px';
   const { hasValidAuthToken, logout } = useAuthContext();
+
+  const handleOpenTZ = () => window.alert('This will open time zone select modal!');
+
+  const handleOpenProfile = () => window.alert('This will take you to your user profile view.');
+
   return (
     <Flex
       as="header"
@@ -57,7 +62,7 @@ const AppHeader: React.FC<Props> = ({ bodyBg, overlayBg, isDarkMode }) => {
         <Flex align="center">
           <Tooltip label="Change time zone" hasArrow>
             {/* TODO: open modal for time zone update */}
-            <Button variant="ghost" mr="4">
+            <Button variant="ghost" mr="4" onClick={() => handleOpenTZ()}>
               <Box
                 as="time"
                 dateTime={now.toString()}
@@ -72,7 +77,7 @@ const AppHeader: React.FC<Props> = ({ bodyBg, overlayBg, isDarkMode }) => {
               <Avatar name="Ryan Hamilton" size="sm" bg="blue.300" />
             </MenuButton>
             <MenuList placement="top-end">
-              <MenuItem>
+              <MenuItem onClick={() => handleOpenProfile()}>
                 <Icon as={MdAccountCircle} mr="2" />
                 Your Profile
               </MenuItem>

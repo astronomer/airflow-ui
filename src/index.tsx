@@ -20,7 +20,7 @@ const queryClient = new QueryClient();
 const airflowTheme = extendTheme({
   config: {
     useSystemColorMode: true,
-    initialColorMode: 'dark',
+    initialColorMode: 'light',
   },
   fontSizes: {
     xs: '10px',

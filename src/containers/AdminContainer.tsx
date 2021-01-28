@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Box,
   Heading,
-  useColorMode,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import SectionNavBtn from 'components/SectionNavBtn';
@@ -13,9 +13,6 @@ interface Props {
 }
 
 const AdminContainer: React.FC<Props> = ({ children, current }) => {
-  const { colorMode } = useColorMode();
-  const isDarkMode = colorMode === 'dark';
-
   const navItems = [
     {
       label: 'Config',
@@ -46,12 +43,12 @@ const AdminContainer: React.FC<Props> = ({ children, current }) => {
         mx={-4}
         px={4}
         pb="2"
-        bg={isDarkMode ? 'gray.700' : 'gray.100'}
+        bg={useColorModeValue('gray.100', 'gray.700')}
       >
         <Heading as="h1">
           <Box
             as="span"
-            color={isDarkMode ? 'gray.500' : 'gray.400'}
+            color={useColorModeValue('gray.400', 'gray.500')}
           >
             Admin/
           </Box>

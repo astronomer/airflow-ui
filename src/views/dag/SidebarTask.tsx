@@ -19,7 +19,7 @@ import {
   TabPanels,
   Tab,
   TabPanel,
-  useColorMode,
+  useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
 
@@ -35,8 +35,6 @@ interface Props {
 
 const SidebarTask: React.FC<Props> = ({ task }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { colorMode } = useColorMode();
-  const isDarkmode = colorMode === 'dark';
 
   useEffect(() => {
     onOpen();
@@ -55,13 +53,13 @@ const SidebarTask: React.FC<Props> = ({ task }) => {
       <DrawerContent>
         <DrawerCloseButton />
         <DrawerHeader>
-          <Heading as="h5" size="xs" color={isDarkmode ? 'gray.500' : 'gray.400'}>TASK INSTANCE</Heading>
+          <Heading as="h5" size="xs" color={useColorModeValue('gray.400', 'gray.500')}>TASK INSTANCE</Heading>
           <Heading as="h3" size="md">
             {task.taskId}
             <Box mt={4}>
               <Icon
                 as={MdEvent}
-                color={isDarkmode ? 'gray.500' : 'gray.400'}
+                color={useColorModeValue('gray.400', 'gray.500')}
                 mr={2}
               />
               2020-11-06 21:29:10+00:00

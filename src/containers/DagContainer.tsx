@@ -5,7 +5,7 @@ import {
   Box,
   Heading,
   Switch,
-  useColorMode,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import { useDag, useSaveDag } from 'api';
@@ -20,8 +20,6 @@ interface Props {
 const DagContainer: React.FC<Props> = ({ children, current }) => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: Dag['dagId'] }}} = useReactRouter();
   const [isPaused, setIsPaused] = useState(false);
-  const { colorMode } = useColorMode();
-  const isDarkMode = colorMode === 'dark';
   // dag error is handled in children
   const { data: dag } = useDag(dagId);
 
@@ -64,19 +62,19 @@ const DagContainer: React.FC<Props> = ({ children, current }) => {
         mx={-4}
         px={4}
         pb="2"
-        bg={isDarkMode ? 'gray.700' : 'gray.100'}
+        bg={useColorModeValue('gray.100', 'gray.700')}
       >
         <Heading as="h1">
           <Box
             as="span"
-            color={isDarkMode ? 'gray.500' : 'gray.400'}
+            color={useColorModeValue('gray.400', 'gray.500')}
             _hover={{ color: 'blue.500' }}
           >
             <Link to="/dags" color="currentColor">DAGs</Link>
             /
           </Box>
           {dag && dag.dagId}
-          <Box as="span" color={isDarkMode ? 'gray.500' : 'gray.400'}>/</Box>
+          <Box as="span" color={useColorModeValue('gray.400', 'gray.500')}>/</Box>
           {current}
         </Heading>
         <Box

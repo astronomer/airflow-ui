@@ -8,7 +8,7 @@ import {
   List,
   ListItem,
   Tag,
-  useColorMode,
+  useColorModeValue,
   Text,
 } from '@chakra-ui/react';
 
@@ -23,7 +23,6 @@ import SidebarTask from './SidebarTask';
 const Dag: React.FC = () => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: DagType['dagId'] }}} = useReactRouter();
   const [sidebarTask, setSidebarTask] = useState<Task | null>(null);
-  const { colorMode } = useColorMode();
 
   const { data: dag, isLoading: dagLoading, error: dagError } = useDag(dagId);
   const {
@@ -46,8 +45,9 @@ const Dag: React.FC = () => {
 
   return (
     <DagContainer current="Overview">
-      {(dagLoading || dagRunsLoading || tasksLoading)
-        && <Text>Loading...</Text>}
+      {(dagLoading || dagRunsLoading || tasksLoading) && (
+        <Text>Loading…</Text>
+      )}
       <ErrorMessage errors={[dagError, tasksError, dagRunsError]} />
       <List styleType="none" mt="8">
         {dag && dag.description && (
@@ -94,7 +94,7 @@ const Dag: React.FC = () => {
         p={4}
         borderRadius="4px"
         borderWidth="4px"
-        borderColor={colorMode === 'light' ? 'gray.100' : 'gray.700'}
+        borderColor={useColorModeValue('gray.100', 'gray.700')}
       >
         <Flex>
           {tasks.map((task: Task) => (

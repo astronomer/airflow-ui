@@ -13,6 +13,7 @@ import {
   MenuList,
   MenuItem,
   useColorMode,
+  useColorModeValue,
   Tooltip,
 } from '@chakra-ui/react';
 import {
@@ -27,10 +28,9 @@ import { ApacheAirflowIcon } from 'utils/icons';
 interface Props {
   bodyBg: string;
   overlayBg: string;
-  isDarkMode: boolean;
 }
 
-const AppHeader: React.FC<Props> = ({ bodyBg, overlayBg, isDarkMode }) => {
+const AppHeader: React.FC<Props> = ({ bodyBg, overlayBg }) => {
   const { toggleColorMode } = useColorMode();
   const now = dayjs();
   const headerHeight = '56px';
@@ -84,9 +84,9 @@ const AppHeader: React.FC<Props> = ({ bodyBg, overlayBg, isDarkMode }) => {
               <MenuItem
                 onClick={toggleColorMode}
               >
-                <Icon as={isDarkMode ? MdWbSunny : MdBrightness2} mr="2" />
+                <Icon as={useColorModeValue(MdBrightness2, MdWbSunny)} mr="2" />
                 Set
-                {isDarkMode ? ' Light ' : ' Dark '}
+                {useColorModeValue(' Dark ', ' Light ')}
                 Mode
               </MenuItem>
               <MenuDivider />

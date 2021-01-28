@@ -12,7 +12,7 @@ import {
   Tag,
   TagLabel,
   Tooltip,
-  useColorMode,
+  useColorModeValue,
   Switch,
 } from '@chakra-ui/react';
 
@@ -26,8 +26,6 @@ interface Props {
 
 const DagRow: React.FC<Props> = ({ dag, showDagSideBar }) => {
   const [isPaused, setIsPaused] = useState(dag.isPaused);
-  const { colorMode } = useColorMode();
-  const isDarkMode = colorMode === 'dark';
   const mutation = useSaveDag(dag.dagId);
 
   const togglePaused = () => {
@@ -40,10 +38,10 @@ const DagRow: React.FC<Props> = ({ dag, showDagSideBar }) => {
       key={dag.dagId}
       onClick={showDagSideBar}
       _odd={{
-        backgroundColor: isDarkMode ? 'gray.900' : 'gray.50',
+        backgroundColor: useColorModeValue('gray.50', 'gray.900'),
       }}
       _hover={{
-        backgroundColor: isDarkMode ? 'gray.700' : 'gray.100',
+        backgroundColor: useColorModeValue('gray.100', 'gray.700'),
       }}
     >
       <Td onClick={(e) => e.stopPropagation()} paddingRight="0" width="58px">

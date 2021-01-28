@@ -6,7 +6,7 @@ import {
   Tr,
   Th,
   Td,
-  useColorMode,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import { useConnections } from 'api';
@@ -18,10 +18,8 @@ import { defaultConnections } from 'api/defaults';
 
 const Connections: React.FC = () => {
   const { data: { connections } = defaultConnections, isLoading, error } = useConnections();
-  const { colorMode } = useColorMode();
-  const isDarkMode = colorMode === 'dark';
-  const oddStyle = { backgroundColor: isDarkMode ? 'gray.900' : 'gray.50' };
-  const hoverStyle = { backgroundColor: isDarkMode ? 'gray.700' : 'gray.100' };
+  const oddStyle = { backgroundColor: useColorModeValue('gray.50', 'gray.900') };
+  const hoverStyle = { backgroundColor: useColorModeValue('gray.100', 'gray.700') };
 
   return (
     <AdminContainer current="Connections">

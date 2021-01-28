@@ -14,7 +14,7 @@ import {
   Tr,
   Th,
   Td,
-  useColorMode,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import AppContainer from 'containers/AppContainer';
@@ -27,9 +27,6 @@ import DagRow from './DagRow';
 
 const Dags: React.FC = () => {
   const { data: { dags } = defaultDags, isLoading, error } = useDags();
-  const { colorMode } = useColorMode();
-  const isDarkMode = colorMode === 'dark';
-  const bg = isDarkMode ? 'gray.800' : 'white';
 
   const [filter, setFilter] = useState<'all' | 'active' | 'paused'>('all');
   const [sidebarDag, setSidebarDag] = useState('');
@@ -60,7 +57,7 @@ const Dags: React.FC = () => {
         px={4}
         borderBottomWidth="2px"
         borderBottomColor="gray"
-        backgroundColor={bg}
+        backgroundColor={useColorModeValue('white', 'gray.800')}
       >
         <Flex>
           <Button onClick={() => setFilter('all')} size="sm" mr={1} colorScheme={filter === 'all' ? 'blue' : undefined}>All</Button>

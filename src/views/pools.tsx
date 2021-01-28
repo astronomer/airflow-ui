@@ -48,7 +48,7 @@ const Pools: React.FC = () => {
             <Tr key={p.name} _odd={oddStyle} _hover={hoverStyle}>
               <Td>{p.name}</Td>
               <Td>{p.slots}</Td>
-              <Td>{p.usedSlots}</Td>
+              <Td>{p.usedSlots || '0'}</Td>
               <Td>{p.queuedSlots}</Td>
             </Tr>
           ))}

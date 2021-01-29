@@ -20,7 +20,7 @@ interface Props {
 }
 
 const SectionWrapper: React.FC<Props> = ({
-  children, currentSection, currentView, navItems, toolBar
+  children, currentSection, currentView, navItems, toolBar,
 }) => (
   <AppContainer>
     <Box
@@ -35,7 +35,8 @@ const SectionWrapper: React.FC<Props> = ({
           as="span"
           color={useColorModeValue('gray.400', 'gray.500')}
         >
-          {currentSection}/
+          {currentSection}
+          /
         </Box>
         {currentView}
       </Heading>

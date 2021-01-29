@@ -22,9 +22,9 @@ import { useDags } from 'api';
 import ErrorMessage from 'components/ErrorMessage';
 import type { Dag } from 'interfaces';
 import { defaultDags } from 'api/defaults';
+import Pagination from 'components/Pagination';
 import SidebarDag from './SidebarDag';
 import DagRow from './DagRow';
-import Pagination from 'components/Pagination';
 
 const Dags: React.FC = () => {
   const { data: { dags, totalEntries } = defaultDags, isLoading, error } = useDags();
@@ -65,9 +65,21 @@ const Dags: React.FC = () => {
         backgroundColor={useColorModeValue('white', 'gray.800')}
       >
         <Flex>
-          <Button onClick={() => setFilter('all')} size="sm" mr={1} colorScheme={filter === 'all' ? 'blue' : undefined}>All ({allCount})</Button>
-          <Button onClick={() => setFilter('active')} size="sm" mr={1} colorScheme={filter === 'active' ? 'blue' : undefined}>Active ({activeCount})</Button>
-          <Button onClick={() => setFilter('paused')} size="sm" colorScheme={filter === 'paused' ? 'blue' : undefined}>Paused ({pausedCount})</Button>
+          <Button onClick={() => setFilter('all')} size="sm" mr={1} colorScheme={filter === 'all' ? 'blue' : undefined}>
+            All (
+            {allCount}
+            )
+          </Button>
+          <Button onClick={() => setFilter('active')} size="sm" mr={1} colorScheme={filter === 'active' ? 'blue' : undefined}>
+            Active (
+            {activeCount}
+            )
+          </Button>
+          <Button onClick={() => setFilter('paused')} size="sm" colorScheme={filter === 'paused' ? 'blue' : undefined}>
+            Paused (
+            {pausedCount}
+            )
+          </Button>
         </Flex>
         <Box pr={4} mr={4} borderRightWidth="1px" />
         <InputGroup flex="1" size="sm">
@@ -114,7 +126,7 @@ const Dags: React.FC = () => {
       </Table>
       <Box display="flex" alignItems="center" mt="2" mb="6" px="2" fontSize="sm">
         <span>
-          {`1-${filteredDags.length} of ${totalEntries} DAG${totalEntries == 1 ? '' : 's'}`}
+          {`1-${filteredDags.length} of ${totalEntries} DAG${totalEntries === 1 ? '' : 's'}`}
         </span>
         <Pagination ml={4} />
       </Box>

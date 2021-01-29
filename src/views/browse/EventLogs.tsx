@@ -54,7 +54,7 @@ const EventLogs: React.FC = () => {
           {eventLogs.map((eL: EventLog) => (
             <Tr key={eL.eventLogId} _odd={oddStyle} _hover={hoverStyle}>
               <Td>{eL.eventLogId}</Td>
-              <Td>{''}</Td>
+              <Td />
               <Td>
                 <Link
                   as={RouterLink}
@@ -74,7 +74,7 @@ const EventLogs: React.FC = () => {
       </Table>
       <Box display="flex" alignItems="center" mt="2" mb="6" px="2" fontSize="sm">
         <span>
-          {`1-${eventLogs.length} of ${totalEntries} Event Log${totalEntries == 1 ? '' : 's'}`}
+          {`1-${eventLogs.length} of ${totalEntries} Event Log${totalEntries === 1 ? '' : 's'}`}
         </span>
         <Pagination ml={4} />
       </Box>

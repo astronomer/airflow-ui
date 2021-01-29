@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import useReactRouter from 'use-react-router';
 import { Link } from 'react-router-dom';
-import { MdEvent } from 'react-icons/md';
 import {
   Box,
   Heading,
-  Icon,
   Input,
   InputGroup,
   InputLeftAddon,
@@ -125,7 +123,7 @@ const DagContainer: React.FC<Props> = ({ children, current }) => {
           size="sm"
         />
         <InputGroup size="sm" maxWidth="120px" ml={2}>
-          <InputLeftAddon children="Runs" />
+          <InputLeftAddon>Runs</InputLeftAddon>
           <Select value="25">
             <option value="5">5</option>
             <option value="25">25</option>
@@ -135,7 +133,7 @@ const DagContainer: React.FC<Props> = ({ children, current }) => {
           </Select>
         </InputGroup>
         <InputGroup size="sm" maxWidth="370px" ml={2}>
-          <InputLeftAddon children="Run" />
+          <InputLeftAddon>Runs</InputLeftAddon>
           <Select value="2021-01-25T14:10:13.480606+00:00">
             <option value="2021-01-25T14:10:13.480606+00:00">manual__2021-01-25T14:10:13.480606+00:00</option>
             <option value="2019-01-01T00:00:00+00:00">scheduled__2019-01-01T00:00:00+00:00</option>

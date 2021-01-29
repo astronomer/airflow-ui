@@ -13,7 +13,7 @@ export function useDags() {
   return useQuery<any, Error>(
     'dags',
     () => axios.get('/dags'),
-    { refetchInterval: 2000 },
+    // { refetchInterval: 2000 },
   );
 }
 

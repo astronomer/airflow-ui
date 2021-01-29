@@ -80,7 +80,7 @@ const Pools: React.FC = () => {
       </Table>
       <Box display="flex" alignItems="center" mt="2" mb="6" px="2" fontSize="sm">
         <span>
-          {`1-${pools.length} of ${totalEntries} Pool${totalEntries == 1 ? '' : 's'}`}
+          {`1-${pools.length} of ${totalEntries} Pool${totalEntries === 1 ? '' : 's'}`}
         </span>
         <Pagination ml={4} />
       </Box>

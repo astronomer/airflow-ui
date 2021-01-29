@@ -21,10 +21,11 @@ import AdminContainer from 'containers/AdminContainer';
 
 import type { Pool } from 'interfaces';
 import ErrorMessage from 'components/ErrorMessage';
+import Pagination from 'components/Pagination';
 import { defaultPools } from 'api/defaults';
 
 const Pools: React.FC = () => {
-  const { data: { pools } = defaultPools, isLoading, error } = usePools();
+  const { data: { pools, totalEntries } = defaultPools, isLoading, error } = usePools();
   const oddStyle = { backgroundColor: useColorModeValue('gray.50', 'gray.900') };
   const hoverStyle = { backgroundColor: useColorModeValue('gray.100', 'gray.700') };
 
@@ -77,6 +78,12 @@ const Pools: React.FC = () => {
           ))}
         </Tbody>
       </Table>
+      <Box display="flex" alignItems="center" mt="2" mb="6" px="2" fontSize="sm">
+        <span>
+          {`1-${pools.length} of ${totalEntries} Pool${totalEntries == 1 ? '' : 's'}`}
+        </span>
+        <Pagination ml={4} />
+      </Box>
     </AdminContainer>
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
+  Box,
   Link,
   Table,
   Thead,
@@ -16,10 +17,11 @@ import BrowseContainer from 'containers/BrowseContainer';
 
 import type { EventLog } from 'interfaces';
 import ErrorMessage from 'components/ErrorMessage';
+import Pagination from 'components/Pagination';
 import { defaultEventLogs } from 'api/defaults';
 
 const EventLogs: React.FC = () => {
-  const { data: { eventLogs } = defaultEventLogs, isLoading, error } = useEventLogs();
+  const { data: { eventLogs, totalEntries } = defaultEventLogs, isLoading, error } = useEventLogs();
   const oddStyle = { backgroundColor: useColorModeValue('gray.50', 'gray.900') };
   const hoverStyle = { backgroundColor: useColorModeValue('gray.100', 'gray.700') };
 
@@ -70,6 +72,12 @@ const EventLogs: React.FC = () => {
           ))}
         </Tbody>
       </Table>
+      <Box display="flex" alignItems="center" mt="2" mb="6" px="2" fontSize="sm">
+        <span>
+          {`1-${eventLogs.length} of ${totalEntries} Event Log${totalEntries == 1 ? '' : 's'}`}
+        </span>
+        <Pagination ml={4} />
+      </Box>
     </BrowseContainer>
   );
 };

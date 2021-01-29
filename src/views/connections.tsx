@@ -21,10 +21,11 @@ import AdminContainer from 'containers/AdminContainer';
 
 import type { Connection } from 'interfaces';
 import ErrorMessage from 'components/ErrorMessage';
+import Pagination from 'components/Pagination';
 import { defaultConnections } from 'api/defaults';
 
 const Connections: React.FC = () => {
-  const { data: { connections } = defaultConnections, isLoading, error } = useConnections();
+  const { data: { connections, totalEntries } = defaultConnections, isLoading, error } = useConnections();
   const oddStyle = { backgroundColor: useColorModeValue('gray.50', 'gray.900') };
   const hoverStyle = { backgroundColor: useColorModeValue('gray.100', 'gray.700') };
 
@@ -77,6 +78,12 @@ const Connections: React.FC = () => {
           ))}
         </Tbody>
       </Table>
+      <Box display="flex" alignItems="center" mt="2" mb="6" px="2" fontSize="sm">
+        <span>
+          {`1-${connections.length} of ${totalEntries} Connection${totalEntries == 1 ? '' : 's'}`}
+        </span>
+        <Pagination ml={4} />
+      </Box>
     </AdminContainer>
   );
 };

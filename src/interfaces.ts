@@ -16,14 +16,14 @@ export interface DagTag {
   name: string,
 }
 
-interface TimeDelta {
+export interface TimeDelta {
   days: number,
   microseconds: number,
   seconds: number,
   type: string,
 }
 
-interface CronExpression {
+export interface CronExpression {
   type: string,
   value: string,
 }

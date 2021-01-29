@@ -18,6 +18,7 @@ import {
 
 import type { Dag, DagTag } from 'interfaces';
 import { useSaveDag } from 'api';
+import { formatScheduleCode } from 'utils';
 
 interface Props {
   dag: Dag;
@@ -75,7 +76,7 @@ const DagRow: React.FC<Props> = ({ dag, showDagSideBar }) => {
       </Td>
       <Td />
       <Td>
-        <Badge mr="4">{dag.scheduleInterval && dag.scheduleInterval.value}</Badge>
+        <Badge mr="4">{dag.scheduleInterval && formatScheduleCode(dag.scheduleInterval)}</Badge>
       </Td>
       <Td textAlign="right">
         <Tooltip label={`${'10'} running`} aria-label={`${'10'} running`} placement="bottom" hasArrow>

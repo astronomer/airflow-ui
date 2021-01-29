@@ -117,6 +117,5 @@ export const useAuthContext = () => useContext(AuthContext);
 
 export const PrivateRoute: React.FC<RouteProps> = (props) => {
   const { hasValidAuthToken } = useAuthContext();
-  // eslint-disable-next-line react/jsx-props-no-spreading
   return hasValidAuthToken ? <Route {...props} /> : <Login />;
 };

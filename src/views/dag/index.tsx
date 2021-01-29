@@ -18,6 +18,8 @@ import ErrorMessage from 'components/ErrorMessage';
 import { useDag, useDagTasks, useDagRuns } from 'api';
 import type { Dag as DagType, Task, DagTag } from 'interfaces';
 import { defaultDagRuns, defaultDagTasks } from 'api/defaults';
+import { formatScheduleCode } from 'utils';
+
 import drawChart from './drawChart';
 import SidebarTask from './SidebarTask';
 
@@ -43,13 +45,6 @@ const Dag: React.FC = () => {
   };
 
   if (!dag) return null;
-
-  const formatDigits = (digit: number) => (
-    digit.toLocaleString('en-US', {
-      minimumIntegerDigits: 2,
-      useGrouping: false,
-    })
-  );
 
   const formatCron = (cron: string) => (
     cron[0] !== '@' ? cronstrue.toString(cron, { verbose: true }) : ''
@@ -95,23 +90,9 @@ const Dag: React.FC = () => {
           <ListItem>
             Schedule:
             {' '}
-            {dag.scheduleInterval.type === 'CronExpression'
-              ? (
-                <>
-                  {formatCron(dag.scheduleInterval.value)}
-                  <Code>{dag.scheduleInterval.value}</Code>
-                </>
-              )
-              : (
-                <>
-                  {dag.scheduleInterval.days}
-                  d
-                  {' '}
-                  {formatDigits(dag.scheduleInterval.seconds)}
-                  :
-                  {formatDigits(dag.scheduleInterval.microseconds)}
-                </>
-              )}
+            {dag.scheduleInterval.type === 'CronExpression' && formatCron(dag.scheduleInterval.value)}
+            {' '}
+            <Code>{formatScheduleCode(dag.scheduleInterval)}</Code>
           </ListItem>
         )}
         {dag.tags && (

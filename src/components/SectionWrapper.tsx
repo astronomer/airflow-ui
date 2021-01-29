@@ -16,10 +16,11 @@ interface Props {
     label: string;
     path: string;
   }[]
+  toolBar?: React.ReactNode;
 }
 
 const SectionWrapper: React.FC<Props> = ({
-  children, currentSection, currentView, navItems
+  children, currentSection, currentView, navItems, toolBar
 }) => (
   <AppContainer>
     <Box
@@ -51,6 +52,25 @@ const SectionWrapper: React.FC<Props> = ({
         </Box>
       </Box>
     </Box>
+    {toolBar && (
+      <Box
+        position="sticky"
+        top="0"
+        zIndex="1"
+        display="flex"
+        justifyContent="flex-start"
+        width="calc(100% + 2rem)%"
+        mr={-4}
+        ml={-4}
+        py={2}
+        px={4}
+        borderBottomWidth="2px"
+        borderBottomColor="gray"
+        backgroundColor={useColorModeValue('white', 'gray.800')}
+      >
+        {toolBar}
+      </Box>
+    )}
     <Box py="4">{children}</Box>
   </AppContainer>
 );

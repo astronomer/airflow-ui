@@ -1,5 +1,12 @@
 import React from 'react';
+import { MdSearch } from 'react-icons/md';
 import {
+  Box,
+  Button,
+  Icon,
+  Input,
+  InputGroup,
+  InputLeftElement,
   Table,
   Thead,
   Tbody,
@@ -22,7 +29,23 @@ const Pools: React.FC = () => {
   const hoverStyle = { backgroundColor: useColorModeValue('gray.100', 'gray.700') };
 
   return (
-    <AdminContainer current="Pools">
+    <AdminContainer
+      current="Pools"
+      toolBar={(
+        <Box width="100%" display="flex" justifyContent="space-between">
+          <InputGroup flex="1" size="sm" maxWidth="300px">
+            <InputLeftElement>
+              <Icon as={MdSearch} color="gray.300" />
+            </InputLeftElement>
+            <Input
+              type="search"
+              placeholder="Find Pool…"
+            />
+          </InputGroup>
+          <Button size="sm" colorScheme="teal">Add Pool</Button>
+        </Box>
+      )}
+    >
       <ErrorMessage errors={[error]} />
       <Table size="sm">
         <Thead>

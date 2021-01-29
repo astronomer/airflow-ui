@@ -4,9 +4,10 @@ import SectionWrapper from 'components/SectionWrapper';
 
 interface Props {
   current: string;
+  toolBar?: React.ReactNode;
 }
 
-const AdminContainer: React.FC<Props> = ({ children, current }) => {
+const AdminContainer: React.FC<Props> = ({ children, current, toolBar }) => {
   const navItems = [
     {
       label: 'Config',
@@ -31,7 +32,12 @@ const AdminContainer: React.FC<Props> = ({ children, current }) => {
   ];
 
   return (
-    <SectionWrapper currentSection="Admin" currentView={current} navItems={navItems}>
+    <SectionWrapper
+      currentSection="Admin"
+      currentView={current}
+      navItems={navItems}
+      toolBar={toolBar}
+    >
       {children}
     </SectionWrapper>
   );

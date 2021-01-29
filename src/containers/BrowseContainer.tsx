@@ -4,9 +4,10 @@ import SectionWrapper from 'components/SectionWrapper';
 
 interface Props {
   current: string;
+  toolBar?: React.ReactNode;
 }
 
-const BrowseContainer: React.FC<Props> = ({ children, current }) => {
+const BrowseContainer: React.FC<Props> = ({ children, current, toolBar }) => {
   const navItems = [
     {
       label: 'Event Logs',
@@ -35,7 +36,12 @@ const BrowseContainer: React.FC<Props> = ({ children, current }) => {
   ];
 
   return (
-    <SectionWrapper currentSection="Browse" currentView={current} navItems={navItems}>
+    <SectionWrapper
+      currentSection="Browse"
+      currentView={current}
+      navItems={navItems}
+      toolBar={toolBar}
+    >
       {children}
     </SectionWrapper>
   );

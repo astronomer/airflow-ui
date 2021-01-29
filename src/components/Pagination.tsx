@@ -12,7 +12,10 @@ const Pagination: React.FC<ButtonGroupProps> = ({ ...otherProps }) => (
     <Button leftIcon={<MdChevronLeft />} isDisabled>
       Prev
     </Button>
-    <Button rightIcon={<MdChevronRight />}>
+    <Button
+      rightIcon={<MdChevronRight />}
+      onClick={() => window.alert('Under construction!')}
+    >
       Next
     </Button>
   </ButtonGroup>

@@ -43,6 +43,10 @@ const Dags: React.FC = () => {
     }
   });
 
+  const allCount = dags.length;
+  const pausedCount = dags.filter((d: Dag) => d.isPaused).length;
+  const activeCount = allCount - pausedCount;
+
   return (
     <AppContainer>
       <Box
@@ -60,9 +64,9 @@ const Dags: React.FC = () => {
         backgroundColor={useColorModeValue('white', 'gray.800')}
       >
         <Flex>
-          <Button onClick={() => setFilter('all')} size="sm" mr={1} colorScheme={filter === 'all' ? 'blue' : undefined}>All</Button>
-          <Button onClick={() => setFilter('active')} size="sm" mr={1} colorScheme={filter === 'active' ? 'blue' : undefined}>Active</Button>
-          <Button onClick={() => setFilter('paused')} size="sm" colorScheme={filter === 'paused' ? 'blue' : undefined}>Paused</Button>
+          <Button onClick={() => setFilter('all')} size="sm" mr={1} colorScheme={filter === 'all' ? 'blue' : undefined}>All ({allCount})</Button>
+          <Button onClick={() => setFilter('active')} size="sm" mr={1} colorScheme={filter === 'active' ? 'blue' : undefined}>Active ({activeCount})</Button>
+          <Button onClick={() => setFilter('paused')} size="sm" colorScheme={filter === 'paused' ? 'blue' : undefined}>Paused ({pausedCount})</Button>
         </Flex>
         <Box pr={4} mr={4} borderRightWidth="1px" />
         <InputGroup flex="1" size="sm">

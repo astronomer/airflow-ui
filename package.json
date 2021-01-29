@@ -16,6 +16,7 @@
     "@emotion/react": "^11.1.2",
     "@emotion/styled": "^11.0.0",
     "axios": "^0.21.1",
+    "cronstrue": "^1.108.0",
     "d3": "^6.2.0",
     "dayjs": "^1.9.1",
     "framer-motion": "^2.9.5",

@@ -11,6 +11,7 @@ import {
   useColorModeValue,
   Text,
 } from '@chakra-ui/react';
+import cronstrue from 'cronstrue';
 
 import DagContainer from 'containers/DagContainer';
 import ErrorMessage from 'components/ErrorMessage';
@@ -43,6 +44,17 @@ const Dag: React.FC = () => {
 
   if (!dag) return null;
 
+  const formatDigits = (digit: number) => (
+    digit.toLocaleString('en-US', {
+      minimumIntegerDigits: 2,
+      useGrouping: false,
+    })
+  );
+
+  const formatCron = (cron: string) => (
+    cron[0] !== '@' ? cronstrue.toString(cron, { verbose: true }) : ''
+  );
+
   return (
     <DagContainer current="Overview">
       {(dagLoading || dagRunsLoading || tasksLoading) && (
@@ -50,36 +62,59 @@ const Dag: React.FC = () => {
       )}
       <ErrorMessage errors={[dagError, tasksError, dagRunsError]} />
       <List styleType="none" mt="8">
-        {dag && dag.description && (
+        {dag.description && (
           <ListItem>
             Description:
             {' '}
             {dag.description}
           </ListItem>
         )}
-        {dag && dag.owners && (
+        {dag.owners && (
           <ListItem>
             Owner(s):
             {' '}
             {dag.owners.join(', ')}
           </ListItem>
         )}
-        <ListItem>{dag && dag.isPaused}</ListItem>
-        {dag && dag.fileloc && (
+        <ListItem>{dag.isPaused}</ListItem>
+        {dag.fileloc && (
           <ListItem>
             File Location:
             {' '}
             <Code>{dag.fileloc}</Code>
           </ListItem>
         )}
-        {dag && dag.fileToken && (
+        {dag.fileToken && (
           <ListItem>
             File Token:
             {' '}
             <Code>{dag.fileToken}</Code>
           </ListItem>
         )}
-        {dag && dag.tags && (
+        {dag.scheduleInterval && (
+          <ListItem>
+            Schedule:
+            {' '}
+            {dag.scheduleInterval.type === 'CronExpression'
+              ? (
+                <>
+                  {formatCron(dag.scheduleInterval.value)}
+                  <Code>{dag.scheduleInterval.value}</Code>
+                </>
+              )
+              : (
+                <>
+                  {dag.scheduleInterval.days}
+                  d
+                  {' '}
+                  {formatDigits(dag.scheduleInterval.seconds)}
+                  :
+                  {formatDigits(dag.scheduleInterval.microseconds)}
+                </>
+              )}
+          </ListItem>
+        )}
+        {dag.tags && (
           <ListItem>
             Tags:
             {' '}

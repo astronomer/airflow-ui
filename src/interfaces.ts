@@ -16,6 +16,18 @@ export interface DagTag {
   name: string,
 }
 
+interface TimeDelta {
+  days: number,
+  microseconds: number,
+  seconds: number,
+  type: string,
+}
+
+interface CronExpression {
+  type: string,
+  value: string,
+}
+
 export interface Dag {
   dagId: string,
   rootDagId: string,
@@ -25,15 +37,7 @@ export interface Dag {
   fileToken: string,
   owners: Array<string>,
   description: string,
-  scheduleInterval: {
-    value: string,
-  },
-  // "schedule_interval": {
-  // "__type": "string",
-  // "days": 0,
-  // "seconds": 0,
-  // "microseconds": 0
-  // },
+  scheduleInterval?: TimeDelta | CronExpression,
   tags: DagTag[],
 }
 

@@ -13,7 +13,7 @@ export function useDags() {
   return useQuery<any, Error>(
     'dags',
     () => axios.get('/dags'),
-    // { refetchInterval: 2000 },
+    { refetchInterval: 2000 },
   );
 }
 
@@ -77,26 +77,47 @@ export function useVersion() {
   );
 }
 
+interface DagData {
+  dags: Dag[];
+  totalEntries: number;
+}
+
 export function useSaveDag(dagId: Dag['dagId']) {
   const queryClient = useQueryClient();
   const toast = useToast();
   return useMutation<any, Error>((updateDag) => axios.patch(`dags/${dagId}`, updateDag),
     {
       onMutate: async (variables) => {
+        const newDag = variables as unknown as Dag;
         await queryClient.cancelQueries(['dag', dagId]);
         const previousDag = queryClient.getQueryData(['dag', dagId]);
+        const previousDags = queryClient.getQueryData('dags') as DagData;
+
+        const newDags = previousDags.dags.map((dag) => (
+          dag.dagId === newDag.dagId ? newDag : dag
+        ));
 
         // optimistically set the dag before the async request
         queryClient.setQueryData(['dag', dagId], (old) => ({
           ...(old as Dag),
-          ...(variables as unknown as Record<string, any>),
+          ...newDag,
         }));
-        return { [dagId]: previousDag };
+        queryClient.setQueryData('dags', (old) => ({
+          ...(old as Dag[]),
+          ...{
+            dags: newDags,
+            totalEntries: previousDags.totalEntries,
+          },
+        }));
+        return { [dagId]: previousDag, dags: previousDags };
       },
       onSettled: (res, error, variables, context) => {
-      // rollback to previous cache (context) on error
-        if (error && (context as any)?.previousDag) {
-          queryClient.setQueryData<Dag>(['dag', dagId], (context as { [id: string]: Dag })[dagId]);
+        const previousDag = (context as any)[dagId] as Dag;
+        const previousDags = (context as any).dags as DagData;
+        // rollback to previous cache on error
+        if (error) {
+          queryClient.setQueryData(['dag', dagId], previousDag);
+          queryClient.setQueryData('dags', previousDags);
           toast({
             title: 'Error updating DAG',
             description: error.message,
@@ -105,7 +126,16 @@ export function useSaveDag(dagId: Dag['dagId']) {
             isClosable: true,
           });
         } else {
-          queryClient.setQueryData(['dag', dagId], res);
+          // check if server response is different from our optimistic update
+          if (JSON.stringify(res) !== JSON.stringify(previousDag)) {
+            queryClient.setQueryData(['dag', dagId], res);
+            queryClient.setQueryData('dags', {
+              dags: previousDags.dags.map((dag) => (
+                dag.dagId === dagId ? res : dag
+              )),
+              totalEntries: previousDags.totalEntries,
+            });
+          }
           toast({
             title: 'DAG Updated',
             status: 'success',

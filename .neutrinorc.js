@@ -1,3 +1,4 @@
+require('dotenv').config();
 const typescript = require('neutrinojs-typescript');
 const typescriptLint = require('neutrinojs-typescript-eslint');
 const react = require('@neutrinojs/react');
@@ -33,6 +34,9 @@ module.exports = {
       moduleDirectories: ['node_modules', 'src'],
     }),
     react({
+      env: [
+        'SERVER_URL'
+      ],
       html: {
         title: 'Apache Airflow',
         favicon: 'src/static/favicon.ico',

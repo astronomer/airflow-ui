@@ -7,7 +7,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import type { Dag } from 'interfaces';
 import { useToast } from '@chakra-ui/react';
 
-axios.defaults.baseURL = 'http://127.0.0.1:28080/api/v1/';
+axios.defaults.baseURL = process.env.SERVER_URL;
 
 export function useDags() {
   return useQuery<any, Error>(

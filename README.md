@@ -16,6 +16,11 @@ Clone the repository and use the package manager [yarn](https://yarnpkg.com) to 
 yarn install
 ```
 
+Create your local environment
+```bash
+cp .env.example .env
+```
+
 ## Development
 
 Modify local Airflow to allow API connections in `airflow/config_templates/default_airflow.cfg`:

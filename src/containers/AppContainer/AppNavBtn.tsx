@@ -41,7 +41,8 @@ const AppNavBtn: React.FC<Props> = ({ navItem }) => {
         height="56px"
         alignItems="center"
         justifyContent="center"
-        borderWidth="3px"
+        borderRightWidth="3px"
+        borderLeftWidth="3px"
         borderColor="transparent"
         borderLeftColor={isActive ? 'blue.500' : 'transparent'}
         color={isActive ? 'blue.500' : 'gray.500'}

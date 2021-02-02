@@ -41,18 +41,13 @@ export interface Dag {
   tags: DagTag[],
 }
 
-enum DagRunState {
-  'success',
-  // TODO: add all enums
-}
-
 export interface DagRun {
   dagRunId: string,
   dagId: Dag['dagId'],
   executionDate: Date,
   startDate: Date,
   endDate: Date,
-  state: DagRunState,
+  state: 'success' | 'running' | 'failed',
   externalTrigger: boolean,
   conf: JSON,
 }

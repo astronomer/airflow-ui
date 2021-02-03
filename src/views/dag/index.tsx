@@ -10,13 +10,20 @@ import {
   Tag,
   useColorModeValue,
   Text,
+  Icon,
+  Center,
+  Tooltip,
 } from '@chakra-ui/react';
 import cronstrue from 'cronstrue';
+import { MdDone, MdClose, MdLoop } from 'react-icons/md';
+import dayjs from 'dayjs';
 
 import DagContainer from 'containers/DagContainer';
 import ErrorMessage from 'components/ErrorMessage';
 import { useDag, useDagTasks, useDagRuns } from 'api';
-import type { Dag as DagType, Task, DagTag } from 'interfaces';
+import type {
+  Dag as DagType, Task, DagTag, DagRun,
+} from 'interfaces';
 import { defaultDagRuns, defaultDagTasks } from 'api/defaults';
 import { formatScheduleCode } from 'utils';
 
@@ -34,7 +41,6 @@ const Dag: React.FC = () => {
   const {
     data: { dagRuns } = defaultDagRuns, isLoading: dagRunsLoading, error: dagRunsError,
   } = useDagRuns(dagId);
-  console.log(dagRuns);
 
   useEffect(() => {
     drawChart(400, 600);
@@ -105,6 +111,74 @@ const Dag: React.FC = () => {
           </ListItem>
         )}
       </List>
+      <Box py="1">
+        <Text>Recent Runs:</Text>
+        <Flex mt="1">
+          {dagRuns.map((dagRun: DagRun) => {
+            let bg = 'white';
+            let icon = MdLoop;
+            switch (dagRun.state) {
+              case 'success':
+                bg = 'green.400';
+                icon = MdDone;
+                break;
+              case 'failed':
+                bg = 'red.400';
+                icon = MdClose;
+                break;
+              case 'running':
+                break;
+              default:
+                break;
+            }
+            const Label = (
+              <Box>
+                <Flex>
+                  Status:
+                  {' '}
+                  <Text color={bg}>{dagRun.state}</Text>
+                </Flex>
+                <Text>
+                  Run:
+                  {' '}
+                  {dagRun.dagRunId}
+                </Text>
+                <Text>
+                  Started:
+                  {' '}
+                  {dayjs(dagRun.startDate).format('HH:mm:ss D-M-YY')}
+                </Text>
+                {dagRun.endDate && (
+                  <Text>
+                    End:
+                    {' '}
+                    {dayjs(dagRun.endDate).format('HH:mm:ss D-M-YY')}
+                  </Text>
+                )}
+              </Box>
+            );
+            return (
+              <Tooltip
+                bg={useColorModeValue('gray.300', 'gray.500')}
+                label={Label}
+                aria-label="Dag Run Details"
+                key={dagRun.dagRunId}
+                hasArrow
+              >
+                <Center
+                  height="20px"
+                  width="20px"
+                  borderRadius="20px"
+                  bg={bg}
+                  mx="1"
+                >
+                  <Icon as={icon} />
+                </Center>
+              </Tooltip>
+            );
+          })}
+        </Flex>
+      </Box>
       <Box
         mt={2}
         p={4}

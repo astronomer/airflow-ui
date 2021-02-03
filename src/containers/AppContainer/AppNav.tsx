@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
 import {
+  MdDashboard,
   MdDescription,
   MdGroup,
   MdList,
@@ -18,6 +19,12 @@ interface Props {
 
 const AppNav: React.FC<Props> = ({ bodyBg, overlayBg }) => {
   const navItems = [
+    {
+      label: 'Dashboard',
+      icon: MdDashboard,
+      path: '/',
+      activePath: '/',
+    },
     {
       label: 'DAGs',
       icon: MdPlaylistPlay,

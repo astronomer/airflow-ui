@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
 import {
+  MdDashboard,
   MdDescription,
   MdGroup,
   MdList,
@@ -22,8 +23,8 @@ const AppNav: React.FC<Props> = ({ bodyBg, overlayBg }) => {
     {
       label: 'Dashboard',
       icon: MdDashboard,
-      path: '/dashboard',
-      activePath: '/dashboard',
+      path: '/',
+      activePath: '/',
     },
     {
       label: 'DAGs',

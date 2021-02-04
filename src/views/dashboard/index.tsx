@@ -46,11 +46,11 @@ const Dashboard: React.FC = () => {
     });
   }
 
-  const timelineData = taskInstanceData
-    ? taskInstanceData.taskInstances.map((taskInstance: any) => [
-      `${taskInstance.taskId}`,
-      dayjs(taskInstance.startDate),
-      dayjs(taskInstance.endDate),
+  const timelineData = dagRunData
+    ? dagRunData.dagRuns.map((dagRun: DagRun) => [
+      `${dagRun.dagId} - ${dagRun.dagRunId}`,
+      dayjs(dagRun.startDate),
+      dayjs(dagRun.endDate),
     ]).filter((entry: any[]) => !!entry[2])
     : [];
 
@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
         loader={<div>Loading Chart</div>}
         data={[
           [
-            { type: 'string', id: 'President' },
+            { type: 'string', id: 'DagRun' },
             { type: 'date', id: 'Start' },
             { type: 'date', id: 'End' },
           ],

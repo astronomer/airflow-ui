@@ -12,7 +12,7 @@ import AppContainer from 'containers/AppContainer';
 import {
   useAllDagRuns, useHealth, useEventLogs, useTaskInstances,
 } from 'api';
-import type { DagRun, EventLog } from 'interfaces';
+import type { DagRun, EventLog, TaskInstance } from 'interfaces';
 
 dayjs.extend(relativeTime);
 
@@ -48,11 +48,20 @@ const Dashboard: React.FC = () => {
 
   const timelineData = dagRunData
     ? dagRunData.dagRuns.map((dagRun: DagRun) => [
-      `${dagRun.dagId} - ${dagRun.dagRunId}`,
+      `${dagRun.dagId}`,
       dayjs(dagRun.startDate),
       dayjs(dagRun.endDate),
     ]).filter((entry: any[]) => !!entry[2])
     : [];
+  const barChartData: any[] = [];
+
+  Object.keys(summary).forEach((key) => {
+    barChartData.push([
+      key,
+      summary[key].successCount,
+      summary[key].failedCount,
+    ]);
+  });
 
   return (
     <AppContainer>
@@ -85,31 +94,25 @@ const Dashboard: React.FC = () => {
             </Tag>
           </Box>
         )}
-        <Box
-          borderWidth="2px"
-          borderColor="gray"
-          p={1}
-        >
-          <Text fontWeight="bold">Dag Runs</Text>
-          {Object.keys(summary).map((key) => (
-            <Box
-              key={key}
-              p="1"
-            >
-              <Text fontWeight="bold"><Link to={`/dags/${key}`}>{key}</Link></Text>
-              <Text>
-                Successful Runs:
-                {' '}
-                {summary[key].successCount}
-              </Text>
-              <Text>
-                Failed Runs:
-                {' '}
-                {summary[key].failedCount}
-              </Text>
-            </Box>
-          ))}
-        </Box>
+        <Chart
+          width="500px"
+          height="300px"
+          chartType="BarChart"
+          loader={<div>Loading Chart</div>}
+          data={[
+            ['Dag', 'Successful Runs', 'Failed Runs'],
+            ...barChartData,
+          ]}
+          options={{
+            title: 'Recent Dag Runs',
+            chartArea: { width: '50%' },
+            isStacked: true,
+            hAxis: {
+              title: 'Total Runs',
+              minValue: 0,
+            },
+          }}
+        />
         <Box
           borderWidth="2px"
           borderColor="gray"
@@ -132,6 +135,13 @@ const Dashboard: React.FC = () => {
               </pre>
             ))}
           </Box>
+        </Box>
+        <Box
+          borderWidth="2px"
+          borderColor="gray"
+          p={1}
+        >
+          <Text>Task Summary</Text>
         </Box>
       </SimpleGrid>
     </AppContainer>

@@ -4,6 +4,8 @@ import { Redirect, Switch } from 'react-router-dom';
 
 import { PrivateRoute } from 'auth';
 
+import Dashboard from 'views/dashboard';
+
 import Dag from 'views/dag';
 import DagCode from 'views/dagCode';
 import DagGraph from 'views/dagGraph';
@@ -28,7 +30,9 @@ import XComs from 'views/xcoms';
 
 const App = () => (
   <Switch>
-    <Redirect exact path="/" to="/dags" />
+    <Redirect exact path="/" to="/dashboard" />
+    <PrivateRoute exact path="/dashboard" component={Dashboard} />
+
     <PrivateRoute exact path="/dags" component={Dags} />
     <PrivateRoute exact path="/dags/:dagId" component={Dag} />
     <PrivateRoute exact path="/dags/:dagId/code" component={DagCode} />

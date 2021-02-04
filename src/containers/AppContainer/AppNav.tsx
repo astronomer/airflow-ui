@@ -7,6 +7,7 @@ import {
   MdList,
   MdSettings,
   MdPlaylistPlay,
+  MdDashboard,
 } from 'react-icons/md';
 
 import AppNavBtn from './AppNavBtn';
@@ -18,6 +19,12 @@ interface Props {
 
 const AppNav: React.FC<Props> = ({ bodyBg, overlayBg }) => {
   const navItems = [
+    {
+      label: 'Dashboard',
+      icon: MdDashboard,
+      path: '/dashboard',
+      activePath: '/dashboard',
+    },
     {
       label: 'DAGs',
       icon: MdPlaylistPlay,

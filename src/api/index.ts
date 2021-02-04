@@ -4,7 +4,7 @@
 import axios from 'axios';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
-import type { Dag } from 'interfaces';
+import type { Dag, DagRun } from 'interfaces';
 import { useToast } from '@chakra-ui/react';
 
 axios.defaults.baseURL = process.env.SERVER_URL;
@@ -13,14 +13,13 @@ export function useDags() {
   return useQuery<any, Error>(
     'dags',
     () => axios.get('/dags'),
-    { refetchInterval: 2000 },
   );
 }
 
 export function useDag(dagId: Dag['dagId']) {
   return useQuery<any, Error>(
     ['dag', dagId],
-    () => axios.get(`dags/${dagId}`),
+    () => axios.get(`dags/${dagId}/details`),
   );
 }
 
@@ -31,17 +30,40 @@ export function useDagTasks(dagId: Dag['dagId']) {
   );
 }
 
-export function useDagRuns(dagId: Dag['dagId']) {
+export function useAllDagRuns(dateMin: string) {
+  return useQuery<any, Error>(
+    'dagRuns',
+    () => axios.get(`dags/~/dagRuns?start_date_gte=${dateMin}`),
+  );
+}
+
+export function useDagRunsByDag(dagId: Dag['dagId']) {
   return useQuery<any, Error>(
     ['dagRun', dagId],
     () => axios.get(`dags/${dagId}/dagRuns`),
   );
 }
 
+export function useTaskInstances(dagId: Dag['dagId'], dagRunId: DagRun['dagRunId'], dateMin: string) {
+  return useQuery<any, Error>(
+    ['taskInstance', dagRunId],
+    () => axios.get(`dags/${dagId}/dagRuns/${dagRunId}/taskInstances?start_date_gte=${dateMin}`),
+  );
+}
+
 export function useEventLogs() {
   return useQuery<any, Error>(
     'eventLogs',
-    () => axios.get('/eventLogs'),
+    () => axios.get('/eventLogs?offset=1200'),
+    // { refetchInterval: 2000 },
+  );
+}
+
+export function useHealth() {
+  return useQuery<any, Error>(
+    'health',
+    () => axios.get('/health'),
+    // { refetchInterval: 2000 },
   );
 }
 

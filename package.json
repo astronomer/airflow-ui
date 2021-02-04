@@ -25,6 +25,7 @@
     "humps": "^2.0.1",
     "react": "^16",
     "react-dom": "^16",
+    "react-google-charts": "^3.0.15",
     "react-hot-loader": "^4",
     "react-icons": "^3.11.0",
     "react-query": "^3.5.12",

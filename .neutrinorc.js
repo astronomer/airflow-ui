@@ -22,6 +22,7 @@ module.exports = {
       neutrino.config.resolve.alias.set('api', resolve(__dirname, 'src/api'));
       neutrino.config.resolve.alias.set('components', resolve(__dirname, 'src/components'));
       neutrino.config.resolve.alias.set('auth', resolve(__dirname, 'src/auth'));
+      neutrino.config.resolve.alias.set('theme', resolve(__dirname, 'src/theme'));
     },
     typescript(),
     typescriptLint(),

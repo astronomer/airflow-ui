@@ -30,17 +30,10 @@ export function useDagTasks(dagId: Dag['dagId']) {
   );
 }
 
-export function useAllDagRuns(dateMin: string) {
-  return useQuery<any, Error>(
-    'dagRuns',
-    () => axios.get(`dags/~/dagRuns?start_date_gte=${dateMin}`),
-  );
-}
-
-export function useDagRunsByDag(dagId: Dag['dagId']) {
+export function useDagRuns(dagId: Dag['dagId'], dateMin?: string) {
   return useQuery<any, Error>(
     ['dagRun', dagId],
-    () => axios.get(`dags/${dagId}/dagRuns`),
+    () => axios.get(`dags/${dagId}/dagRuns${dateMin ? `?start_date_gte=${dateMin}` : ''}`),
   );
 }
 
@@ -54,8 +47,7 @@ export function useTaskInstances(dagId: Dag['dagId'], dagRunId: DagRun['dagRunId
 export function useEventLogs() {
   return useQuery<any, Error>(
     'eventLogs',
-    () => axios.get('/eventLogs?offset=1200'),
-    // { refetchInterval: 2000 },
+    () => axios.get('/eventLogs'),
   );
 }
 

@@ -20,7 +20,7 @@ import dayjs from 'dayjs';
 
 import DagContainer from 'containers/DagContainer';
 import ErrorMessage from 'components/ErrorMessage';
-import { useDag, useDagTasks, useDagRunsByDag } from 'api';
+import { useDag, useDagTasks, useDagRuns } from 'api';
 import type {
   Dag as DagType, Task, DagTag, DagRun,
 } from 'interfaces';
@@ -40,7 +40,7 @@ const Dag: React.FC = () => {
   } = useDagTasks(dagId);
   const {
     data: { dagRuns } = defaultDagRuns, isLoading: dagRunsLoading, error: dagRunsError,
-  } = useDagRunsByDag(dagId);
+  } = useDagRuns(dagId);
 
   useEffect(() => {
     drawChart(400, 600);

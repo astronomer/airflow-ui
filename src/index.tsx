@@ -7,45 +7,17 @@ import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
-import {
-  ChakraProvider,
-  extendTheme,
-} from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 
 import App from './App';
 import { AuthProvider } from './auth';
+import theme from './theme';
 
 const queryClient = new QueryClient();
 
-const airflowTheme = extendTheme({
-  config: {
-    useSystemColorMode: true,
-    initialColorMode: 'light',
-  },
-  fontSizes: {
-    xs: '10px',
-    sm: '12px',
-    md: '14px',
-    lg: '16px',
-    xl: '18px',
-    '2xl': '20px',
-    '3xl': '24px',
-    '4xl': '28px',
-    '5xl': '36px',
-    '6xl': '48px',
-  },
-  styles: {
-    global: {
-      body: {
-        overflow: 'hidden',
-      },
-    },
-  },
-});
-
 render(
   <BrowserRouter basename="/">
-    <ChakraProvider theme={airflowTheme}>
+    <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <App />

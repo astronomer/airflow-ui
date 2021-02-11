@@ -10,8 +10,6 @@ import DagCode from 'views/dagCode';
 import DagGraph from 'views/dagGraph';
 import DagTree from 'views/dagTree';
 import Dags from 'views/dags';
-import Config from 'views/config';
-import Connections from 'views/connections';
 
 import DagRuns from 'views/browse/DagRuns';
 import EventLogs from 'views/browse/EventLogs';
@@ -20,15 +18,16 @@ import SlaMisses from 'views/browse/SlaMisses';
 import TaskInstances from 'views/browse/TaskInstances';
 import TaskReschedules from 'views/browse/TaskReschedules';
 
-
 import Access from 'views/access';
 import Permissions from 'views/access/Permissions';
 import Roles from 'views/access/Roles';
 import Users from 'views/access/Users';
 
-import Pools from 'views/pools';
-import Variables from 'views/variables';
-import XComs from 'views/xcoms';
+import Config from 'views/admin/Config';
+import Connections from 'views/admin/Connections';
+import Pools from 'views/admin/Pools';
+import Variables from 'views/admin/Variables';
+import XComs from 'views/admin/XComs';
 
 import Docs from 'views/docs';
 

@@ -52,7 +52,8 @@ const AppNav: React.FC<Props> = ({ bodyBg, overlayBg }) => {
     {
       label: 'Docs',
       icon: MdDescription,
-      href: 'https://airflow.apache.org/docs/',
+      path: '/docs',
+      activePath: '/docs',
     },
   ];
 

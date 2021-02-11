@@ -27,6 +27,8 @@ import Users from 'views/users';
 import Variables from 'views/variables';
 import XComs from 'views/xcoms';
 
+import Docs from 'views/docs';
+
 const App = () => (
   <Switch>
     <PrivateRoute exact path="/" component={Dashboard} />
@@ -52,6 +54,8 @@ const App = () => (
     <PrivateRoute exact path="/admin/connections" component={Connections} />
     <PrivateRoute exact path="/admin/pools" component={Pools} />
     <PrivateRoute exact path="/admin/xcoms" component={XComs} />
+
+    <PrivateRoute exact path="/docs" component={Docs} />
   </Switch>
 );
 

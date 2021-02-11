@@ -2,10 +2,10 @@ import React from 'react';
 
 import DagContainer from 'containers/DagContainer';
 
-const DagTree: React.FC = () => (
-  <DagContainer current="Tree" displayRunSelect>
+const Graph: React.FC = () => (
+  <DagContainer current="Graph" displayRunSelect>
     <p>TK</p>
   </DagContainer>
 );
 
-export default DagTree;
+export default Graph;

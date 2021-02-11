@@ -5,11 +5,12 @@ import { Switch } from 'react-router-dom';
 import { PrivateRoute } from 'auth';
 
 import Dashboard from 'views/dashboard';
-import Dag from 'views/dag';
-import DagCode from 'views/dagCode';
-import DagGraph from 'views/dagGraph';
-import DagTree from 'views/dagTree';
+
 import Dags from 'views/dags';
+import Dag from 'views/dag';
+import DagCode from 'views/dag/Code';
+import DagGraph from 'views/dag/Graph';
+import DagTree from 'views/dag/Tree';
 
 import DagRuns from 'views/browse/DagRuns';
 import EventLogs from 'views/browse/EventLogs';

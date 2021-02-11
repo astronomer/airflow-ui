@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
 import {
-  MdDescription,
+  MdImportContacts,
   MdGroup,
   MdList,
   MdSettings,
@@ -51,7 +51,7 @@ const AppNav: React.FC<Props> = ({ bodyBg, overlayBg }) => {
     },
     {
       label: 'Docs',
-      icon: MdDescription,
+      icon: MdImportContacts,
       path: '/docs',
       activePath: '/docs',
     },

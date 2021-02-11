@@ -40,7 +40,7 @@ const AppNav: React.FC<Props> = ({ bodyBg, overlayBg }) => {
     {
       label: 'Access',
       icon: MdGroup,
-      path: '/access/users',
+      path: '/access',
       activePath: '/access',
     },
     {

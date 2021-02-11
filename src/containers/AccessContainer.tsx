@@ -10,6 +10,10 @@ interface Props {
 const AccessContainer: React.FC<Props> = ({ children, current, toolBar }) => {
   const navItems = [
     {
+      label: 'Overview',
+      path: '/access',
+    },
+    {
       label: 'Users',
       path: '/access/users',
     },

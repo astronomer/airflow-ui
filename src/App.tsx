@@ -20,10 +20,13 @@ import SlaMisses from 'views/browse/SlaMisses';
 import TaskInstances from 'views/browse/TaskInstances';
 import TaskReschedules from 'views/browse/TaskReschedules';
 
-import Permissions from 'views/permissions';
+
+import Access from 'views/access';
+import Permissions from 'views/access/Permissions';
+import Roles from 'views/access/Roles';
+import Users from 'views/access/Users';
+
 import Pools from 'views/pools';
-import Roles from 'views/roles';
-import Users from 'views/users';
 import Variables from 'views/variables';
 import XComs from 'views/xcoms';
 
@@ -45,6 +48,7 @@ const App = () => (
     <PrivateRoute exact path="/browse/task-instances" component={TaskInstances} />
     <PrivateRoute exact path="/browse/task-reschedules" component={TaskReschedules} />
 
+    <PrivateRoute exact path="/access" component={Access} />
     <PrivateRoute exact path="/access/users" component={Users} />
     <PrivateRoute exact path="/access/roles" component={Roles} />
     <PrivateRoute exact path="/access/permissions" component={Permissions} />

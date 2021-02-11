@@ -55,6 +55,18 @@ const DagContainer: React.FC<Props> = ({ children, current, displayRunSelect = f
       path: `/dags/${dagId}/graph`,
     },
     {
+      label: 'Task Tries',
+      path: `/dags/${dagId}/task-tries`,
+    },
+    {
+      label: 'Landing Times',
+      path: `/dags/${dagId}/landing-times`,
+    },
+    {
+      label: 'Gantt',
+      path: `/dags/${dagId}/gantt`,
+    },
+    {
       label: 'Code',
       path: `/dags/${dagId}/code`,
     },

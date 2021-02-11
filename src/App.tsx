@@ -8,9 +8,12 @@ import Dashboard from 'views/dashboard';
 
 import Dags from 'views/dags';
 import Dag from 'views/dag';
-import DagCode from 'views/dag/Code';
-import DagGraph from 'views/dag/Graph';
-import DagTree from 'views/dag/Tree';
+import Code from 'views/dag/Code';
+import Graph from 'views/dag/Graph';
+import Tree from 'views/dag/Tree';
+import Gantt from 'views/dag/Gantt';
+import LandingTimes from 'views/dag/LandingTimes';
+import TaskTries from 'views/dag/TaskTries';
 
 import DagRuns from 'views/browse/DagRuns';
 import EventLogs from 'views/browse/EventLogs';
@@ -37,9 +40,12 @@ const App = () => (
     <PrivateRoute exact path="/" component={Dashboard} />
     <PrivateRoute exact path="/dags" component={Dags} />
     <PrivateRoute exact path="/dags/:dagId" component={Dag} />
-    <PrivateRoute exact path="/dags/:dagId/code" component={DagCode} />
-    <PrivateRoute exact path="/dags/:dagId/graph" component={DagGraph} />
-    <PrivateRoute exact path="/dags/:dagId/tree" component={DagTree} />
+    <PrivateRoute exact path="/dags/:dagId/code" component={Code} />
+    <PrivateRoute exact path="/dags/:dagId/graph" component={Graph} />
+    <PrivateRoute exact path="/dags/:dagId/tree" component={Tree} />
+    <PrivateRoute exact path="/dags/:dagId/gantt" component={Gantt} />
+    <PrivateRoute exact path="/dags/:dagId/landing-times" component={LandingTimes} />
+    <PrivateRoute exact path="/dags/:dagId/task-tries" component={TaskTries} />
 
     <PrivateRoute exact path="/browse/dag-runs" component={DagRuns} />
     <PrivateRoute exact path="/browse/event-logs" component={EventLogs} />

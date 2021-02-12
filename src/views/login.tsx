@@ -13,7 +13,7 @@ import {
 import { MdLock, MdPerson } from 'react-icons/md';
 
 import AppContainer from 'containers/AppContainer';
-import { useAuthContext } from 'auth';
+import { useAuthContext } from 'utils/auth';
 import ErrorMessage from 'components/ErrorMessage';
 
 const Login: React.FC = () => {

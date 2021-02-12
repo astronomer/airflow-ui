@@ -2,7 +2,7 @@ import { hot } from 'react-hot-loader';
 import React from 'react';
 import { Switch } from 'react-router-dom';
 
-import { PrivateRoute } from 'auth';
+import { PrivateRoute } from 'utils/auth';
 
 import Dashboard from 'views/dashboard';
 

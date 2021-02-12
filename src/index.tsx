@@ -10,8 +10,9 @@ import {
 import { ChakraProvider } from '@chakra-ui/react';
 
 import App from './App';
-import { AuthProvider } from './auth';
 import theme from './theme';
+
+import { AuthProvider } from 'utils/auth';
 
 const queryClient = new QueryClient();
 

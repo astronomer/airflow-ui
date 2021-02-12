@@ -22,7 +22,7 @@ import {
   MdAccountCircle,
   MdExitToApp,
 } from 'react-icons/md';
-import { useAuthContext } from 'auth';
+import { useAuthContext } from 'utils/auth';
 import { ApacheAirflowIcon } from 'utils/icons';
 
 interface Props {

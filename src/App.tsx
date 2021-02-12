@@ -13,6 +13,7 @@ import Graph from 'views/dag/Graph';
 import Tree from 'views/dag/Tree';
 import Gantt from 'views/dag/Gantt';
 import LandingTimes from 'views/dag/LandingTimes';
+import TaskDuration from 'views/dag/TaskDuration';
 import TaskTries from 'views/dag/TaskTries';
 
 import DagRuns from 'views/browse/DagRuns';
@@ -45,6 +46,7 @@ const App = () => (
     <PrivateRoute exact path="/dags/:dagId/tree" component={Tree} />
     <PrivateRoute exact path="/dags/:dagId/gantt" component={Gantt} />
     <PrivateRoute exact path="/dags/:dagId/landing-times" component={LandingTimes} />
+    <PrivateRoute exact path="/dags/:dagId/task-duration" component={TaskDuration} />
     <PrivateRoute exact path="/dags/:dagId/task-tries" component={TaskTries} />
 
     <PrivateRoute exact path="/browse/dag-runs" component={DagRuns} />

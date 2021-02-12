@@ -33,6 +33,10 @@ const BrowseContainer: React.FC<Props> = ({ children, current, toolBar }) => {
       label: 'SLA Misses',
       path: '/browse/sla-misses',
     },
+    {
+      label: 'XComs',
+      path: '/browse/xcoms',
+    },
   ];
 
   return (

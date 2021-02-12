@@ -32,7 +32,7 @@ import Config from 'views/admin/Config';
 import Connections from 'views/admin/Connections';
 import Pools from 'views/admin/Pools';
 import Variables from 'views/admin/Variables';
-import XComs from 'views/admin/XComs';
+import XComs from 'views/browse/XComs';
 
 import Docs from 'views/docs';
 
@@ -55,6 +55,7 @@ const App = () => (
     <PrivateRoute exact path="/browse/sla-misses" component={SlaMisses} />
     <PrivateRoute exact path="/browse/task-instances" component={TaskInstances} />
     <PrivateRoute exact path="/browse/task-reschedules" component={TaskReschedules} />
+    <PrivateRoute exact path="/browse/xcoms" component={XComs} />
 
     <PrivateRoute exact path="/access" component={Access} />
     <PrivateRoute exact path="/access/users" component={Users} />
@@ -65,7 +66,6 @@ const App = () => (
     <PrivateRoute exact path="/admin/variables" component={Variables} />
     <PrivateRoute exact path="/admin/connections" component={Connections} />
     <PrivateRoute exact path="/admin/pools" component={Pools} />
-    <PrivateRoute exact path="/admin/xcoms" component={XComs} />
 
     <PrivateRoute exact path="/docs" component={Docs} />
   </Switch>

@@ -25,10 +25,6 @@ const AdminContainer: React.FC<Props> = ({ children, current, toolBar }) => {
       label: 'Pools',
       path: '/admin/pools',
     },
-    {
-      label: 'XComs',
-      path: '/admin/xcoms',
-    },
   ];
 
   return (

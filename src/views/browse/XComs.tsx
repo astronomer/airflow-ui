@@ -8,10 +8,10 @@ import {
   InputLeftElement,
 } from '@chakra-ui/react';
 
-import AdminContainer from 'containers/AdminContainer';
+import BrowseContainer from 'containers/BrowseContainer';
 
 const XComs: React.FC = () => (
-  <AdminContainer
+  <BrowseContainer
     current="XComs"
     toolBar={(
       <Box width="100%" display="flex" justifyContent="space-between">
@@ -28,7 +28,7 @@ const XComs: React.FC = () => (
     )}
   >
     <p>TK</p>
-  </AdminContainer>
+  </BrowseContainer>
 );
 
 export default XComs;

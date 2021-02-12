@@ -3,6 +3,7 @@ import useReactRouter from 'use-react-router';
 import { Link } from 'react-router-dom';
 import {
   Box,
+  IconButton,
   Heading,
   Input,
   InputGroup,
@@ -10,12 +11,18 @@ import {
   Select,
   Switch,
   useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { useDag, useSaveDag } from 'api';
+
 import SectionNavBtn from 'components/SectionNavBtn';
+import TriggerDagModal from 'components/TriggerDagModal';
+
 import AppContainer from 'containers/AppContainer';
+
 import type { Dag } from 'interfaces';
+import { MdPlayArrow } from 'react-icons/md';
 
 interface Props {
   current: string;
@@ -24,6 +31,7 @@ interface Props {
 
 const DagContainer: React.FC<Props> = ({ children, current, displayRunSelect = false }) => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: Dag['dagId'] }}} = useReactRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const [isPaused, setIsPaused] = useState(false);
   // dag error is handled in children
   const { data: dag } = useDag(dagId);
@@ -106,11 +114,20 @@ const DagContainer: React.FC<Props> = ({ children, current, displayRunSelect = f
             ))}
           </Box>
           {dag && (
-            <Switch
-              id="pause"
-              isChecked={!isPaused}
-              onChange={toggleDagPaused}
-            />
+            <div>
+              <Switch
+                id="pause"
+                isChecked={!isPaused}
+                onChange={toggleDagPaused}
+              />
+              <IconButton
+                aria-label="Trigger DAG"
+                icon={<MdPlayArrow />}
+                onClick={onOpen}
+                ml={4}
+                colorScheme="teal"
+              />
+            </div>
           )}
         </Box>
       </Box>
@@ -158,6 +175,7 @@ const DagContainer: React.FC<Props> = ({ children, current, displayRunSelect = f
       <Box py="4">
         {children}
       </Box>
+      <TriggerDagModal dagId={dagId} isOpen={isOpen} onClose={onClose} />
     </AppContainer>
   );
 };

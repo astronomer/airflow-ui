@@ -22,10 +22,9 @@ import { formatScheduleCode } from 'utils';
 
 interface Props {
   dag: Dag;
-  showDagSideBar: () => void;
 }
 
-const DagRow: React.FC<Props> = ({ dag, showDagSideBar }) => {
+const DagRow: React.FC<Props> = ({ dag }) => {
   const [isPaused, setIsPaused] = useState(dag.isPaused);
   const mutation = useSaveDag(dag.dagId);
 
@@ -37,7 +36,6 @@ const DagRow: React.FC<Props> = ({ dag, showDagSideBar }) => {
   return (
     <Tr
       key={dag.dagId}
-      onClick={showDagSideBar}
       _odd={{
         backgroundColor: useColorModeValue('gray.50', 'gray.900'),
       }}

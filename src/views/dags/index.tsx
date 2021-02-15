@@ -23,16 +23,13 @@ import ErrorMessage from 'components/ErrorMessage';
 import type { Dag } from 'interfaces';
 import { defaultDags } from 'api/defaults';
 import Pagination from 'components/Pagination';
-import SidebarDag from './SidebarDag';
 import DagRow from './DagRow';
 
 const Dags: React.FC = () => {
   const { data: { dags, totalEntries } = defaultDags, isLoading, error } = useDags();
 
   const [filter, setFilter] = useState<'all' | 'active' | 'paused'>('all');
-  const [sidebarDag, setSidebarDag] = useState('');
 
-  const showDagSideBar = (dagId: string) => setSidebarDag(dagId);
   const filteredDags = dags.filter((dag: Dag) => {
     switch (filter) {
       case 'active':
@@ -119,7 +116,6 @@ const Dags: React.FC = () => {
             <DagRow
               dag={dag}
               key={dag.dagId}
-              showDagSideBar={() => showDagSideBar(dag.dagId)}
             />
           ))}
         </Tbody>
@@ -130,7 +126,6 @@ const Dags: React.FC = () => {
         </span>
         <Pagination ml={4} />
       </Box>
-      <SidebarDag dagId={sidebarDag} dags={dags} />
     </AppContainer>
   );
 };

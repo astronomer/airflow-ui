@@ -87,6 +87,7 @@ const Dags: React.FC = () => {
             type="search"
             maxWidth="400px"
             placeholder="Find DAGs…"
+            isDisabled
           />
         </InputGroup>
       </Box>

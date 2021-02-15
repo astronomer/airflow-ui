@@ -41,6 +41,7 @@ const Pools: React.FC = () => {
             <Input
               type="search"
               placeholder="Find Pool…"
+              isDisabled
             />
           </InputGroup>
           <Button size="sm" colorScheme="teal">Add Pool</Button>

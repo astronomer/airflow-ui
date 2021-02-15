@@ -22,6 +22,7 @@ const XComs: React.FC = () => (
           <Input
             type="search"
             placeholder="Find XCom…"
+            isDisabled
           />
         </InputGroup>
       </Box>

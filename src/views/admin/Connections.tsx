@@ -43,6 +43,7 @@ const Connections: React.FC = () => {
             <Input
               type="search"
               placeholder="Find Connection…"
+              isDisabled
             />
           </InputGroup>
           <Button size="sm" colorScheme="teal">Add Connection</Button>

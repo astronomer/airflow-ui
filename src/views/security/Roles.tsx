@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AccessContainer from 'containers/AccessContainer';
+import AccessContainer from 'containers/SecurityContainer';
 
 const Roles: React.FC = () => (
   <AccessContainer current="Roles">

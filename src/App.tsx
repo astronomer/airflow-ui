@@ -21,10 +21,9 @@ import SlaMisses from 'views/browse/SlaMisses';
 import TaskInstances from 'views/browse/TaskInstances';
 import TaskReschedules from 'views/browse/TaskReschedules';
 
-import Access from 'views/access';
-import Permissions from 'views/access/Permissions';
-import Roles from 'views/access/Roles';
-import Users from 'views/access/Users';
+import Permissions from 'views/security/Permissions';
+import Roles from 'views/security/Roles';
+import Users from 'views/security/Users';
 
 import Config from 'views/admin/Config';
 import Connections from 'views/admin/Connections';
@@ -55,10 +54,9 @@ const App = () => (
     <PrivateRoute exact path="/browse/task-reschedules" component={TaskReschedules} />
     <PrivateRoute exact path="/browse/xcoms" component={XComs} />
 
-    <PrivateRoute exact path="/access" component={Access} />
-    <PrivateRoute exact path="/access/users" component={Users} />
-    <PrivateRoute exact path="/access/roles" component={Roles} />
-    <PrivateRoute exact path="/access/permissions" component={Permissions} />
+    <PrivateRoute exact path="/security/users" component={Users} />
+    <PrivateRoute exact path="/security/roles" component={Roles} />
+    <PrivateRoute exact path="/security/permissions" component={Permissions} />
 
     <PrivateRoute exact path="/admin/config" component={Config} />
     <PrivateRoute exact path="/admin/variables" component={Variables} />

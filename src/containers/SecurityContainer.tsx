@@ -7,29 +7,25 @@ interface Props {
   toolBar?: React.ReactNode;
 }
 
-const AccessContainer: React.FC<Props> = ({ children, current, toolBar }) => {
+const SecurityContainer: React.FC<Props> = ({ children, current, toolBar }) => {
   const navItems = [
     {
-      label: 'Overview',
-      path: '/access',
-    },
-    {
       label: 'Users',
-      path: '/access/users',
+      path: '/security/users',
     },
     {
       label: 'Roles',
-      path: '/access/roles',
+      path: '/security/roles',
     },
     {
       label: 'Permissions',
-      path: '/access/permissions',
+      path: '/security/permissions',
     },
   ];
 
   return (
     <SectionWrapper
-      currentSection="Access"
+      currentSection="Security"
       currentView={current}
       navItems={navItems}
       toolBar={toolBar}
@@ -39,4 +35,4 @@ const AccessContainer: React.FC<Props> = ({ children, current, toolBar }) => {
   );
 };
 
-export default AccessContainer;
+export default SecurityContainer;

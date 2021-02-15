@@ -1,10 +1,8 @@
 import { hot } from 'react-hot-loader';
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Redirect, Switch } from 'react-router-dom';
 
 import { PrivateRoute } from 'utils/auth';
-
-import Dashboard from 'views/dashboard';
 
 import Dags from 'views/dags';
 import Dag from 'views/dag';
@@ -38,7 +36,7 @@ import Docs from 'views/docs';
 
 const App = () => (
   <Switch>
-    <PrivateRoute exact path="/" component={Dashboard} />
+    <Redirect exact path="/" to="/dags" />
     <PrivateRoute exact path="/dags" component={Dags} />
     <PrivateRoute exact path="/dags/:dagId" component={Dag} />
     <PrivateRoute exact path="/dags/:dagId/code" component={Code} />

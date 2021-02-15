@@ -20,12 +20,6 @@ interface Props {
 const AppNav: React.FC<Props> = ({ bodyBg, overlayBg }) => {
   const navItems = [
     {
-      label: 'Dashboard',
-      icon: MdDashboard,
-      path: '/',
-      activePath: '/',
-    },
-    {
       label: 'DAGs',
       icon: MdPlaylistPlay,
       path: '/dags',

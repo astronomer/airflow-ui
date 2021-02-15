@@ -101,15 +101,12 @@ const Dags: React.FC = () => {
           >
             <Th />
             <Th>DAG ID</Th>
-            <Th />
-            <Th>SCHEDULE</Th>
-            <Th textAlign="right">PAST WEEK</Th>
           </Tr>
         </Thead>
         <Tbody>
           {isLoading && (
             <Tr>
-              <Td colSpan={4}>Loading…</Td>
+              <Td colSpan={2}>Loading…</Td>
             </Tr>
           )}
           {filteredDags.map((dag: Dag) => (

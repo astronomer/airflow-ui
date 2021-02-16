@@ -18,7 +18,7 @@ import type { Dag } from 'interfaces';
 interface Props {
   dagId: Dag['dagId'];
   isOpen: boolean;
-  onClose: any;
+  onClose: () => void;
 }
 
 const TriggerDagModal: React.FC<Props> = ({ dagId, isOpen, onClose }) => {

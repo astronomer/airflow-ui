@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useReactRouter from 'use-react-router';
 import {
   Button,
@@ -22,7 +22,7 @@ import { MdDone, MdClose, MdLoop } from 'react-icons/md';
 import dayjs from 'dayjs';
 
 import { useDag, useDagTasks, useDagRuns } from 'api';
-import { defaultDagRuns, defaultDagTasks } from 'api/defaults';
+import { defaultDagRuns, defaultTasks } from 'api/defaults';
 
 import DagContainer from 'containers/DagContainer';
 import ErrorMessage from 'components/ErrorMessage';
@@ -35,19 +35,14 @@ import type {
 
 const Dag: React.FC = () => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: DagType['dagId'] }}} = useReactRouter();
-  const [sidebarTask, setSidebarTask] = useState<Task | null>(null);
 
   const { data: dag, isLoading: dagLoading, error: dagError } = useDag(dagId);
   const {
-    data: { tasks } = defaultDagTasks, isLoading: tasksLoading, error: tasksError,
+    data: { tasks } = defaultTasks, isLoading: tasksLoading, error: tasksError,
   } = useDagTasks(dagId);
   const {
     data: { dagRuns } = defaultDagRuns, isLoading: dagRunsLoading, error: dagRunsError,
   } = useDagRuns(dagId);
-
-  const setTask = (task: Task) => {
-    setSidebarTask(task);
-  };
 
   if (!dag) return null;
 

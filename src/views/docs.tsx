@@ -22,7 +22,10 @@ const Docs: React.FC = () => (
       <Flex mt={8}>
         <Box flex="1">
           <Heading as="h1">Documentation</Heading>
-          <Text mt={4}>Apache Airflow Core, which includes webserver, scheduler, CLI and other components that are needed for minimal Airflow&nbsp;installation.</Text>
+          <Text mt={4}>
+            Apache Airflow Core, which includes webserver, scheduler, CLI and other components that
+            are needed for minimal Airflow&nbsp;installation.
+          </Text>
           <Button
             as="a"
             href="https://airflow.apache.org/docs/apache-airflow/stable/index.html"
@@ -78,7 +81,10 @@ const Docs: React.FC = () => (
       </Box>
       <Box mt={10}>
         <Heading as="h3" size="lg">Providers Packages</Heading>
-        <Text mt={4}>Providers packages include integrations with third party integrations. They are updated independently of the Apache Airflow&nbsp;core.</Text>
+        <Text mt={4}>
+          Providers packages include integrations with third party integrations.
+          They are updated independently of the Apache Airflow&nbsp;core.
+        </Text>
 
         <List spacing={2} mt={4} style={{ columns: 3 }}>
           <ListItem><Link href="https://airflow.apache.org/docs/apache-airflow-providers-amazon/stable/index.html" isExternal color="teal.500">Amazon</Link></ListItem>

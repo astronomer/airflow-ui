@@ -81,12 +81,14 @@ const Connections: React.FC = () => {
           ))}
         </Tbody>
       </Table>
-      <Box display="flex" alignItems="center" mt="2" mb="6" px="2" fontSize="sm">
-        <span>
-          {`1-${connections.length} of ${totalEntries} Connection${totalEntries === 1 ? '' : 's'}`}
-        </span>
-        <Pagination ml={4} />
-      </Box>
+      {!isLoading && (
+        <Box display="flex" alignItems="center" mt="2" mb="6" px="2" fontSize="sm">
+          <span>
+            {`1-${connections.length} of ${totalEntries} Connection${totalEntries === 1 ? '' : 's'}`}
+          </span>
+          <Pagination ml={4} />
+        </Box>
+      )}
     </AdminContainer>
   );
 };

@@ -72,12 +72,14 @@ const EventLogs: React.FC = () => {
           ))}
         </Tbody>
       </Table>
-      <Box display="flex" alignItems="center" mt="2" mb="6" px="2" fontSize="sm">
-        <span>
-          {`1-${eventLogs.length} of ${totalEntries} Event Log${totalEntries === 1 ? '' : 's'}`}
-        </span>
-        <Pagination ml={4} />
-      </Box>
+      {!isLoading && (
+        <Box display="flex" alignItems="center" mt="2" mb="6" px="2" fontSize="sm">
+          <span>
+            {`1-${eventLogs.length} of ${totalEntries} Event Log${totalEntries === 1 ? '' : 's'}`}
+          </span>
+          <Pagination ml={4} />
+        </Box>
+      )}
     </BrowseContainer>
   );
 };

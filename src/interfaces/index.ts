@@ -139,3 +139,13 @@ export interface XCom {
   dagId: Dag['dagId'],
   value: string,
 }
+
+export interface Health {
+  metadatabase: {
+    status: string;
+  }
+  scheduler: {
+    status: string;
+    latestSchedulerHeartbeat: string;
+  }
+}

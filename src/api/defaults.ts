@@ -8,8 +8,10 @@ export const defaultEventLogs = { eventLogs: [], totalEntries: 0 };
 
 export const defaultConnections = { connections: [], totalEntries: 0 };
 
-export const defaultDagTasks = { tasks: [], totalEntries: 0 };
+export const defaultTasks = { tasks: [], totalEntries: 0 };
 
 export const defaultVariables = { variables: [], totalEntries: 0 };
 
 export const defaultPools = { pools: [], totalEntries: 0 };
+
+export const defaultTaskInstances = { taskInstances: [], totalEntries: 0 };

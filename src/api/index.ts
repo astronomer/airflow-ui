@@ -1,61 +1,71 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-// TODO: fix types for react-query functions
 import axios from 'axios';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import type { MutationFunction } from 'react-query';
 
-import type { Dag, DagRun } from 'interfaces';
+import type {
+  Dag, DagRun, Health, Version,
+} from 'interfaces';
+import type {
+  DagsResponse,
+  DagRunsResponse,
+  TasksResponse,
+  TaskInstancesResponse,
+  EventLogsResponse,
+  ConnectionsResponse,
+  PoolsResponse,
+  VariablesResponse,
+} from 'interfaces/api';
 import { useToast } from '@chakra-ui/react';
+import { camelToSnakeCase } from 'utils';
 
 axios.defaults.baseURL = process.env.SERVER_URL;
 
 export function useDags() {
-  return useQuery<any, Error>(
+  return useQuery<DagsResponse, Error>(
     'dags',
-    () => axios.get('/dags'),
+    (): Promise<DagsResponse> => axios.get('/dags'),
   );
 }
 
 export function useDag(dagId: Dag['dagId']) {
-  return useQuery<any, Error>(
+  return useQuery<Dag, Error>(
     ['dag', dagId],
-    () => axios.get(`dags/${dagId}/details`),
+    (): Promise<Dag> => axios.get(`dags/${dagId}/details`),
   );
 }
 
 export function useDagTasks(dagId: Dag['dagId']) {
-  return useQuery<any, Error>(
+  return useQuery<TasksResponse, Error>(
     'dagTasks',
-    () => axios.get(`dags/${dagId}/tasks`),
+    (): Promise<TasksResponse> => axios.get(`dags/${dagId}/tasks`),
   );
 }
 
 export function useDagRuns(dagId: Dag['dagId'], dateMin?: string) {
-  return useQuery<any, Error>(
+  return useQuery<DagRunsResponse, Error>(
     ['dagRun', dagId],
-    () => axios.get(`dags/${dagId}/dagRuns${dateMin ? `?start_date_gte=${dateMin}` : ''}`),
+    (): Promise<DagRunsResponse> => axios.get(`dags/${dagId}/dagRuns${dateMin ? `?start_date_gte=${dateMin}` : ''}`),
   );
 }
 
 export function useTaskInstances(dagId: Dag['dagId'], dagRunId: DagRun['dagRunId'], dateMin: string) {
-  return useQuery<any, Error>(
+  return useQuery<TaskInstancesResponse, Error>(
     ['taskInstance', dagRunId],
-    () => axios.get(`dags/${dagId}/dagRuns/${dagRunId}/taskInstances?start_date_gte=${dateMin}`),
+    (): Promise<TaskInstancesResponse> => axios.get(`dags/${dagId}/dagRuns/${dagRunId}/taskInstances?start_date_gte=${dateMin}`),
   );
 }
 
 export function useEventLogs() {
-  return useQuery<any, Error>(
+  return useQuery<EventLogsResponse, Error>(
     'eventLogs',
-    () => axios.get('/eventLogs'),
+    (): Promise<EventLogsResponse> => axios.get('/eventLogs'),
   );
 }
 
 export function useHealth() {
-  return useQuery<any, Error>(
+  return useQuery<Health, Error>(
     'health',
-    () => axios.get('/health'),
-    // { refetchInterval: 2000 },
+    (): Promise<Health> => axios.get('/health'),
   );
 }
 
@@ -64,58 +74,54 @@ export function useConfig() {
 }
 
 export function useConnections() {
-  return useQuery<any, Error>(
+  return useQuery<ConnectionsResponse, Error>(
     'connections',
-    () => axios.get('/connections'),
+    (): Promise<ConnectionsResponse> => axios.get('/connections'),
   );
 }
 
 export function usePools() {
-  return useQuery<any, Error>(
+  return useQuery<PoolsResponse, Error>(
     'pools',
-    () => axios.get('/pools'),
+    (): Promise<PoolsResponse> => axios.get('/pools'),
   );
 }
 
 export function useVariables() {
-  return useQuery<any, Error>(
+  return useQuery<VariablesResponse, Error>(
     'variables',
-    () => axios.get('/variables'),
+    (): Promise<VariablesResponse> => axios.get('/variables'),
   );
 }
 
 export function useVersion() {
-  return useQuery<any, Error>(
+  return useQuery<Version, Error>(
     'version',
-    () => axios.get('/version'),
+    (): Promise<Version> => axios.get('/version'),
   );
-}
-
-interface DagData {
-  dags: Dag[];
-  totalEntries: number;
 }
 
 export function useSaveDag(dagId: Dag['dagId']) {
   const queryClient = useQueryClient();
   const toast = useToast();
-  return useMutation<any, Error>((updateDag) => axios.patch(`dags/${dagId}`, updateDag),
+  return useMutation(
+    (updatedValues: Record<string, any>) => axios.patch(`dags/${dagId}`, camelToSnakeCase(updatedValues)),
     {
-      onMutate: async (variables) => {
-        const newDag = variables as unknown as Dag;
+      onMutate: async (updatedValues: Record<string, any>) => {
         await queryClient.cancelQueries(['dag', dagId]);
-        const previousDag = queryClient.getQueryData(['dag', dagId]);
-        const previousDags = queryClient.getQueryData('dags') as DagData;
+        const previousDag = queryClient.getQueryData(['dag', dagId]) as Dag;
+        const previousDags = queryClient.getQueryData('dags') as DagsResponse;
 
         const newDags = previousDags.dags.map((dag) => (
-          dag.dagId === newDag.dagId ? newDag : dag
+          dag.dagId === dagId ? { ...dag, ...updatedValues } : dag
         ));
+        const newDag = {
+          ...previousDag,
+          ...updatedValues,
+        };
 
         // optimistically set the dag before the async request
-        queryClient.setQueryData(['dag', dagId], (old) => ({
-          ...(old as Dag),
-          ...newDag,
-        }));
+        queryClient.setQueryData(['dag', dagId], () => newDag);
         queryClient.setQueryData('dags', (old) => ({
           ...(old as Dag[]),
           ...{
@@ -127,14 +133,14 @@ export function useSaveDag(dagId: Dag['dagId']) {
       },
       onSettled: (res, error, variables, context) => {
         const previousDag = (context as any)[dagId] as Dag;
-        const previousDags = (context as any).dags as DagData;
+        const previousDags = (context as any).dags as DagsResponse;
         // rollback to previous cache on error
         if (error) {
           queryClient.setQueryData(['dag', dagId], previousDag);
           queryClient.setQueryData('dags', previousDags);
           toast({
             title: 'Error updating DAG',
-            description: error.message,
+            description: (error as Error).message,
             status: 'error',
             duration: 3000,
             isClosable: true,
@@ -159,5 +165,6 @@ export function useSaveDag(dagId: Dag['dagId']) {
         }
         queryClient.invalidateQueries(['dag', dagId]);
       },
-    });
+    },
+  );
 }

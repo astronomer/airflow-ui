@@ -21,7 +21,7 @@ import { MdDone, MdClose, MdLoop } from 'react-icons/md';
 import dayjs from 'dayjs';
 
 import { useDag, useDagTasks, useDagRuns } from 'api';
-import { defaultDagRuns, defaultDagTasks } from 'api/defaults';
+import { defaultDagRuns, defaultTasks } from 'api/defaults';
 
 import DagContainer from 'containers/DagContainer';
 import ErrorMessage from 'components/ErrorMessage';
@@ -37,7 +37,7 @@ const Dag: React.FC = () => {
 
   const { data: dag, isLoading: dagLoading, error: dagError } = useDag(dagId);
   const {
-    data: { tasks } = defaultDagTasks, isLoading: tasksLoading, error: tasksError,
+    data: { tasks } = defaultTasks, isLoading: tasksLoading, error: tasksError,
   } = useDagTasks(dagId);
   const {
     data: { dagRuns } = defaultDagRuns, isLoading: dagRunsLoading, error: dagRunsError,

@@ -23,7 +23,7 @@ const DagRow: React.FC<Props> = ({ dag }) => {
   const mutation = useSaveDag(dag.dagId);
 
   const togglePaused = () => {
-    mutation.mutate({ is_paused: !isPaused });
+    mutation.mutate({ isPaused: !isPaused });
     setIsPaused(!isPaused);
   };
 

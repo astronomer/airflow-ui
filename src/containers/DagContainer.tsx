@@ -45,7 +45,7 @@ const DagContainer: React.FC<Props> = ({ children, displayRunSelect = false }) =
   }, [dag, isPaused]);
 
   const toggleDagPaused = (): void => {
-    mutation.mutate({ is_paused: !isPaused });
+    mutation.mutate({ isPaused: !isPaused });
     setIsPaused(!isPaused);
   };
 

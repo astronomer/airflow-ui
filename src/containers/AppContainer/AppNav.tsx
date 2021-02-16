@@ -7,7 +7,6 @@ import {
   MdList,
   MdSettings,
   MdPlaylistPlay,
-  MdDashboard,
 } from 'react-icons/md';
 
 import AppNavBtn from './AppNavBtn';

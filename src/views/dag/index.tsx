@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useReactRouter from 'use-react-router';
 import {
   Button,
@@ -34,7 +34,6 @@ import type {
 
 const Dag: React.FC = () => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: DagType['dagId'] }}} = useReactRouter();
-  const [sidebarTask, setSidebarTask] = useState<Task | null>(null);
 
   const { data: dag, isLoading: dagLoading, error: dagError } = useDag(dagId);
   const {
@@ -43,10 +42,6 @@ const Dag: React.FC = () => {
   const {
     data: { dagRuns } = defaultDagRuns, isLoading: dagRunsLoading, error: dagRunsError,
   } = useDagRuns(dagId);
-
-  const setTask = (task: Task) => {
-    setSidebarTask(task);
-  };
 
   if (!dag) return null;
 

@@ -23,7 +23,7 @@ const AppNavBtn: React.FC<Props> = ({ navItem }) => {
     label, icon, path, href, activePath,
   } = navItem;
   const isHome = activePath === '/';
-  const isActive = activePath && (isHome && location.pathname === '/'  || !isHome && location.pathname.includes(activePath));
+  const isActive = activePath && ((isHome && location.pathname === '/') || (!isHome && location.pathname.includes(activePath)));
 
   return (
     <Tooltip

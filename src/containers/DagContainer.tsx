@@ -29,9 +29,9 @@ interface Props {
   displayRunSelect?: boolean;
 }
 
-const DagContainer: React.FC<Props> = ({ children, current, displayRunSelect = false }) => {
+const DagContainer: React.FC<Props> = ({ children, displayRunSelect = false }) => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: Dag['dagId'] }}} = useReactRouter();
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isPaused, setIsPaused] = useState(false);
   // dag error is handled in children
   const { data: dag } = useDag(dagId);

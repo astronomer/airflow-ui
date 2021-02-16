@@ -1,34 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import useReactRouter from 'use-react-router';
 import {
   Button,
   Box,
   Flex,
   Code,
-  List,
-  ListItem,
   Tag,
   useColorModeValue,
   Text,
   Icon,
   Center,
   Tooltip,
+  Table,
+  Tr,
+  Td,
+  Th,
 } from '@chakra-ui/react';
 import cronstrue from 'cronstrue';
 import { MdDone, MdClose, MdLoop } from 'react-icons/md';
 import dayjs from 'dayjs';
 
+import { useDag, useDagTasks, useDagRuns } from 'api';
+import { defaultDagRuns, defaultDagTasks } from 'api/defaults';
+
 import DagContainer from 'containers/DagContainer';
 import ErrorMessage from 'components/ErrorMessage';
-import { useDag, useDagTasks, useDagRuns } from 'api';
+
+import { formatScheduleCode } from 'utils';
+
 import type {
   Dag as DagType, Task, DagTag, DagRun,
 } from 'interfaces';
-import { defaultDagRuns, defaultDagTasks } from 'api/defaults';
-import { formatScheduleCode } from 'utils';
-
-import drawChart from './drawChart';
-import SidebarTask from './SidebarTask';
 
 const Dag: React.FC = () => {
   const { match: { params: { dagId } } }: { match: { params: { dagId: DagType['dagId'] }}} = useReactRouter();
@@ -41,10 +43,6 @@ const Dag: React.FC = () => {
   const {
     data: { dagRuns } = defaultDagRuns, isLoading: dagRunsLoading, error: dagRunsError,
   } = useDagRuns(dagId);
-
-  useEffect(() => {
-    drawChart(400, 600);
-  }, []);
 
   const setTask = (task: Task) => {
     setSidebarTask(task);
@@ -62,146 +60,139 @@ const Dag: React.FC = () => {
         <Text>Loading…</Text>
       )}
       <ErrorMessage errors={[dagError, tasksError, dagRunsError]} />
-      <List styleType="none" mt="8">
+      <Table styleType="none" mt="8">
         {dag.description && (
-          <ListItem>
-            Description:
-            {' '}
-            {dag.description}
-          </ListItem>
+          <Tr>
+            <Th>Description</Th>
+            <Td>{dag.description}</Td>
+          </Tr>
         )}
         {dag.owners && (
-          <ListItem>
-            Owner(s):
-            {' '}
-            {dag.owners.join(', ')}
-          </ListItem>
+          <Tr>
+            <Th>Owner(s)</Th>
+            <Td>{dag.owners.join(', ')}</Td>
+          </Tr>
         )}
-        <ListItem>{dag.isPaused}</ListItem>
         {dag.fileloc && (
-          <ListItem>
-            File Location:
-            {' '}
-            <Code>{dag.fileloc}</Code>
-          </ListItem>
+          <Tr>
+            <Th>File Location</Th>
+            <Td><Code>{dag.fileloc}</Code></Td>
+          </Tr>
         )}
         {dag.fileToken && (
-          <ListItem>
-            File Token:
-            {' '}
-            <Code>{dag.fileToken}</Code>
-          </ListItem>
+          <Tr>
+            <Th>File Token</Th>
+            <Td><Code>{dag.fileToken}</Code></Td>
+          </Tr>
         )}
         {dag.scheduleInterval && (
-          <ListItem>
-            Schedule:
-            {' '}
-            {dag.scheduleInterval.type === 'CronExpression' && formatCron(dag.scheduleInterval.value)}
-            {' '}
-            <Code>{formatScheduleCode(dag.scheduleInterval)}</Code>
-          </ListItem>
+          <Tr>
+            <Th>Schedule</Th>
+            <Td>
+              {dag.scheduleInterval.type === 'CronExpression' && formatCron(dag.scheduleInterval.value)}
+              {' '}
+              <Code>{formatScheduleCode(dag.scheduleInterval)}</Code>
+            </Td>
+          </Tr>
         )}
         {dag.tags && (
-          <ListItem>
-            Tags:
-            {' '}
-            {dag.tags.map((tag: DagTag) => (
-              <Tag key={tag.name} mr={1}>{tag.name}</Tag>
-            ))}
-          </ListItem>
+          <Tr>
+            <Th>Tags</Th>
+            <Td>
+              {dag.tags.map((tag: DagTag) => (
+                <Tag key={tag.name} mr={1}>{tag.name}</Tag>
+              ))}
+            </Td>
+          </Tr>
         )}
-      </List>
-      <Box py="1">
-        <Text>Recent Runs:</Text>
-        <Flex mt="1">
-          {dagRuns.map((dagRun: DagRun) => {
-            let bg = 'white';
-            let icon = MdLoop;
-            switch (dagRun.state) {
-              case 'success':
-                bg = 'green.400';
-                icon = MdDone;
-                break;
-              case 'failed':
-                bg = 'red.400';
-                icon = MdClose;
-                break;
-              case 'running':
-                break;
-              default:
-                break;
-            }
-            const Label = (
-              <Box>
-                <Flex>
-                  Status:
-                  {' '}
-                  <Text color={bg}>{dagRun.state}</Text>
-                </Flex>
-                <Text>
-                  Run:
-                  {' '}
-                  {dagRun.dagRunId}
-                </Text>
-                <Text>
-                  Started:
-                  {' '}
-                  {dayjs(dagRun.startDate).format('HH:mm:ss D-M-YY')}
-                </Text>
-                {dagRun.endDate && (
-                  <Text>
-                    End:
-                    {' '}
-                    {dayjs(dagRun.endDate).format('HH:mm:ss D-M-YY')}
-                  </Text>
-                )}
-              </Box>
-            );
-            return (
-              <Tooltip
-                bg={useColorModeValue('gray.300', 'gray.500')}
-                label={Label}
-                aria-label="Dag Run Details"
-                key={dagRun.dagRunId}
-                hasArrow
-              >
-                <Center
-                  height="20px"
-                  width="20px"
-                  borderRadius="20px"
-                  bg={bg}
-                  mx="1"
-                >
-                  <Icon as={icon} />
-                </Center>
-              </Tooltip>
-            );
-          })}
-        </Flex>
-      </Box>
-      <Box
-        mt={2}
-        p={4}
-        borderRadius="4px"
-        borderWidth="4px"
-        borderColor={useColorModeValue('gray.100', 'gray.700')}
-      >
-        <Flex>
-          {tasks.map((task: Task) => (
-            <div key={task.taskId}>
-              <Button
-                onClick={() => setTask(task)}
-                mt={4}
-                variant="outline"
-              >
-                {task.taskId}
-              </Button>
-            </div>
-          ))}
-        </Flex>
-      </Box>
-      <Box id="chart" mt={4} />
-      {sidebarTask && <SidebarTask task={sidebarTask} />}
+        <Tr>
+          <Th>Recent Runs</Th>
+          <Td>
+            <Flex>
+              {dagRuns.map((dagRun: DagRun) => {
+                let bg = 'white';
+                let icon = MdLoop;
+                switch (dagRun.state) {
+                  case 'success':
+                    bg = 'green.400';
+                    icon = MdDone;
+                    break;
+                  case 'failed':
+                    bg = 'red.400';
+                    icon = MdClose;
+                    break;
+                  case 'running':
+                    break;
+                  default:
+                    break;
+                }
+                const Label = (
+                  <Box>
+                    <Flex>
+                      Status:
+                      {' '}
+                      <Text color={bg}>{dagRun.state}</Text>
+                    </Flex>
+                    <Text>
+                      Run:
+                      {' '}
+                      {dagRun.dagRunId}
+                    </Text>
+                    <Text>
+                      Started:
+                      {' '}
+                      {dayjs(dagRun.startDate).format('HH:mm:ss D-M-YY')}
+                    </Text>
+                    {dagRun.endDate && (
+                      <Text>
+                        End:
+                        {' '}
+                        {dayjs(dagRun.endDate).format('HH:mm:ss D-M-YY')}
+                      </Text>
+                    )}
+                  </Box>
+                );
+                return (
+                  <Tooltip
+                    bg={useColorModeValue('gray.300', 'gray.500')}
+                    label={Label}
+                    aria-label="Dag Run Details"
+                    key={dagRun.dagRunId}
+                    hasArrow
+                  >
+                    <Center
+                      height="20px"
+                      width="20px"
+                      borderRadius="20px"
+                      bg={bg}
+                      mx="1"
+                    >
+                      <Icon as={icon} />
+                    </Center>
+                  </Tooltip>
+                );
+              })}
+            </Flex>
+          </Td>
+        </Tr>
+        <Tr>
+          <Th>Tasks</Th>
+          <Td>
+            <Flex>
+              {tasks.map((task: Task) => (
+                <div key={task.taskId}>
+                  <Button
+                    m={2}
+                    variant="outline"
+                  >
+                    {task.taskId}
+                  </Button>
+                </div>
+              ))}
+            </Flex>
+          </Td>
+        </Tr>
+      </Table>
     </DagContainer>
   );
 };

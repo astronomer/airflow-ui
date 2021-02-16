@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { MdCheckCircle, MdError } from 'react-icons/md';
 import {
   Flex,
-  Badge,
-  Box,
   Link,
-  Spinner,
   Tr,
   Td,
   Tag,
-  TagLabel,
   Tooltip,
   useColorModeValue,
   Switch,
@@ -18,7 +13,6 @@ import {
 
 import type { Dag, DagTag } from 'interfaces';
 import { useSaveDag } from 'api';
-import { formatScheduleCode } from 'utils';
 
 interface Props {
   dag: Dag;
@@ -44,11 +38,20 @@ const DagRow: React.FC<Props> = ({ dag }) => {
       }}
     >
       <Td onClick={(e) => e.stopPropagation()} paddingRight="0" width="58px">
-        <Switch
-          id="pause"
-          isChecked={!isPaused}
-          onChange={togglePaused}
-        />
+        <Tooltip
+          label={isPaused ? 'Activate DAG' : 'Pause DAG'}
+          aria-label={isPaused ? 'Activate DAG' : 'Pause DAG'}
+          hasArrow
+        >
+          <span>
+            <Switch
+              id="pause"
+              isChecked={!isPaused}
+              onChange={togglePaused}
+              colorScheme="teal"
+            />
+          </span>
+        </Tooltip>
       </Td>
       <Td>
         <Flex alignItems="center">

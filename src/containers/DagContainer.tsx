@@ -3,7 +3,6 @@ import useReactRouter from 'use-react-router';
 import { Link } from 'react-router-dom';
 import {
   Box,
-  IconButton,
   Heading,
   Input,
   InputGroup,
@@ -12,11 +11,12 @@ import {
   Switch,
   useColorModeValue,
   useDisclosure,
+  Button,
+  Tooltip,
 } from '@chakra-ui/react';
 
 import { useDag, useSaveDag } from 'api';
 
-import SectionNavBtn from 'components/SectionNavBtn';
 import TriggerDagModal from 'components/TriggerDagModal';
 
 import AppContainer from 'containers/AppContainer';
@@ -49,41 +49,6 @@ const DagContainer: React.FC<Props> = ({ children, current, displayRunSelect = f
     setIsPaused(!isPaused);
   };
 
-  const navItems = [
-    {
-      label: 'Overview',
-      path: `/dags/${dagId}`,
-    },
-    {
-      label: 'Tree',
-      path: `/dags/${dagId}/tree`,
-    },
-    {
-      label: 'Graph',
-      path: `/dags/${dagId}/graph`,
-    },
-    {
-      label: 'Task Duration',
-      path: `/dags/${dagId}/task-duration`,
-    },
-    {
-      label: 'Task Tries',
-      path: `/dags/${dagId}/task-tries`,
-    },
-    {
-      label: 'Landing Times',
-      path: `/dags/${dagId}/landing-times`,
-    },
-    {
-      label: 'Gantt',
-      path: `/dags/${dagId}/gantt`,
-    },
-    {
-      label: 'Code',
-      path: `/dags/${dagId}/code`,
-    },
-  ];
-
   return (
     <AppContainer>
       <Box
@@ -103,8 +68,6 @@ const DagContainer: React.FC<Props> = ({ children, current, displayRunSelect = f
             /
           </Box>
           {dag && dag.dagId}
-          <Box as="span" color={useColorModeValue('gray.400', 'gray.500')}>/</Box>
-          {current}
         </Heading>
         <Box
           display="flex"
@@ -112,26 +75,32 @@ const DagContainer: React.FC<Props> = ({ children, current, displayRunSelect = f
           justifyContent="space-between"
           mt="4"
         >
-          <Box as="nav">
-            {navItems.map((item) => (
-              <SectionNavBtn key={item.label} item={item} currentLabel={current} />
-            ))}
-          </Box>
           {dag && (
-            <div>
-              <Switch
-                id="pause"
-                isChecked={!isPaused}
-                onChange={toggleDagPaused}
-              />
-              <IconButton
-                aria-label="Trigger DAG"
-                icon={<MdPlayArrow />}
+            <>
+              <Tooltip
+                label={isPaused ? 'Activate DAG' : 'Pause DAG'}
+                aria-label={isPaused ? 'Activate DAG' : 'Pause DAG'}
+                hasArrow
+              >
+                <span>
+                  <Switch
+                    id="pause"
+                    isChecked={!isPaused}
+                    onChange={toggleDagPaused}
+                    colorScheme="teal"
+                  />
+                </span>
+              </Tooltip>
+              <Button
+                rightIcon={<MdPlayArrow />}
                 onClick={onOpen}
+                size="sm"
                 ml={4}
                 colorScheme="teal"
-              />
-            </div>
+              >
+                Trigger DAG
+              </Button>
+            </>
           )}
         </Box>
       </Box>

@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import type { MutationFunction } from 'react-query';
+import humps from 'humps';
 
 import type {
   Dag, DagRun, Health, Version,
@@ -19,6 +19,9 @@ import { useToast } from '@chakra-ui/react';
 import { camelToSnakeCase } from 'utils';
 
 axios.defaults.baseURL = process.env.SERVER_URL;
+axios.interceptors.response.use(
+  (res) => (res.data ? humps.camelizeKeys(res.data) as unknown as AxiosResponse : res),
+);
 
 export function useDags() {
   return useQuery<DagsResponse, Error>(

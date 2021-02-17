@@ -2,9 +2,8 @@ import React, {
   createContext, useState, useEffect, useContext, useCallback, ReactNode,
 } from 'react';
 import { Route, RouteProps } from 'react-router-dom';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { useQueryClient } from 'react-query';
-import humps from 'humps';
 
 import {
   checkExpire, clearAuth, get, set,
@@ -51,7 +50,7 @@ export const AuthProvider = ({ children }: Props): React.ReactElement => {
 
   // intercept responses, transform response to camelCase, and logout the user on unauthorized error
   axios.interceptors.response.use(
-    (res) => (res.data ? humps.camelizeKeys(res.data) as unknown as AxiosResponse : res),
+    (res) => res,
     (err) => {
       if (err && err.response && err.response.status === 401) {
         logout();

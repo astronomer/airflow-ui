@@ -7,7 +7,7 @@ import ErrorMessage from '../src/components/ErrorMessage';
 describe('ErrorMessage', () => {
   it('Error message should appear as text', () => {
     const err = new Error('oops');
-    const doc = render(<ErrorMessage errors={[err]} />);
-    expect(doc.getByText('oops')).toBeInTheDocument();
+    const { getByText } = render(<ErrorMessage errors={[err]} />);
+    expect(getByText('oops')).toBeInTheDocument();
   });
 });

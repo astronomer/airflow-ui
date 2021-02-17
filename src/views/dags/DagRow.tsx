@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Flex,
@@ -19,17 +19,12 @@ interface Props {
 }
 
 const DagRow: React.FC<Props> = ({ dag }) => {
-  const [isPaused, setIsPaused] = useState(dag.isPaused);
   const mutation = useSaveDag(dag.dagId);
 
-  const togglePaused = () => {
-    mutation.mutate({ isPaused: !isPaused });
-    setIsPaused(!isPaused);
-  };
+  const togglePaused = () => mutation.mutate({ isPaused: !dag.isPaused });
 
   return (
     <Tr
-      key={dag.dagId}
       _odd={{
         backgroundColor: useColorModeValue('gray.50', 'gray.900'),
       }}
@@ -39,14 +34,15 @@ const DagRow: React.FC<Props> = ({ dag }) => {
     >
       <Td onClick={(e) => e.stopPropagation()} paddingRight="0" width="58px">
         <Tooltip
-          label={isPaused ? 'Activate DAG' : 'Pause DAG'}
-          aria-label={isPaused ? 'Activate DAG' : 'Pause DAG'}
+          label={dag.isPaused ? 'Activate DAG' : 'Pause DAG'}
+          aria-label={dag.isPaused ? 'Activate DAG' : 'Pause DAG'}
           hasArrow
         >
+          {/* span helps tooltip find its position */}
           <span>
             <Switch
-              id="pause"
-              isChecked={!isPaused}
+              role="switch"
+              isChecked={!dag.isPaused}
               onChange={togglePaused}
               colorScheme="teal"
             />

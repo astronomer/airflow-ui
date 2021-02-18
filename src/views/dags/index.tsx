@@ -110,6 +110,11 @@ const Dags: React.FC = () => {
               <Td colSpan={2}>Loading…</Td>
             </Tr>
           )}
+          {(!isLoading && !filteredDags.length) && (
+            <Tr>
+              <Td colSpan={2}>No DAGs found.</Td>
+            </Tr>
+          )}
           {filteredDags.map((dag: Dag) => (
             <DagRow
               dag={dag}

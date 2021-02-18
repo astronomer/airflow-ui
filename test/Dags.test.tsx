@@ -1,11 +1,12 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, waitFor } from '@testing-library/react';
+import nock from 'nock';
 
 import Dags from '../src/views/dags';
-import { RouterWrapper } from './wrappers';
+import { QueryWrapper, RouterWrapper } from './wrappers';
 
-let sampleDag = {
+const sampleDag = {
   dagId: 'dagId1',
   description: 'string',
   fileToken: 'string',
@@ -23,43 +24,76 @@ let sampleDag = {
   ],
 };
 
-const mockDags = {
-  data: {
+nock('http://127.0.0.1:28080')
+  .defaultReplyHeaders({
+    'access-control-allow-origin': '*',
+    'access-control-allow-credentials': 'true',
+  })
+  .persist()
+  .intercept('/api/v1/dags/dagId1', 'PATCH')
+  .reply(200, { ...sampleDag, ...{ isPaused: !sampleDag.isPaused } });
+
+nock('http://127.0.0.1:28080')
+  .defaultReplyHeaders({
+    'access-control-allow-origin': '*',
+    'access-control-allow-credentials': 'true',
+  })
+  .persist()
+  .get('/api/v1/dags')
+  .reply(200, {
     dags: [sampleDag],
     totalEntries: 1,
-  },
-  loading: false,
-  error: null,
-};
-
-const mockMutation = {
-  mutate: (args: Record<string, any>) => {
-    sampleDag = { ...sampleDag, ...args };
-  },
-};
-
-jest.mock('../src/api', () => ({
-  useDags: jest.fn(() => mockDags),
-  useVersion: jest.fn(() => ({
-    data: { version: '', gitVersion: '' },
-    loading: false,
-    error: null,
-  })),
-  useSaveDag: jest.fn(() => mockMutation),
-}));
-
-describe('Dags Table', () => {
-  it('Clicking a switch should pause/unpause a dag', async () => {
-    const { getByRole } = render(
-      <Dags />,
-      {
-        wrapper: RouterWrapper,
-      },
-    );
-    const toggle = getByRole('switch');
-
-    expect(toggle.firstChild?.checked).toBeTruthy();
-    fireEvent.click(toggle);
-    waitFor(() => expect(toggle.firstChild?.checked).toBeFalsy());
   });
+
+nock('http://127.0.0.1:28080')
+  .defaultReplyHeaders({
+    'access-control-allow-origin': '*',
+    'access-control-allow-credentials': 'true',
+  })
+  .persist()
+  .get('/api/v1/version')
+  .reply(200, { version: '', gitVersion: '' });
+
+test('Show a loading indicator and have a DAG count of 0 before data loads', async () => {
+  const { getByText } = render(
+    <QueryWrapper><Dags /></QueryWrapper>,
+    {
+      wrapper: RouterWrapper,
+    },
+  );
+  expect(getByText('Loading…')).toBeInTheDocument();
+  expect(getByText('All (0)')).toBeInTheDocument();
+  await waitFor(() => expect(getByText('All (1)')).toBeInTheDocument());
+});
+
+test('Show a loading indicator and have a DAG count of 0 before data loads', async () => {
+  const { getByText, getByRole } = render(
+    <QueryWrapper><Dags /></QueryWrapper>,
+    {
+      wrapper: RouterWrapper,
+    },
+  );
+  await waitFor(() => expect(getByText('All (1)')).toBeInTheDocument());
+  const toggle = getByRole('switch');
+  expect(toggle.firstChild?.checked).toBeTruthy();
+  fireEvent.click(toggle);
+  await waitFor(() => expect(toggle.firstChild?.checked).toBeFalsy());
+});
+
+test('Show Empty State text if there are no dags', () => {
+  nock('http://127.0.0.1:28080')
+    .defaultReplyHeaders({
+      'access-control-allow-origin': '*',
+      'access-control-allow-credentials': 'true',
+    })
+    .get('/api/v1/dags')
+    .reply(404, undefined);
+
+  const { getByText } = render(
+    <QueryWrapper><Dags /></QueryWrapper>,
+    {
+      wrapper: RouterWrapper,
+    },
+  );
+  waitFor(() => expect(getByText('No DAGs found.')).toBeInTheDocument());
 });

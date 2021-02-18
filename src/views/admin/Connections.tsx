@@ -66,7 +66,7 @@ const Connections: React.FC = () => {
               <Td colSpan={4}>Loading…</Td>
             </Tr>
           )}
-          {connections.length === 0 && (
+          {(connections.length === 0 && !isLoading) && (
             <Tr>
               <Td colSpan={4}>No connections added.</Td>
             </Tr>

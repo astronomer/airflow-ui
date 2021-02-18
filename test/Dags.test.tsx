@@ -3,8 +3,10 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import nock from 'nock';
 
-import Dags from '../src/views/dags';
-import { QueryWrapper, RouterWrapper } from './wrappers';
+import Dags from 'views/dags';
+import {
+  defaultHeaders, QueryWrapper, RouterWrapper, url,
+} from './utils';
 
 const sampleDag = {
   dagId: 'dagId1',
@@ -24,34 +26,25 @@ const sampleDag = {
   ],
 };
 
-nock('http://127.0.0.1:28080')
-  .defaultReplyHeaders({
-    'access-control-allow-origin': '*',
-    'access-control-allow-credentials': 'true',
-  })
+nock(url)
+  .defaultReplyHeaders(defaultHeaders)
   .persist()
-  .intercept('/api/v1/dags/dagId1', 'PATCH')
+  .intercept('/dags/dagId1', 'PATCH')
   .reply(200, { ...sampleDag, ...{ isPaused: !sampleDag.isPaused } });
 
-nock('http://127.0.0.1:28080')
-  .defaultReplyHeaders({
-    'access-control-allow-origin': '*',
-    'access-control-allow-credentials': 'true',
-  })
+nock(url)
+  .defaultReplyHeaders(defaultHeaders)
   .persist()
-  .get('/api/v1/dags')
+  .get('/dags')
   .reply(200, {
     dags: [sampleDag],
     totalEntries: 1,
   });
 
-nock('http://127.0.0.1:28080')
-  .defaultReplyHeaders({
-    'access-control-allow-origin': '*',
-    'access-control-allow-credentials': 'true',
-  })
+nock(url)
+  .defaultReplyHeaders(defaultHeaders)
   .persist()
-  .get('/api/v1/version')
+  .get('/version')
   .reply(200, { version: '', gitVersion: '' });
 
 test('Show a loading indicator and have a DAG count of 0 before data loads', async () => {
@@ -82,12 +75,9 @@ test('Clicking on a toggle will change its state and show a success toast', asyn
 });
 
 test('Show Empty State text if there are no dags', () => {
-  nock('http://127.0.0.1:28080')
-    .defaultReplyHeaders({
-      'access-control-allow-origin': '*',
-      'access-control-allow-credentials': 'true',
-    })
-    .get('/api/v1/dags')
+  nock(url)
+    .defaultReplyHeaders(defaultHeaders)
+    .get('/dags')
     .reply(404, undefined);
 
   const { getByText } = render(

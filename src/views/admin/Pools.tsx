@@ -64,7 +64,7 @@ const Pools: React.FC = () => {
               <Td colSpan={4}>Loading…</Td>
             </Tr>
           )}
-          {pools.length === 0 && (
+          {(pools.length === 0 && !isLoading) && (
             <Tr>
               <Td colSpan={4}>No pools added.</Td>
             </Tr>

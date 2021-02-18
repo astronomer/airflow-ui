@@ -38,7 +38,7 @@ const Variables: React.FC = () => {
               <Td colSpan={2}>Loading…</Td>
             </Tr>
           )}
-          {variables.length === 0 && (
+          {(variables.length === 0 && !isLoading) && (
             <Tr>
               <Td colSpan={2}>No variables added.</Td>
             </Tr>

@@ -46,7 +46,7 @@ const EventLogs: React.FC = () => {
               <Td colSpan={4}>Loading…</Td>
             </Tr>
           )}
-          {eventLogs.length === 0 && (
+          {(eventLogs.length === 0 && !isLoading) && (
             <Tr>
               <Td colSpan={4}>No event logs.</Td>
             </Tr>

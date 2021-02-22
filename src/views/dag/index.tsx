@@ -2,15 +2,10 @@ import React from 'react';
 import useReactRouter from 'use-react-router';
 import {
   Button,
-  Box,
   Flex,
   Code,
   Tag,
-  useColorModeValue,
   Text,
-  Icon,
-  Center,
-  Tooltip,
   Table,
   Tr,
   Td,
@@ -18,44 +13,48 @@ import {
   Tbody,
 } from '@chakra-ui/react';
 import cronstrue from 'cronstrue';
-import { MdDone, MdClose, MdLoop } from 'react-icons/md';
-import dayjs from 'dayjs';
 
 import { useDag, useDagTasks, useDagRuns } from 'api';
 import { defaultDagRuns, defaultTasks } from 'api/defaults';
+import { formatScheduleCode } from 'utils';
+import compareObjectProps from 'utils/memo';
+import type {
+  Dag as DagType, Task, DagTag, DagRun as DagRunType,
+} from 'interfaces';
 
 import DagContainer from 'containers/DagContainer';
 import ErrorMessage from 'components/ErrorMessage';
+import DagRun from './DagRun';
 
-import { formatScheduleCode } from 'utils';
+interface RouterProps {
+  match: { params: { dagId: DagType['dagId'] } }
+}
 
-import type {
-  Dag as DagType, Task, DagTag, DagRun,
-} from 'interfaces';
+interface DagProps {
+  dag: DagType;
+  tasks: Task[];
+  dagRuns: DagRunType[];
+  isLoading: boolean;
+  errors: (Error | null)[];
+}
 
-const Dag: React.FC = () => {
-  const { match: { params: { dagId } } }: { match: { params: { dagId: DagType['dagId'] }}} = useReactRouter();
-
-  const { data: dag, isLoading: dagLoading, error: dagError } = useDag(dagId);
-  const {
-    data: { tasks } = defaultTasks, isLoading: tasksLoading, error: tasksError,
-  } = useDagTasks(dagId);
-  const {
-    data: { dagRuns } = defaultDagRuns, isLoading: dagRunsLoading, error: dagRunsError,
-  } = useDagRuns(dagId);
-
-  if (!dag) return null;
-
+const Dag: React.FC<DagProps> = ({
+  dag,
+  tasks,
+  dagRuns,
+  isLoading,
+  errors,
+}) => {
   const formatCron = (cron: string) => (
     cron[0] !== '@' ? cronstrue.toString(cron, { verbose: true }) : ''
   );
 
   return (
     <DagContainer current="Overview">
-      {(dagLoading || dagRunsLoading || tasksLoading) && (
+      {isLoading && (
         <Text>Loading…</Text>
       )}
-      <ErrorMessage errors={[dagError, tasksError, dagRunsError]} />
+      <ErrorMessage errors={errors} />
       <Table size="sm" mt="8">
         <Tbody>
           {dag.description && (
@@ -106,68 +105,9 @@ const Dag: React.FC = () => {
             <Th>Recent Runs</Th>
             <Td>
               <Flex>
-                {dagRuns.map((dagRun: DagRun) => {
-                  let bg = 'white';
-                  let icon = MdLoop;
-                  switch (dagRun.state) {
-                    case 'success':
-                      bg = 'green.400';
-                      icon = MdDone;
-                      break;
-                    case 'failed':
-                      bg = 'red.400';
-                      icon = MdClose;
-                      break;
-                    case 'running':
-                      break;
-                    default:
-                      break;
-                  }
-                  const Label = (
-                    <Box>
-                      <Flex>
-                        Status:
-                        {' '}
-                        <Text color={bg}>{dagRun.state}</Text>
-                      </Flex>
-                      <Text>
-                        Run:
-                        {' '}
-                        {dagRun.dagRunId}
-                      </Text>
-                      <Text>
-                        Started:
-                        {' '}
-                        {dayjs(dagRun.startDate).format('HH:mm:ss D-M-YY')}
-                      </Text>
-                      {dagRun.endDate && (
-                        <Text>
-                          End:
-                          {' '}
-                          {dayjs(dagRun.endDate).format('HH:mm:ss D-M-YY')}
-                        </Text>
-                      )}
-                    </Box>
-                  );
-                  return (
-                    <Tooltip
-                      label={Label}
-                      aria-label="Dag Run Details"
-                      key={dagRun.dagRunId}
-                      hasArrow
-                    >
-                      <Center
-                        height="20px"
-                        width="20px"
-                        borderRadius="20px"
-                        bg={bg}
-                        mx="1"
-                      >
-                        <Icon as={icon} />
-                      </Center>
-                    </Tooltip>
-                  );
-                })}
+                {dagRuns.map((dagRun: DagRunType) => (
+                  <DagRun dagRun={dagRun} key={dagRun.dagRunId} />
+                ))}
               </Flex>
             </Td>
           </Tr>
@@ -194,4 +134,29 @@ const Dag: React.FC = () => {
   );
 };
 
-export default Dag;
+const MemoDag = React.memo(Dag, compareObjectProps);
+
+const DagWrapper: React.FC = () => {
+  const { match: { params: { dagId } } }: RouterProps = useReactRouter();
+
+  const { data: dag, isLoading: dagLoading, error: dagError } = useDag(dagId);
+  const {
+    data: { tasks } = defaultTasks, isLoading: tasksLoading, error: tasksError,
+  } = useDagTasks(dagId);
+  const {
+    data: { dagRuns } = defaultDagRuns, isLoading: dagRunsLoading, error: dagRunsError,
+  } = useDagRuns(dagId);
+
+  if (!dag) return null;
+  return (
+    <MemoDag
+      dag={dag}
+      isLoading={dagLoading || dagRunsLoading || tasksLoading}
+      errors={[dagError, tasksError, dagRunsError]}
+      dagRuns={dagRuns}
+      tasks={tasks}
+    />
+  );
+};
+
+export default DagWrapper;

@@ -23,11 +23,13 @@ axios.interceptors.response.use(
   (res) => (res.data ? humps.camelizeKeys(res.data) as unknown as AxiosResponse : res),
 );
 
+const refetchInterval = 1000;
+
 export function useDags() {
   return useQuery<DagsResponse, Error>(
     'dags',
     (): Promise<DagsResponse> => axios.get('/dags'),
-    { refetchInterval: 1000 },
+    { refetchInterval },
   );
 }
 
@@ -35,6 +37,7 @@ export function useDag(dagId: Dag['dagId']) {
   return useQuery<Dag, Error>(
     ['dag', dagId],
     (): Promise<Dag> => axios.get(`dags/${dagId}/details`),
+    { refetchInterval },
   );
 }
 
@@ -49,6 +52,7 @@ export function useDagRuns(dagId: Dag['dagId'], dateMin?: string) {
   return useQuery<DagRunsResponse, Error>(
     ['dagRun', dagId],
     (): Promise<DagRunsResponse> => axios.get(`dags/${dagId}/dagRuns${dateMin ? `?start_date_gte=${dateMin}` : ''}`),
+    { refetchInterval },
   );
 }
 

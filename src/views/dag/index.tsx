@@ -100,7 +100,7 @@ const Dag: React.FC<DagProps> = ({
           <Tr>
             <Th>Recent Runs</Th>
             <Td>
-              <Flex>
+              <Flex flexWrap="wrap">
                 {dagRuns.map((dagRun: DagRunType) => (
                   <DagRun dagRun={dagRun} key={dagRun.dagRunId} />
                 ))}
@@ -110,7 +110,7 @@ const Dag: React.FC<DagProps> = ({
           <Tr>
             <Th>Tasks</Th>
             <Td>
-              <Flex>
+              <Flex flexWrap="wrap">
                 {tasks.map((task: Task) => (
                   <div key={task.taskId}>
                     <Button

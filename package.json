@@ -21,7 +21,6 @@
     "dayjs": "^1.9.1",
     "dotenv": "^8.2.0",
     "framer-motion": "^2.9.5",
-    "highlight.js": "^10.2.1",
     "humps": "^2.0.1",
     "react": "^16",
     "react-dom": "^16",

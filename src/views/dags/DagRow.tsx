@@ -11,6 +11,7 @@ import {
   Switch,
 } from '@chakra-ui/react';
 
+import compareObjectProps from 'utils/memo';
 import type { Dag, DagTag } from 'interfaces';
 import { useSaveDag } from 'api';
 
@@ -20,7 +21,6 @@ interface Props {
 
 const DagRow: React.FC<Props> = ({ dag }) => {
   const mutation = useSaveDag(dag.dagId);
-
   const togglePaused = () => mutation.mutate({ isPaused: !dag.isPaused });
 
   return (
@@ -75,4 +75,4 @@ const DagRow: React.FC<Props> = ({ dag }) => {
   );
 };
 
-export default DagRow;
+export default React.memo(DagRow, compareObjectProps);

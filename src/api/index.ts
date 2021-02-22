@@ -27,6 +27,7 @@ export function useDags() {
   return useQuery<DagsResponse, Error>(
     'dags',
     (): Promise<DagsResponse> => axios.get('/dags'),
+    { refetchInterval: 1000 },
   );
 }
 

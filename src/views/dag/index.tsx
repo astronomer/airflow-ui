@@ -151,7 +151,6 @@ const Dag: React.FC = () => {
                   );
                   return (
                     <Tooltip
-                      bg={useColorModeValue('gray.300', 'gray.500')}
                       label={Label}
                       aria-label="Dag Run Details"
                       key={dagRun.dagRunId}

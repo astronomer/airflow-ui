@@ -23,16 +23,20 @@ cp .env.example .env
 
 ## Development
 
-Modify local Airflow to allow API connections in `airflow/config_templates/default_airflow.cfg`:
-```py
-auth_backend = airflow.api.auth.backend.basic_auth
+Modify local Airflow to allow API connections. For Breeze development, add the following to `files/airflow-breeze-config/variables.env`:
+```env
+export AIRFLOW__API__AUTH_BACKEND=airflow.api.auth.backend.basic_auth
+export AIRFLOW__API__ACCESS_CONTROL_ALLOW_HEADERS=*
+export AIRFLOW__API__ACCESS_CONTROL_ALLOW_METHODS=*
+export AIRFLOW__API__ACCESS_CONTROL_ALLOW_ORIGIN=http://127.0.0.1:28080
 ```
 
-**NOTE:** For the time being, some additional hacking is required to add CORS headers
-to the API responses. I've been cherry-picking **[this commit](https://github.com/apache/airflow/commit/5713291546c8c9da476f3073525468dd1bb73286)** as a short-term solution
-until a permanent configuration is added.
+Start local Webserver:
+```bash
+airflow webserver
+```
 
-Run application:
+Start the UI application:
 ```bash
 yarn start
 ```

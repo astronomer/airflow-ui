@@ -58,10 +58,12 @@ export function useDagRuns(dagId: Dag['dagId'], dateMin?: string) {
   );
 }
 
-export function useTaskInstances(dagId: Dag['dagId'], dagRunId: DagRun['dagRunId'], dateMin: string) {
+export function useTaskInstances(dagId: Dag['dagId'], dagRunId: DagRun['dagRunId'], dateMin?: string) {
   return useQuery<TaskInstancesResponse, Error>(
     ['taskInstance', dagRunId],
-    (): Promise<TaskInstancesResponse> => axios.get(`dags/${dagId}/dagRuns/${dagRunId}/taskInstances?start_date_gte=${dateMin}`),
+    (): Promise<TaskInstancesResponse> => (
+      axios.get(`dags/${dagId}/dagRuns/${dagRunId}/taskInstances${dateMin ? `?start_date_gte=${dateMin}` : ''}`)
+    ),
   );
 }
 
@@ -127,6 +129,12 @@ export function useTriggerDag(dagId: Dag['dagId']) {
             isClosable: true,
           });
         } else {
+          toast({
+            title: 'DAG Triggered',
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+          });
           const dagRunData = queryClient.getQueryData(['dagRun', dagId]) as unknown as DagRunsResponse;
           if (dagRunData) {
             queryClient.setQueryData(['dagRun', dagId], {

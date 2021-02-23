@@ -102,6 +102,7 @@ const Dags: React.FC = () => {
           >
             <Th />
             <Th>DAG ID</Th>
+            <Th />
           </Tr>
         </Thead>
         <Tbody>

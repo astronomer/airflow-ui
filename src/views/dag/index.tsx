@@ -14,12 +14,14 @@ import {
 } from '@chakra-ui/react';
 import cronstrue from 'cronstrue';
 
-import { useDag, useDagTasks, useDagRuns } from 'api';
-import { defaultDagRuns, defaultTasks } from 'api/defaults';
+import {
+  useDag, useDagTasks, useDagRuns, useTaskInstances,
+} from 'api';
+import { defaultDagRuns, defaultTaskInstances, defaultTasks } from 'api/defaults';
 import { formatScheduleCode } from 'utils';
 import compareObjectProps from 'utils/memo';
 import type {
-  Dag as DagType, Task, DagTag, DagRun as DagRunType,
+  Dag as DagType, Task, DagTag, DagRun as DagRunType, TaskInstance,
 } from 'interfaces';
 
 import DagContainer from 'containers/DagContainer';
@@ -34,6 +36,7 @@ interface DagProps {
   dag: DagType;
   tasks: Task[];
   dagRuns: DagRunType[];
+  taskInstances: TaskInstance[];
   isLoading: boolean;
   errors: (Error | null)[];
 }
@@ -44,10 +47,12 @@ const Dag: React.FC<DagProps> = ({
   dagRuns,
   isLoading,
   errors,
+  taskInstances,
 }) => {
   const formatCron = (cron: string) => (
     cron[0] !== '@' ? cronstrue.toString(cron, { verbose: true }) : ''
   );
+  console.log(taskInstances);
 
   return (
     <DagContainer current="Overview">
@@ -146,15 +151,21 @@ const DagWrapper: React.FC = () => {
   const {
     data: { dagRuns } = defaultDagRuns, isLoading: dagRunsLoading, error: dagRunsError,
   } = useDagRuns(dagId);
+  const {
+    data: { taskInstances } = defaultTaskInstances,
+    isLoading: taskInstancesLoading,
+    error: taskInstancesError,
+  } = useTaskInstances(dagId, '~');
 
   if (!dag) return null;
   return (
     <MemoDag
       dag={dag}
-      isLoading={dagLoading || dagRunsLoading || tasksLoading}
-      errors={[dagError, tasksError, dagRunsError]}
+      isLoading={dagLoading || dagRunsLoading || tasksLoading || taskInstancesLoading}
+      errors={[dagError, tasksError, dagRunsError, taskInstancesError]}
       dagRuns={dagRuns}
       tasks={tasks}
+      taskInstances={taskInstances}
     />
   );
 };

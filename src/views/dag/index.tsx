@@ -15,13 +15,13 @@ import {
 import cronstrue from 'cronstrue';
 
 import {
-  useDag, useDagTasks, useDagRuns, useTaskInstances,
+  useDag, useDagTasks, useDagRuns,
 } from 'api';
-import { defaultDagRuns, defaultTaskInstances, defaultTasks } from 'api/defaults';
+import { defaultDagRuns, defaultTasks } from 'api/defaults';
 import { formatScheduleCode } from 'utils';
 import compareObjectProps from 'utils/memo';
 import type {
-  Dag as DagType, Task, DagTag, DagRun as DagRunType, TaskInstance,
+  Dag as DagType, Task, DagTag, DagRun as DagRunType,
 } from 'interfaces';
 
 import DagContainer from 'containers/DagContainer';
@@ -36,7 +36,6 @@ interface DagProps {
   dag: DagType;
   tasks: Task[];
   dagRuns: DagRunType[];
-  taskInstances: TaskInstance[];
   isLoading: boolean;
   errors: (Error | null)[];
 }
@@ -47,12 +46,10 @@ const Dag: React.FC<DagProps> = ({
   dagRuns,
   isLoading,
   errors,
-  taskInstances,
 }) => {
   const formatCron = (cron: string) => (
     cron[0] !== '@' ? cronstrue.toString(cron, { verbose: true }) : ''
   );
-  console.log(taskInstances);
 
   return (
     <DagContainer current="Overview">
@@ -78,12 +75,6 @@ const Dag: React.FC<DagProps> = ({
             <Tr>
               <Th>File Location</Th>
               <Td><Code>{dag.fileloc}</Code></Td>
-            </Tr>
-          )}
-          {dag.fileToken && (
-            <Tr>
-              <Th>File Token</Th>
-              <Td><Code>{dag.fileToken}</Code></Td>
             </Tr>
           )}
           {dag.scheduleInterval && (
@@ -151,21 +142,15 @@ const DagWrapper: React.FC = () => {
   const {
     data: { dagRuns } = defaultDagRuns, isLoading: dagRunsLoading, error: dagRunsError,
   } = useDagRuns(dagId);
-  const {
-    data: { taskInstances } = defaultTaskInstances,
-    isLoading: taskInstancesLoading,
-    error: taskInstancesError,
-  } = useTaskInstances(dagId, '~');
 
   if (!dag) return null;
   return (
     <MemoDag
       dag={dag}
-      isLoading={dagLoading || dagRunsLoading || tasksLoading || taskInstancesLoading}
-      errors={[dagError, tasksError, dagRunsError, taskInstancesError]}
+      isLoading={dagLoading || dagRunsLoading || tasksLoading}
+      errors={[dagError, tasksError, dagRunsError]}
       dagRuns={dagRuns}
       tasks={tasks}
-      taskInstances={taskInstances}
     />
   );
 };

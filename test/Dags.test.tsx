@@ -59,7 +59,7 @@ test('Show a loading indicator and have a DAG count of 0 before data loads', asy
   await waitFor(() => expect(getByText('All (1)')).toBeInTheDocument());
 });
 
-test('Clicking on a toggle will change its state and show a success toast', async () => {
+test('Clicking on a toggle will successfully pause/unpause a DAG', async () => {
   const { getByText, getByRole } = render(
     <QueryWrapper><Dags /></QueryWrapper>,
     {
@@ -67,11 +67,16 @@ test('Clicking on a toggle will change its state and show a success toast', asyn
     },
   );
   await waitFor(() => expect(getByText('All (1)')).toBeInTheDocument());
+  expect(getByText('Active (1)')).toBeInTheDocument();
+  expect(getByText('Paused (0)')).toBeInTheDocument();
   const toggle = getByRole('switch');
   expect(toggle.firstChild?.checked).toBeTruthy();
   fireEvent.click(toggle);
+  // 'Dag Updated' is the toast confirming the change happened
   waitFor(() => expect(getByText('DAG Updated')).toBeInTheDocument());
-  waitFor(() => expect(toggle.firstChild?.checked).toBeFalsy());
+  await waitFor(() => expect(toggle.firstChild?.checked).toBeFalsy());
+  expect(getByText('Active (0)')).toBeInTheDocument();
+  expect(getByText('Paused (1)')).toBeInTheDocument();
 });
 
 test('Show Empty State text if there are no dags', () => {

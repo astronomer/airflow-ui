@@ -9,17 +9,22 @@ import {
   Tooltip,
   useColorModeValue,
   Switch,
+  useDisclosure,
+  IconButton,
 } from '@chakra-ui/react';
 
+import TriggerDagModal from 'components/TriggerDagModal';
 import compareObjectProps from 'utils/memo';
 import type { Dag, DagTag } from 'interfaces';
 import { useSaveDag } from 'api';
+import { MdPlayArrow } from 'react-icons/md';
 
 interface Props {
   dag: Dag;
 }
 
 const DagRow: React.FC<Props> = ({ dag }) => {
+  const { isOpen, onToggle, onClose } = useDisclosure();
   const mutation = useSaveDag(dag.dagId);
   const togglePaused = () => mutation.mutate({ isPaused: !dag.isPaused });
 
@@ -70,6 +75,17 @@ const DagRow: React.FC<Props> = ({ dag }) => {
             </Tag>
           ))}
         </Flex>
+      </Td>
+      <Td>
+        <IconButton
+          size="sm"
+          aria-label="Trigger Dag"
+          colorScheme="teal"
+          borderRadius="50%"
+          icon={<MdPlayArrow />}
+          onClick={onToggle}
+        />
+        <TriggerDagModal dagId={dag.dagId} isOpen={isOpen} onClose={onClose} />
       </Td>
     </Tr>
   );

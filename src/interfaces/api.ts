@@ -37,3 +37,10 @@ export interface PoolsResponse extends Entries {
 export interface TaskInstancesResponse extends Entries {
   taskInstances: TaskInstance[];
 }
+
+export interface TriggerDagRequest {
+  conf: Record<string, any>;
+  dagRunId?: string;
+  executionDate: Date;
+  state?: 'success' | 'running' | 'failed';
+}

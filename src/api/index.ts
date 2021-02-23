@@ -14,9 +14,11 @@ import type {
   ConnectionsResponse,
   PoolsResponse,
   VariablesResponse,
+  TriggerDagRequest,
 } from 'interfaces/api';
 import { useToast } from '@chakra-ui/react';
 import { camelToSnakeCase } from 'utils';
+import DagRuns from 'views/browse/DagRuns';
 
 axios.defaults.baseURL = process.env.SERVER_URL;
 axios.interceptors.response.use(
@@ -106,6 +108,41 @@ export function useVersion() {
   return useQuery<Version, Error>(
     'version',
     (): Promise<Version> => axios.get('/version'),
+  );
+}
+
+export function useTriggerDag(dagId: Dag['dagId']) {
+  const queryClient = useQueryClient();
+  const toast = useToast();
+  return useMutation(
+    (trigger: TriggerDagRequest) => axios.post(`dags/${dagId}/dagRuns`, camelToSnakeCase(trigger)),
+    {
+      onSettled: (res, error) => {
+        if (error) {
+          toast({
+            title: 'Error triggering DAG',
+            description: (error as Error).message,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+          });
+        } else {
+          const dagRunData = queryClient.getQueryData(['dagRun', dagId]) as unknown as DagRunsResponse;
+          if (dagRunData) {
+            queryClient.setQueryData(['dagRun', dagId], {
+              dagRuns: [...dagRunData.dagRuns, res],
+              totalEntries: dagRunData.totalEntries += 1,
+            });
+          } else {
+            queryClient.setQueryData(['dagRun', dagId], {
+              dagRuns: [res],
+              totalEntries: 1,
+            });
+          }
+        }
+        queryClient.invalidateQueries(['dagRun', dagId]);
+      },
+    },
   );
 }
 

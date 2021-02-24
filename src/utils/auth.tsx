@@ -1,14 +1,13 @@
 import React, {
   createContext, useState, useEffect, useContext, useCallback, ReactNode,
 } from 'react';
-import { Route, RouteProps } from 'react-router-dom';
+import { Redirect, Route, RouteProps } from 'react-router-dom';
 import axios from 'axios';
 import { useQueryClient } from 'react-query';
 
 import {
-  checkExpire, clearAuth, get, set,
+  checkExpire, clearAuth, get, set, remove,
 } from 'utils/localStorage';
-import Login from 'views/login';
 
 // todo: eventually replace hasValidAuthToken with a user object
 interface AuthContextData {
@@ -46,7 +45,10 @@ export const AuthProvider = ({ children }: Props): React.ReactElement => {
     axios.defaults.headers.common.Authorization = null;
   }, [queryClient]);
 
-  const logout = () => clearData();
+  const logout = () => {
+    clearData();
+    return <Redirect to="/login" />;
+  }
 
   // intercept responses, transform response to camelCase, and logout the user on unauthorized error
   axios.interceptors.response.use(
@@ -77,6 +79,7 @@ export const AuthProvider = ({ children }: Props): React.ReactElement => {
   // Login with basic auth.
   // There is no actual auth endpoint yet, so we check against a generic endpoint
   const login = async (username: string, password: string) => {
+    const redirectPath = get('redirectPath');
     setLoading(true);
     setError(null);
     try {
@@ -90,6 +93,12 @@ export const AuthProvider = ({ children }: Props): React.ReactElement => {
       axios.defaults.headers.common.Authorization = authorization;
       setLoading(false);
       setHasValidAuthToken(true);
+      if (redirectPath) {
+        remove('redirectPath');
+        return <Redirect to={redirectPath} />;
+      } else {
+        return <Redirect to="/" />;
+      }
     } catch (e) {
       setLoading(false);
       setError(e);
@@ -116,5 +125,10 @@ export const useAuthContext = () => useContext(AuthContext);
 
 export const PrivateRoute: React.FC<RouteProps> = (props) => {
   const { hasValidAuthToken } = useAuthContext();
-  return hasValidAuthToken ? <Route {...props} /> : <Login />;
+  if (hasValidAuthToken) {
+    return <Route {...props} />;
+  } else {
+    set('redirectPath', location.pathname);
+    return <Redirect to="/login" />;
+  }
 };

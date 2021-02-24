@@ -18,7 +18,6 @@ import type {
 } from 'interfaces/api';
 import { useToast } from '@chakra-ui/react';
 import { camelToSnakeCase } from 'utils';
-import DagRuns from 'views/browse/DagRuns';
 
 axios.defaults.baseURL = process.env.SERVER_URL;
 axios.interceptors.response.use(

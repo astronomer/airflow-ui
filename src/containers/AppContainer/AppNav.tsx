@@ -9,6 +9,8 @@ import {
   MdPlaylistPlay,
 } from 'react-icons/md';
 
+import { useAuthContext } from 'utils/auth';
+
 import AppNavBtn from './AppNavBtn';
 
 interface Props {
@@ -17,6 +19,8 @@ interface Props {
 }
 
 const AppNav: React.FC<Props> = ({ bodyBg, overlayBg }) => {
+  const { hasValidAuthToken } = useAuthContext();
+
   const navItems = [
     {
       label: 'DAGs',
@@ -84,7 +88,7 @@ const AppNav: React.FC<Props> = ({ bodyBg, overlayBg }) => {
           <path d="M17.9649 18.6209C18.3825 18.6157 18.7169 18.273 18.7117 17.8553C18.7065 17.4377 18.3638 17.1034 17.9462 17.1085C17.5285 17.1137 17.1942 17.4564 17.1994 17.8741C17.2045 18.2917 17.5473 18.626 17.9649 18.6209Z" fill="#4a4848" />
         </svg>
       </Box>
-      {navItems.map((item) => (
+      {hasValidAuthToken && navItems.map((item) => (
         <AppNavBtn key={item.label} navItem={item} />
       ))}
     </Box>

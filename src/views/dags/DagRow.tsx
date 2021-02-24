@@ -76,15 +76,20 @@ const DagRow: React.FC<Props> = ({ dag }) => {
           ))}
         </Flex>
       </Td>
-      <Td>
-        <IconButton
-          size="sm"
-          aria-label="Trigger Dag"
-          colorScheme="teal"
-          borderRadius="50%"
-          icon={<MdPlayArrow />}
-          onClick={onToggle}
-        />
+      <Td textAlign="right">
+        <Tooltip
+          label="Trigger DAG"
+          aria-label="Trigger DAG"
+          hasArrow
+        >
+          <IconButton
+            size="sm"
+            aria-label="Trigger Dag"
+            colorScheme="teal"
+            icon={<MdPlayArrow />}
+            onClick={onToggle}
+          />
+        </Tooltip>
         <TriggerDagModal dagId={dag.dagId} isOpen={isOpen} onClose={onClose} />
       </Td>
     </Tr>

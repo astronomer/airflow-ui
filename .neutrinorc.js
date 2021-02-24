@@ -5,6 +5,7 @@ const react = require('@neutrinojs/react');
 const jest = require('@neutrinojs/jest');
 const eslint = require('@neutrinojs/eslint');
 const { resolve } = require('path');
+const copy = require('@neutrinojs/copy');
 
 module.exports = {
   options: {
@@ -39,8 +40,14 @@ module.exports = {
       ],
       html: {
         title: 'Apache Airflow',
-        favicon: 'src/static/favicon.ico',
       }
+    }),
+    copy({
+      patterns: [
+        { from: 'src/static/favicon.ico', to: '.' },
+        { from: 'src/static/robots.txt', to: '.' },
+        { from: 'src/static/_redirects', to: '.' },
+      ],
     }),
   ],
 };

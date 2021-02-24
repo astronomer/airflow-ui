@@ -1,6 +1,6 @@
 import { hot } from 'react-hot-loader';
 import React from 'react';
-import { Redirect, Switch } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 
 import { PrivateRoute } from 'utils/auth';
 
@@ -25,6 +25,7 @@ import Variables from 'views/admin/Variables';
 import XComs from 'views/browse/XComs';
 
 import Docs from 'views/docs';
+import NotFound from 'views/notFound';
 
 const App = () => (
   <Switch>
@@ -49,7 +50,8 @@ const App = () => (
     <PrivateRoute exact path="/admin/connections" component={Connections} />
     <PrivateRoute exact path="/admin/pools" component={Pools} />
 
-    <PrivateRoute exact path="/docs" component={Docs} />
+    <Route exact path="/docs" component={Docs} />
+    <Route component={NotFound} />
   </Switch>
 );
 

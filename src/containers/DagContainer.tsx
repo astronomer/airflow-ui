@@ -87,7 +87,6 @@ const DagContainer: React.FC<Props> = ({ children, displayRunSelect = false }) =
                     id="pause"
                     isChecked={!isPaused}
                     onChange={toggleDagPaused}
-                    colorScheme="teal"
                   />
                 </span>
               </Tooltip>
@@ -96,7 +95,6 @@ const DagContainer: React.FC<Props> = ({ children, displayRunSelect = false }) =
                 onClick={onOpen}
                 size="sm"
                 ml={4}
-                colorScheme="teal"
               >
                 Trigger DAG
               </Button>

@@ -24,6 +24,23 @@ const theme = extendTheme({
       },
     },
   },
+  components: {
+    Button: {
+      defaultProps: {
+        colorScheme: 'teal',
+      },
+    },
+    IconButton: {
+      defaultProps: {
+        colorScheme: 'teal',
+      },
+    },
+    Switch: {
+      defaultProps: {
+        colorScheme: 'teal',
+      },
+    },
+  },
 });
 
 export default theme;

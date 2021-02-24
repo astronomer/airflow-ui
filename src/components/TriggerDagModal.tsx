@@ -47,8 +47,8 @@ const TriggerDagModal: React.FC<Props> = ({ dagId, isOpen, onClose }) => {
           </FormControl>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="teal" variant="ghost" onClick={onClose}>Cancel</Button>
-          <Button colorScheme="teal" ml={2} onClick={onTrigger}>
+          <Button variant="ghost" onClick={onClose}>Cancel</Button>
+          <Button ml={2} onClick={onTrigger}>
             Trigger
           </Button>
         </ModalFooter>

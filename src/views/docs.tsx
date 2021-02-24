@@ -30,7 +30,6 @@ const Docs: React.FC = () => (
             as="a"
             href="https://airflow.apache.org/docs/apache-airflow/stable/index.html"
             variant="solid"
-            colorScheme="teal"
             rightIcon={<MdOpenInNew />}
             mt={4}
           >
@@ -62,7 +61,6 @@ const Docs: React.FC = () => (
             as="a"
             href="http://127.0.0.1:28080/api/v1/ui/"
             variant="outline"
-            colorScheme="teal"
             rightIcon={<MdOpenInNew />}
             mr={2}
           >
@@ -72,7 +70,6 @@ const Docs: React.FC = () => (
             as="a"
             href="http://127.0.0.1:28080/redoc"
             variant="outline"
-            colorScheme="teal"
             rightIcon={<MdOpenInNew />}
           >
             Redoc

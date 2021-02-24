@@ -62,17 +62,17 @@ const Dags: React.FC = () => {
         backgroundColor={useColorModeValue('white', 'gray.800')}
       >
         <Flex>
-          <Button onClick={() => setFilter('all')} size="sm" mr={1} colorScheme={filter === 'all' ? 'blue' : undefined}>
+          <Button onClick={() => setFilter('all')} size="sm" mr={1} colorScheme={filter === 'all' ? 'blue' : 'gray'}>
             All (
             {allCount}
             )
           </Button>
-          <Button onClick={() => setFilter('active')} size="sm" mr={1} colorScheme={filter === 'active' ? 'blue' : undefined}>
+          <Button onClick={() => setFilter('active')} size="sm" mr={1} colorScheme={filter === 'active' ? 'blue' : 'gray'}>
             Active (
             {activeCount}
             )
           </Button>
-          <Button onClick={() => setFilter('paused')} size="sm" colorScheme={filter === 'paused' ? 'blue' : undefined}>
+          <Button onClick={() => setFilter('paused')} size="sm" colorScheme={filter === 'paused' ? 'blue' : 'gray'}>
             Paused (
             {pausedCount}
             )

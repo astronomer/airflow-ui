@@ -44,7 +44,7 @@ const Pools: React.FC = () => {
               isDisabled
             />
           </InputGroup>
-          <Button size="sm" colorScheme="teal">Add Pool</Button>
+          <Button size="sm">Add Pool</Button>
         </Box>
       )}
     >

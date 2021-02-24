@@ -49,7 +49,6 @@ const DagRow: React.FC<Props> = ({ dag }) => {
               role="switch"
               isChecked={!dag.isPaused}
               onChange={togglePaused}
-              colorScheme="teal"
             />
           </span>
         </Tooltip>
@@ -85,7 +84,6 @@ const DagRow: React.FC<Props> = ({ dag }) => {
           <IconButton
             size="sm"
             aria-label="Trigger Dag"
-            colorScheme="teal"
             icon={<MdPlayArrow />}
             onClick={onToggle}
           />

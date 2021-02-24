@@ -46,7 +46,7 @@ const Connections: React.FC = () => {
               isDisabled
             />
           </InputGroup>
-          <Button size="sm" colorScheme="teal">Add Connection</Button>
+          <Button size="sm">Add Connection</Button>
         </Box>
       )}
     >

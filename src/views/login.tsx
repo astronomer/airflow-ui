@@ -67,7 +67,6 @@ const Login: React.FC = () => {
           <Button
             width="100%"
             mt={4}
-            colorScheme="teal"
             type="submit"
           >
             {loading ? <Spinner size="md" speed="0.85s" /> : 'Log in'}

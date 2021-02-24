@@ -127,7 +127,7 @@ const Dags: React.FC = () => {
       {!isLoading && (
         <Box display="flex" alignItems="center" mt="2" mb="6" px="2" fontSize="sm">
           <span>
-            {`1-${filteredDags.length} of ${totalEntries} DAG${totalEntries === 1 ? '' : 's'}`}
+            {`1-${filteredDags.length} of ${filteredDags.length} DAG${filteredDags.length === 1 ? '' : 's'}`}
           </span>
           <Pagination ml={4} />
         </Box>

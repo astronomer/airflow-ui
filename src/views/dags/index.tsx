@@ -58,7 +58,7 @@ const Dags: React.FC = () => {
         py={2}
         px={4}
         borderBottomWidth="2px"
-        borderBottomColor="gray"
+        borderBottomColor={useColorModeValue('gray.100', 'gray.700')}
         backgroundColor={useColorModeValue('white', 'gray.800')}
       >
         <Flex>

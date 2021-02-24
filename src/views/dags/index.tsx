@@ -26,7 +26,7 @@ import Pagination from 'components/Pagination';
 import DagRow from './DagRow';
 
 const Dags: React.FC = () => {
-  const { data: { dags, totalEntries } = defaultDags, isLoading, error } = useDags();
+  const { data: { dags } = defaultDags, isLoading, error } = useDags();
 
   const [filter, setFilter] = useState<'all' | 'active' | 'paused'>('all');
 

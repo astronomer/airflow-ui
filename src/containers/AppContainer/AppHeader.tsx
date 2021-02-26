@@ -43,6 +43,7 @@ const AppHeader: React.FC<Props> = ({ bodyBg, overlayBg }) => {
   return (
     <Flex
       as="header"
+      role="banner"
       position="fixed"
       width={`calc(100vw - ${headerHeight})`}
       height={headerHeight}
@@ -55,7 +56,7 @@ const AppHeader: React.FC<Props> = ({ bodyBg, overlayBg }) => {
       borderBottomWidth="1px"
       borderBottomColor={bodyBg}
     >
-      <Link to="/">
+      <Link to="/" aria-label="Back to home">
         <ApacheAirflowIcon />
       </Link>
       {hasValidAuthToken && (
@@ -74,7 +75,7 @@ const AppHeader: React.FC<Props> = ({ bodyBg, overlayBg }) => {
           </Tooltip>
           <Menu>
             <MenuButton>
-              <Avatar name="Ryan Hamilton" size="sm" bg="blue.300" />
+              <Avatar name="Ryan Hamilton" size="sm" color="blue.900" bg="blue.200" />
             </MenuButton>
             <MenuList placement="top-end">
               <MenuItem onClick={() => handleOpenProfile()}>

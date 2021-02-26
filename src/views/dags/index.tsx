@@ -85,6 +85,7 @@ const Dags: React.FC = () => {
           </InputLeftElement>
           <Input
             type="search"
+            aria-label="Find DAGs"
             maxWidth="400px"
             placeholder="Find DAGs…"
             isDisabled

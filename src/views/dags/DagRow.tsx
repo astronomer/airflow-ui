@@ -47,6 +47,8 @@ const DagRow: React.FC<Props> = ({ dag }) => {
           <span>
             <Switch
               role="switch"
+              aria-checked={!dag.isPaused}
+              aria-label={dag.isPaused ? `Activate ${dag.dagId}` : `Pause ${dag.dagId}`}
               isChecked={!dag.isPaused}
               onChange={togglePaused}
             />

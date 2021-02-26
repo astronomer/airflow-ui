@@ -21,11 +21,19 @@ const AppContainer: React.FC = ({ children }) => {
       <Box flex="1" alignItems="stretch">
         <AppHeader bodyBg={bodyBg} overlayBg={overlayBg} />
         <Flex direction="column" height="100vh" pt="56px" overflowY="scroll">
-          <Box flex="1" px="4">{children}</Box>
+          <Box
+            as="main"
+            role="main"
+            flex="1"
+            px="4"
+          >
+            {children}
+          </Box>
           <Box
             as="footer"
+            role="contentinfo"
             p="4"
-            color={useColorModeValue('gray.400', 'gray.500')}
+            color={useColorModeValue('gray.600', 'gray.300')}
             bg={overlayBg}
           >
             Apache Airflow

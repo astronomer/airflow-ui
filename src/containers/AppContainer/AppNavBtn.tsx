@@ -38,6 +38,7 @@ const AppNavBtn: React.FC<Props> = ({ navItem }) => {
         to={path || ''}
         href={href}
         target={href && '_blank'}
+        aria-label={label}
         display="flex"
         width="56px"
         height="56px"

@@ -85,6 +85,9 @@ const DagContainer: React.FC<Props> = ({ children, displayRunSelect = false }) =
                 <span>
                   <Switch
                     id="pause"
+                    role="switch"
+                    aria-checked={!isPaused}
+                    aria-label={isPaused ? `Activate ${dag.dagId}` : `Pause ${dag.dagId}`}
                     isChecked={!isPaused}
                     onChange={toggleDagPaused}
                   />

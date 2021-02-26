@@ -42,6 +42,7 @@ const Connections: React.FC = () => {
             </InputLeftElement>
             <Input
               type="search"
+              aria-label="Find Connection"
               placeholder="Find Connection…"
               isDisabled
             />

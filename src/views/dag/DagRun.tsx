@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Box,
-  Flex,
   Text,
   Icon,
   Center,
@@ -38,11 +37,11 @@ const DagRun: React.FC<Props> = ({ dagRun }) => {
   }
   const Label = (
     <Box>
-      <Flex>
+      <Text>
         Status:
         {' '}
-        <Text color={bg}>{dagRun.state}</Text>
-      </Flex>
+        <Text as="span" color={bg} fontWeight="bold">{dagRun.state}</Text>
+      </Text>
       <Text>
         Run:
         {' '}

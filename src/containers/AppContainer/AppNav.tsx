@@ -57,6 +57,7 @@ const AppNav: React.FC<Props> = ({ bodyBg, overlayBg }) => {
   return (
     <Box
       as="nav"
+      role="navigation"
       width="56px"
       backgroundColor={overlayBg}
       borderRightWidth="1px"
@@ -67,6 +68,7 @@ const AppNav: React.FC<Props> = ({ bodyBg, overlayBg }) => {
       <Box
         as={Link}
         to="/"
+        aria-label="Back to home"
         width="56px"
         height="56px"
         display="flex"

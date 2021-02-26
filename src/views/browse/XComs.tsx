@@ -21,6 +21,7 @@ const XComs: React.FC = () => (
           </InputLeftElement>
           <Input
             type="search"
+            aria-label="Find XCom"
             placeholder="Find XCom…"
             isDisabled
           />

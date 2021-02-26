@@ -6,6 +6,7 @@ import {
   Icon,
   Center,
   Tooltip,
+  Spinner,
 } from '@chakra-ui/react';
 import { MdDone, MdClose, MdLoop } from 'react-icons/md';
 import dayjs from 'dayjs';
@@ -22,7 +23,7 @@ const DagRun: React.FC<Props> = ({ dagRun }) => {
   let icon = MdLoop;
   switch (dagRun.state) {
     case 'success':
-      bg = 'green.400';
+      bg = 'green.500';
       icon = MdDone;
       break;
     case 'failed':
@@ -30,6 +31,7 @@ const DagRun: React.FC<Props> = ({ dagRun }) => {
       icon = MdClose;
       break;
     case 'running':
+      bg = 'green.300';
       break;
     default:
       break;
@@ -72,9 +74,14 @@ const DagRun: React.FC<Props> = ({ dagRun }) => {
         width="20px"
         borderRadius="20px"
         bg={bg}
-        mx="1"
+        m="1"
       >
-        <Icon as={icon} />
+        {dagRun.state === 'running' && (
+          <Spinner size="xs" speed="0.85s" />
+        )}
+        {dagRun.state !== 'running' && (
+          <Icon as={icon} />
+        )}
       </Center>
     </Tooltip>
   );
